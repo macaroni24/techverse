@@ -1,136 +1,151 @@
 import { Link } from "react-router-dom";
+import { Search, Menu, User, ShoppingBag } from "lucide-react";
 
 export default function Home() {
+  const products = Array.from({ length: 20 }, (_, i) => i + 1);
+
   return (
-    <div className="pt-32 bg-gray-900 text-white min-h-screen">
+    <div className="min-h-screen bg-white font-sans">
 
-      {/* Hero Section */}
-      <section className="text-center px-6 py-16 bg-gray-900">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6">
-          Welcome to <span className="text-indigo-500">Techverse</span>
-        </h1>
-        <p className="text-gray-300 text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-          Discover the latest tech products all in one place. Explore, compare, and shop with ease.
-        </p>
-        <div className="flex flex-col md:flex-row gap-4 justify-center mb-12">
-          <Link
-            to="/products"
-            className="bg-indigo-500 hover:bg-indigo-600 px-6 py-3 rounded-lg font-semibold transition"
-          >
-            Shop Now
-          </Link>
-          <Link
-            to="/about"
-            className="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-lg font-semibold transition"
-          >
-            Learn More
-          </Link>
+      {/* Header */}
+      <header className="bg-[#0A3D38] text-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-8">
+              <Link to="/" className="text-2xl font-bold">Techverse</Link>
+              <nav className="hidden md:flex gap-6">
+                <Link to="/deals" className="hover:text-gray-300">Deals</Link>
+                <Link to="/categories" className="hover:text-gray-300">Categories</Link>
+                <Link to="/electronics" className="hover:text-gray-300">Electronics</Link>
+                <Link to="/fashion" className="hover:text-gray-300">Fashion</Link>
+              </nav>
+            </div>
+            <div className="flex items-center gap-4">
+              <button className="hidden md:block"><User size={22} /></button>
+              <button><ShoppingBag size={22} /></button>
+              <button className="md:hidden"><Menu size={22} /></button>
+            </div>
+          </div>
         </div>
-        <div className="mt-8">
-          <img
-            src="https://images.unsplash.com/photo-1581091215369-8b013ebd785c?auto=format&fit=crop&w=800&q=80"
-            alt="Tech illustration"
-            className="rounded-lg shadow-lg max-w-full mx-auto"
-          />
-        </div>
-      </section>
+      </header>
 
-      {/* Featured Products Section */}
-      <section className="px-6 py-16 bg-gray-800">
-        <h2 className="text-4xl font-bold mb-10 text-center text-indigo-400">
-          Featured Products
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          <div className="bg-gray-700 rounded-lg p-4 shadow-lg hover:scale-105 transform transition">
-            <img
-              src="https://images.unsplash.com/photo-1606813904280-c0b174f2f2f2?auto=format&fit=crop&w=400&q=80"
-              alt="Product 1"
-              className="rounded-lg mb-4 w-full h-48 object-cover"
-            />
-            <h3 className="font-semibold text-lg mb-2">Gaming Laptop</h3>
-            <p className="text-indigo-300 font-bold mb-2">$1299</p>
-            <Link
-              to="/products"
-              className="block bg-indigo-500 hover:bg-indigo-600 text-center py-2 rounded-lg transition"
-            >
-              View Details
-            </Link>
-          </div>
-
-          <div className="bg-gray-700 rounded-lg p-4 shadow-lg hover:scale-105 transform transition">
-            <img
-              src="https://images.unsplash.com/photo-1611599530491-1f6119ef51e8?auto=format&fit=crop&w=400&q=80"
-              alt="Product 2"
-              className="rounded-lg mb-4 w-full h-48 object-cover"
-            />
-            <h3 className="font-semibold text-lg mb-2">Wireless Headphones</h3>
-            <p className="text-indigo-300 font-bold mb-2">$299</p>
-            <Link
-              to="/products"
-              className="block bg-indigo-500 hover:bg-indigo-600 text-center py-2 rounded-lg transition"
-            >
-              View Details
-            </Link>
-          </div>
-
-          <div className="bg-gray-700 rounded-lg p-4 shadow-lg hover:scale-105 transform transition">
-            <img
-              src="https://images.unsplash.com/photo-1612831455546-5ee7c98261b7?auto=format&fit=crop&w=400&q=80"
-              alt="Product 3"
-              className="rounded-lg mb-4 w-full h-48 object-cover"
-            />
-            <h3 className="font-semibold text-lg mb-2">Smartphone</h3>
-            <p className="text-indigo-300 font-bold mb-2">$899</p>
-            <Link
-              to="/products"
-              className="block bg-indigo-500 hover:bg-indigo-600 text-center py-2 rounded-lg transition"
-            >
-              View Details
-            </Link>
-          </div>
-
-          <div className="bg-gray-700 rounded-lg p-4 shadow-lg hover:scale-105 transform transition">
-            <img
-              src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?auto=format&fit=crop&w=400&q=80"
-              alt="Product 4"
-              className="rounded-lg mb-4 w-full h-48 object-cover"
-            />
-            <h3 className="font-semibold text-lg mb-2">Smartwatch</h3>
-            <p className="text-indigo-300 font-bold mb-2">$199</p>
-            <Link
-              to="/products"
-              className="block bg-indigo-500 hover:bg-indigo-600 text-center py-2 rounded-lg transition"
-            >
-              View Details
-            </Link>
+      {/* Hero Section with Search */}
+      <section className="bg-[#0A3D38] text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Everything 50% Off Today!
+          </h1>
+          <p className="text-lg mb-8 opacity-90">
+            Shop thousands of tech products with free delivery in Kosovo
+          </p>
+          <div className="max-w-2xl mx-auto">
+            <div className="flex bg-white rounded-sm overflow-hidden shadow-lg">
+              <input
+                type="text"
+                placeholder="Search for products..."
+                className="flex-1 px-6 py-4 text-gray-800 outline-none"
+              />
+              <button className="bg-orange-500 px-8 py-4 hover:bg-orange-600 transition">
+                <Search className="text-white" size={24} />
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="px-6 py-16 bg-gray-900 text-center">
-        <h2 className="text-4xl font-bold mb-12 text-indigo-400">What Our Customers Say</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <p className="text-gray-300 mb-4">
-              "Techverse has the best products at amazing prices! I love shopping here."
-            </p>
-            <h3 className="font-semibold text-indigo-300">John Doe</h3>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <p className="text-gray-300 mb-4">
-              "The site is so easy to navigate and the product selection is fantastic."
-            </p>
-            <h3 className="font-semibold text-indigo-300">Jane Smith</h3>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <p className="text-gray-300 mb-4">
-              "Fast delivery and great customer support. Highly recommended!"
-            </p>
-            <h3 className="font-semibold text-indigo-300">Alex Johnson</h3>
+      {/* Categories Grid */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-[#0A3D38] mb-8">Shop by Category</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {["Phones", "Laptops", "Fashion", "Home", "Beauty", "Sports"].map((cat) => (
+              <Link
+                key={cat}
+                to={`/category/${cat.toLowerCase()}`}
+                className="bg-white rounded-sm shadow hover:shadow-lg transition text-center p-6"
+              >
+                <div className="bg-gray-200 border-2 border-dashed rounded-sm w-20 h-20 mx-auto mb-3" />
+                <p className="text-[#0A3D38] font-medium">{cat}</p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* Featured Products Grid */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-[#0A3D38] mb-8">Today’s Best Deals</h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {products.map((i) => {
+              // Insert a big Oferta Speciale card at index 9 (halfway)
+              if (i === 10) {
+                return (
+                  <div key="oferta" className="col-span-2 md:col-span-2 bg-[#0A3D38] text-white p-6 flex flex-col justify-center items-center">
+                    <h3 className="text-2xl md:text-3xl font-bold mb-2">Oferta Speciale</h3>
+                    <p className="text-lg opacity-90 mb-4">Limited time special deal on this amazing gadget!</p>
+                    <div className="bg-gray-200 rounded-sm w-full h-48 mb-4" />
+                    <button className="bg-orange-500 px-4 py-2 hover:bg-orange-600 transition rounded-sm font-semibold">
+                      View Offer
+                    </button>
+                  </div>
+                );
+              }
+              return (
+                <div key={i} className="bg-white rounded-sm shadow hover:shadow-lg transition flex flex-col">
+                  <div className="bg-gray-200 border border-gray-300 rounded-sm h-48 mb-3" />
+                  <div className="p-4 flex-1 flex flex-col justify-between">
+                    <p className="text-[#0A3D38] font-semibold mb-1">Product {i}</p>
+                    <p className="text-2xl font-bold text-orange-500 mb-1">€49.99</p>
+                    <p className="text-sm text-gray-500 line-through">€99.99</p>
+                    <Link
+                      to="/products"
+                      className="mt-2 bg-green-900 text-white text-center py-2 font-semibold hover:bg-green-800 transition rounded-sm"
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#0A3D38] text-white py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <h4 className="font-bold text-lg mb-4">Techverse</h4>
+              <p className="text-sm opacity-80">Kosovo’s #1 Online Tech Store</p>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Help</h4>
+              <ul className="space-y-2 text-sm opacity-80">
+                <li><Link to="/contact">Contact Us</Link></li>
+                <li><Link to="/faq">FAQ</Link></li>
+                <li><Link to="/delivery">Delivery Info</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Company</h4>
+              <ul className="space-y-2 text-sm opacity-80">
+                <li><Link to="/about">About Us</Link></li>
+                <li><Link to="/careers">Careers</Link></li>
+                <li><Link to="/terms">Terms & Conditions</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4">Follow Us</h4>
+              <p className="text-sm opacity-80">Instagram • Facebook • TikTok</p>
+            </div>
+          </div>
+          <div className="mt-10 pt-8 border-t border-white/20 text-center text-sm opacity-80">
+            © 2025 Techverse. All rights reserved.
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
