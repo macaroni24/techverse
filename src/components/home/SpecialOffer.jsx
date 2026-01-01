@@ -11,20 +11,35 @@ function discountPct(price, oldPrice) {
   return Math.round(((oldPrice - price) / oldPrice) * 100);
 }
 
-export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
+function cx(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+export default function SpecialOffer({
+  items = [],
+  intervalMs = 3000,
+  maxItems = 6, // ✅ limit offers list (5 or 6 etc.)
+}) {
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
 
+  // ✅ Filter discounted first, fallback to all, then LIMIT to maxItems
   const offers = useMemo(() => {
-    // keep only discounted items, fallback to all if none
     const discounted = items.filter(
       (x) => typeof x.oldPrice === "number" && x.oldPrice > x.price
     );
-    return discounted.length ? discounted : items;
-  }, [items]);
+
+    const list = discounted.length ? discounted : items;
+    return list.slice(0, maxItems);
+  }, [items, maxItems]);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [animKey, setAnimKey] = useState(0); // forces smooth re-mount for transition
+  const [animKey, setAnimKey] = useState(0);
   const pausedRef = useRef(false);
+
+  // ✅ Keep index safe if offers length changes
+  useEffect(() => {
+    if (activeIndex >= offers.length) setActiveIndex(0);
+  }, [offers.length, activeIndex]);
 
   const active = offers[activeIndex];
 
@@ -34,10 +49,7 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
 
     const id = setInterval(() => {
       if (pausedRef.current) return;
-      setActiveIndex((i) => {
-        const next = (i + 1) % offers.length;
-        return next;
-      });
+      setActiveIndex((i) => (i + 1) % offers.length);
       setAnimKey((k) => k + 1);
     }, intervalMs);
 
@@ -52,10 +64,10 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
   if (!offers.length) return null;
 
   const pct = discountPct(active.price, active.oldPrice);
-  const saved = pct ? (active.oldPrice - active.price) : 0;
+  const saved = pct ? active.oldPrice - active.price : 0;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+    <section className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6">
       <div className="flex items-end justify-between gap-6">
         <div>
           <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
@@ -67,20 +79,19 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+      {/* Responsive layout */}
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_0.85fr]">
         {/* LEFT: Big offer */}
         <div
-          className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+          className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
           onMouseEnter={() => (pausedRef.current = true)}
           onMouseLeave={() => (pausedRef.current = false)}
         >
-          {/* Smooth swap container */}
           <div
             key={animKey}
             className="animate-[fadeIn_.35s_ease-out] motion-reduce:animate-none"
           >
-            {/* Image area */}
-            <div className="relative rounded-xl bg-slate-50 p-6">
+            <div className="relative w-full rounded-xl bg-slate-50 p-6">
               {pct !== null && (
                 <div className="absolute left-4 top-4 flex items-center gap-2">
                   <span className="rounded-full bg-orange-500 px-3 py-1 text-xs font-bold text-white">
@@ -92,14 +103,17 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
                 </div>
               )}
 
-              {/* Wishlist button */}
               <button
                 type="button"
                 onClick={() => toggleWishlist(active)}
                 className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 transition"
                 aria-label="Toggle wishlist"
               >
-                <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-slate-900">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="h-5 w-5 text-slate-900"
+                >
                   <path
                     d="M12 20.5s-7-4.5-9.2-8.8C1.3 8.8 3.2 6 6.4 6c1.8 0 3.3.9 4.2 2 0 0 .9-2 4.2-2C18 6 20 8.8 21.2 11.7 19 16 12 20.5 12 20.5Z"
                     stroke="currentColor"
@@ -112,18 +126,17 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
               <img
                 src={active.image}
                 alt={active.title}
-                className="mx-auto h-64 w-full max-w-md object-contain"
+                className="mx-auto h-56 w-full max-w-[420px] object-contain sm:h-64"
                 loading="lazy"
               />
             </div>
 
-            {/* Details */}
             <div className="mt-5 text-center">
               <h3 className="mx-auto max-w-xl text-base font-semibold text-slate-900 sm:text-lg">
                 {active.title}
               </h3>
 
-              <div className="mt-3 flex items-center justify-center gap-2">
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
                 <span className="text-2xl font-bold text-slate-900">
                   {formatPriceEUR(active.price)}
                 </span>
@@ -155,8 +168,11 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
                   onClick={() => addToCart(active)}
                   className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition"
                 >
-                  {/* monochrome cart icon */}
-                  <svg viewBox="0 0 24 24" fill="none" className="mr-2 h-5 w-5 text-slate-900">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="mr-2 h-5 w-5 text-slate-900"
+                  >
                     <path
                       d="M6.5 6h15l-1.5 9h-12L6.5 6Z"
                       stroke="currentColor"
@@ -194,13 +210,13 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
           </div>
         </div>
 
-        {/* RIGHT: Offer list */}
+        {/* RIGHT: Offer list (limited to maxItems) */}
         <div
-          className="rounded-2xl border border-slate-200 bg-white shadow-sm"
+          className="w-full rounded-2xl border border-slate-200 bg-white shadow-sm"
           onMouseEnter={() => (pausedRef.current = true)}
           onMouseLeave={() => (pausedRef.current = false)}
         >
-          <div className="max-h-[520px] overflow-auto">
+          <div className="max-h-[360px] overflow-auto lg:max-h-[520px]">
             {offers.map((p, idx) => {
               const isActive = idx === activeIndex;
               const pct2 = discountPct(p.price, p.oldPrice);
@@ -228,7 +244,7 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
                     <p className="truncate text-sm font-medium text-slate-900">
                       {p.title}
                     </p>
-                    <div className="mt-1 flex items-center gap-2">
+                    <div className="mt-1 flex flex-wrap items-center gap-2">
                       <span className="text-sm font-bold text-slate-900">
                         {formatPriceEUR(p.price)}
                       </span>
@@ -255,7 +271,6 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
         </div>
       </div>
 
-      {/* Local keyframes (Tailwind-only project, no config; safe inline style) */}
       <style>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(6px); }
@@ -264,8 +279,4 @@ export default function SpecialOffer({ items = [], intervalMs = 3000 }) {
       `}</style>
     </section>
   );
-}
-
-function cx(...classes) {
-  return classes.filter(Boolean).join(" ");
 }

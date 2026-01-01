@@ -3,12 +3,13 @@ import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 import SpecialOffer from "../components/home/SpecialOffer";
 import { products } from "../data/products";
+import HeroSlider from "../components/home/HeroSlider";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-
+      <HeroSlider />
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         {/* ===== Top section: 4 products ===== */}
         <h1 className="text-2xl font-bold text-slate-900">
@@ -43,28 +44,8 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Row 2 */}
-          <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {products.slice(9, 14).map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-
-          {/* Row 3 */}
-          <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {products.slice(14, 19).map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-             <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {products.slice(14, 19).map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>   <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {products.slice(14, 19).map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
+         
+          
         </section>
       </main>
 
