@@ -143,11 +143,7 @@ function ChatIcon({ className = "" }) {
 function UserIcon({ className = "" }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <path
-        d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
+      <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke="currentColor" strokeWidth="2" />
       <path
         d="M4.5 21a7.5 7.5 0 0 1 15 0"
         stroke="currentColor"
@@ -160,17 +156,16 @@ function UserIcon({ className = "" }) {
 
 export default function Navbar() {
   const { cartCount, wishlistCount } = useStore();
-  const [query, setQuery] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
 
-  // suggestions dropdown open/close state
+  const [query, setQuery] = useState("");
   const [suggestOpen, setSuggestOpen] = useState(false);
 
-  const navigate = useNavigate();
+  // ✅ categories only from bottom nav on mobile
+  const [mobileCatsOpen, setMobileCatsOpen] = useState(false);
 
+  const navigate = useNavigate();
   const canSearch = useMemo(() => query.trim().length > 0, [query]);
 
-  // build suggestions (top 6)
   const suggestions = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
@@ -179,7 +174,7 @@ export default function Navbar() {
       .slice(0, 6);
   }, [query]);
 
-  // outside click closes suggestions (no ref conflicts)
+  // close suggestions on outside click
   useEffect(() => {
     function onDown(e) {
       const inside = e.target.closest?.('[data-searchbox="true"]');
@@ -189,10 +184,13 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
-  // ESC closes dropdown
+  // ESC closes open layers
   useEffect(() => {
     function onKey(e) {
-      if (e.key === "Escape") setSuggestOpen(false);
+      if (e.key === "Escape") {
+        setSuggestOpen(false);
+        setMobileCatsOpen(false);
+      }
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
@@ -203,7 +201,7 @@ export default function Navbar() {
     if (!q) return;
     navigate(`/shop?q=${encodeURIComponent(q)}`);
     setSuggestOpen(false);
-    setMenuOpen(false);
+    setMobileCatsOpen(false);
   }
 
   function onSubmit(e) {
@@ -245,12 +243,7 @@ export default function Navbar() {
               className="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition"
             >
               <div className="h-11 w-11 shrink-0 rounded-md bg-slate-50 p-1">
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  className="h-full w-full object-contain"
-                  loading="lazy"
-                />
+                <img src={p.image} alt={p.title} className="h-full w-full object-contain" loading="lazy" />
               </div>
 
               <div className="min-w-0 flex-1">
@@ -298,9 +291,9 @@ export default function Navbar() {
       {/* Main bar */}
       <div className="bg-emerald-900 text-white shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
-          {/* ---------------- MOBILE LAYOUT ---------------- */}
+          {/* ---------------- MOBILE LAYOUT (NO categories button here) ---------------- */}
           <div className="md:hidden">
-            {/* Row 1: logo left, wishlist+cart right */}
+            {/* Row 1 */}
             <div className="flex items-center justify-between gap-3">
               <NavLink to="/" className="flex items-center gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white">
@@ -376,54 +369,10 @@ export default function Navbar() {
                 <SuggestionsDropdown />
               </div>
             </div>
-
-            {/* (Optional) keep your burger categories section here as well */}
-            <div className="mt-3">
-              <button
-                type="button"
-                onClick={() => setMenuOpen((v) => !v)}
-                className="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition"
-                aria-expanded={menuOpen}
-                aria-controls="mobile-categories"
-              >
-                {menuOpen ? (
-                  <CloseIcon className="h-5 w-5 text-slate-900" />
-                ) : (
-                  <MenuIcon className="h-5 w-5 text-slate-900" />
-                )}
-                Categories
-              </button>
-
-              {menuOpen && (
-                <div id="mobile-categories" className="mt-3 rounded-xl bg-white p-3">
-                  <div className="grid grid-cols-2 gap-2">
-                    <NavLink
-                      to="/shop"
-                      onClick={() => setMenuOpen(false)}
-                      className="rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
-                    >
-                      Shop
-                    </NavLink>
-
-                    {categories.map((c) => (
-                      <NavLink
-                        key={c.to}
-                        to={c.to}
-                        onClick={() => setMenuOpen(false)}
-                        className="rounded-md border border-slate-200 px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50"
-                      >
-                        {c.label}
-                      </NavLink>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* ---------------- DESKTOP LAYOUT (UNCHANGED) ---------------- */}
           <div className="hidden md:flex md:items-center md:gap-6">
-            {/* Brand */}
             <NavLink to="/" className="flex items-center gap-3">
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white">
                 <span className="text-lg font-bold text-emerald-900">T</span>
@@ -434,7 +383,6 @@ export default function Navbar() {
               </div>
             </NavLink>
 
-            {/* Search */}
             <form onSubmit={onSubmit} className="flex-1">
               <div data-searchbox="true" className="relative">
                 <div className="flex items-center gap-2 rounded-md bg-white px-3 py-2">
@@ -470,7 +418,6 @@ export default function Navbar() {
               </div>
             </form>
 
-            {/* Actions */}
             <NavLink
               to="/wishlist"
               className="relative inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
@@ -505,7 +452,9 @@ export default function Navbar() {
               className={({ isActive }) =>
                 cx(
                   "whitespace-nowrap text-sm font-medium transition",
-                  isActive ? "text-white underline underline-offset-8" : "text-white/90 hover:text-white"
+                  isActive
+                    ? "text-white underline underline-offset-8"
+                    : "text-white/90 hover:text-white"
                 )
               }
             >
@@ -525,7 +474,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ---------------- MOBILE BOTTOM NAV (NEW) ---------------- */}
+      {/* ---------------- MOBILE BOTTOM NAV ---------------- */}
       <div className="md:hidden">
         <nav className="fixed bottom-0 left-0 right-0 z-[90] border-t border-slate-200 bg-white">
           <div className="mx-auto grid max-w-7xl grid-cols-5 px-2 py-2">
@@ -545,15 +494,14 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => {
-                setMenuOpen((v) => !v);
+                setMobileCatsOpen(true);
                 setSuggestOpen(false);
               }}
               className={cx(
                 "flex flex-col items-center justify-center gap-1 rounded-lg py-1 text-[11px] font-medium",
-                menuOpen ? "text-emerald-900" : "text-slate-500"
+                mobileCatsOpen ? "text-emerald-900" : "text-slate-500"
               )}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-categories"
+              aria-expanded={mobileCatsOpen}
             >
               <MenuIcon className="h-6 w-6" />
               <span>Kategoritë</span>
@@ -570,7 +518,6 @@ export default function Navbar() {
             >
               <CartIcon className="h-6 w-6" />
               <span>Shporta</span>
-
               {cartCount > 0 && (
                 <span className="absolute right-3 top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-500 px-1 text-[11px] font-bold text-white">
                   {cartCount > 99 ? "99+" : cartCount}
@@ -579,7 +526,7 @@ export default function Navbar() {
             </NavLink>
 
             <NavLink
-              to="/chat"
+              to="/wishlist"
               className={({ isActive }) =>
                 cx(
                   "flex flex-col items-center justify-center gap-1 rounded-lg py-1 text-[11px] font-medium",
@@ -588,7 +535,7 @@ export default function Navbar() {
               }
             >
               <ChatIcon className="h-6 w-6" />
-              <span>Chat</span>
+              <span>Wishlist</span>
             </NavLink>
 
             <NavLink
@@ -608,6 +555,57 @@ export default function Navbar() {
 
         {/* Spacer so bottom nav doesn't cover page content */}
         <div className="h-16" aria-hidden="true" />
+
+        {/* ---------------- MOBILE CATEGORIES SHEET ---------------- */}
+        {mobileCatsOpen && (
+          <div className="fixed inset-0 z-[95]">
+            {/* overlay */}
+            <button
+              type="button"
+              className="absolute inset-0 bg-black/40"
+              onClick={() => setMobileCatsOpen(false)}
+              aria-label="Close categories"
+            />
+
+            {/* sheet */}
+            <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white shadow-2xl">
+              <div className="mx-auto max-w-7xl px-4 py-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-base font-bold text-slate-900">Kategoritë</p>
+                  <button
+                    type="button"
+                    onClick={() => setMobileCatsOpen(false)}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-900 hover:bg-slate-200 transition"
+                    aria-label="Close"
+                  >
+                    <CloseIcon className="h-5 w-5" />
+                  </button>
+                </div>
+
+                <div className="mt-4 grid grid-cols-2 gap-2 pb-6">
+                  <NavLink
+                    to="/shop"
+                    onClick={() => setMobileCatsOpen(false)}
+                    className="rounded-md border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50"
+                  >
+                    Shop
+                  </NavLink>
+
+                  {categories.map((c) => (
+                    <NavLink
+                      key={c.to}
+                      to={c.to}
+                      onClick={() => setMobileCatsOpen(false)}
+                      className="rounded-md border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900 hover:bg-slate-50"
+                    >
+                      {c.label}
+                    </NavLink>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
