@@ -11,7 +11,7 @@ export default function Home() {
       <Navbar />
       <HeroSlider />
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        {/* ===== Top section: 4 products ===== */}
+     
         <h1 className="text-2xl font-bold text-slate-900">
           Featured Products
         </h1>
@@ -25,10 +25,9 @@ export default function Home() {
           ))}
         </div>
 
-        {/* ===== Special Offer ===== */}
         <SpecialOffer items={products} intervalMs={3000} />
 
-        {/* ===== 3 rows × 5 products ===== */}
+     
         <section className="mt-14">
           <h2 className="text-xl font-bold text-slate-900">
             More Products
@@ -37,7 +36,7 @@ export default function Home() {
             Browse more deals and popular items.
           </p>
 
-          {/* Row 1 */}
+    
           <div className="mt-6 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {products.slice(4, 9).map((p) => (
               <ProductCard key={p.id} product={p} />

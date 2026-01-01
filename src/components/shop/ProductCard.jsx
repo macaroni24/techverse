@@ -95,9 +95,8 @@ export default function ProductCard({ product }) {
           </div>
         </NavLink>
 
-        {/* Actions pinned to bottom */}
         <div className="mt-auto pt-4 flex items-center gap-2">
-          {/* Wishlist */}
+       
           <button
             type="button"
             onClick={() => toggleWishlist(product)}
@@ -118,7 +117,7 @@ export default function ProductCard({ product }) {
             </svg>
           </button>
 
-          {/* Add to cart */}
+    
           <button
             type="button"
             onClick={handleAddToCart}

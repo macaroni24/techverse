@@ -27,12 +27,11 @@ export default function Shop() {
   const filteredProducts = useMemo(() => {
     let list = [...products];
 
-    // Category filter
+ 
     if (categoryParam !== "All") {
       list = list.filter((p) => p.category === categoryParam);
     }
 
-    // Search filter
     const q = normalize(searchParam);
     if (q) {
       list = list.filter((p) =>
@@ -40,7 +39,7 @@ export default function Shop() {
       );
     }
 
-    // Sorting
+    
     if (sort === "price-asc") {
       list.sort((a, b) => a.price - b.price);
     } else if (sort === "price-desc") {
@@ -67,7 +66,7 @@ export default function Shop() {
       <Navbar />
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        {/* Header */}
+       
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">
@@ -80,7 +79,7 @@ export default function Shop() {
             </p>
           </div>
 
-          {/* Sort */}
+        
           <div className="flex items-center gap-3">
             <label className="text-sm font-medium text-slate-700">
               Sort by
@@ -105,14 +104,14 @@ export default function Shop() {
           </div>
         </div>
 
-        {/* Products grid */}
+   
         <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
-        {/* Empty state */}
+      
         {filteredProducts.length === 0 && (
           <div className="mt-12 rounded-xl border border-slate-200 bg-white p-10 text-center">
             <p className="text-lg font-semibold text-slate-900">

@@ -18,11 +18,10 @@ function cx(...classes) {
 export default function SpecialOffer({
   items = [],
   intervalMs = 3000,
-  maxItems = 6, // ✅ limit offers list (5 or 6 etc.)
+  maxItems = 6, 
 }) {
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
 
-  // ✅ Filter discounted first, fallback to all, then LIMIT to maxItems
   const offers = useMemo(() => {
     const discounted = items.filter(
       (x) => typeof x.oldPrice === "number" && x.oldPrice > x.price
@@ -36,14 +35,13 @@ export default function SpecialOffer({
   const [animKey, setAnimKey] = useState(0);
   const pausedRef = useRef(false);
 
-  // ✅ Keep index safe if offers length changes
   useEffect(() => {
     if (activeIndex >= offers.length) setActiveIndex(0);
   }, [offers.length, activeIndex]);
 
   const active = offers[activeIndex];
 
-  // Auto-rotate every intervalMs
+ 
   useEffect(() => {
     if (!offers.length) return;
 
@@ -79,9 +77,9 @@ export default function SpecialOffer({
         </div>
       </div>
 
-      {/* Responsive layout */}
+
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-        {/* LEFT: Big offer */}
+     
         <div
           className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
           onMouseEnter={() => (pausedRef.current = true)}
@@ -210,7 +208,7 @@ export default function SpecialOffer({
           </div>
         </div>
 
-        {/* RIGHT: Offer list (limited to maxItems) */}
+    
         <div
           className="w-full rounded-2xl border border-slate-200 bg-white shadow-sm"
           onMouseEnter={() => (pausedRef.current = true)}

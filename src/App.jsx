@@ -3,12 +3,13 @@ import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
+import Gaming from "./pages/Gaming";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      {/* placeholder routes */}
+      <Route path="/gaming" element={<Gaming />} /> 
       <Route path="/cart" element={<Cart />} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/shop" element={<Shop />} />

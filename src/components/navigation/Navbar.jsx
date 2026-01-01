@@ -4,7 +4,7 @@ import { useStore } from "../../store/StoreProvider";
 import { products } from "../../data/products";
 
 const categories = [
-  { label: "Gaming", to: "/shop?category=Gaming" },
+  { label: "Gaming", to: "/gaming" },
   { label: "Laptops & Phones", to: "/shop?category=laptops-phones" },
   { label: "Accessories", to: "/shop?category=Smart%20Accessories" },
   { label: "Monitors", to: "/shop?category=Monitors" },
@@ -19,7 +19,6 @@ function formatPriceEUR(v) {
   return `€${n.toFixed(2)}`;
 }
 
-/* ---------- Monochrome SVG icons ---------- */
 function SearchIcon({ className = "" }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -101,7 +100,6 @@ function CloseIcon({ className = "" }) {
   );
 }
 
-/* ---- Bottom-nav extra icons ---- */
 function HomeIcon({ className = "" }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -160,7 +158,6 @@ export default function Navbar() {
   const [query, setQuery] = useState("");
   const [suggestOpen, setSuggestOpen] = useState(false);
 
-  // ✅ categories only from bottom nav on mobile
   const [mobileCatsOpen, setMobileCatsOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -174,7 +171,6 @@ export default function Navbar() {
       .slice(0, 6);
   }, [query]);
 
-  // close suggestions on outside click
   useEffect(() => {
     function onDown(e) {
       const inside = e.target.closest?.('[data-searchbox="true"]');
@@ -184,7 +180,6 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
-  // ESC closes open layers
   useEffect(() => {
     function onKey(e) {
       if (e.key === "Escape") {
@@ -276,7 +271,6 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* Top strip */}
       <div className="bg-emerald-950 text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6">
           <p className="text-xs text-white/80">
@@ -288,12 +282,9 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Main bar */}
       <div className="bg-emerald-900 text-white shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
-          {/* ---------------- MOBILE LAYOUT (NO categories button here) ---------------- */}
           <div className="md:hidden">
-            {/* Row 1 */}
             <div className="flex items-center justify-between gap-3">
               <NavLink to="/" className="flex items-center gap-3">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white">
@@ -332,7 +323,6 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Row 2: search */}
             <div className="mt-3">
               <div data-searchbox="true" className="relative">
                 <form onSubmit={onSubmit}>
@@ -371,7 +361,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* ---------------- DESKTOP LAYOUT (UNCHANGED) ---------------- */}
           <div className="hidden md:flex md:items-center md:gap-6">
             <NavLink to="/" className="flex items-center gap-3">
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white">
@@ -444,7 +433,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Desktop categories bar (unchanged) */}
         <div className="border-t border-white/10">
           <div className="mx-auto hidden max-w-7xl items-center gap-6 overflow-x-auto px-4 py-3 sm:px-6 md:flex">
             <NavLink
@@ -474,7 +462,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ---------------- MOBILE BOTTOM NAV ---------------- */}
       <div className="md:hidden">
         <nav className="fixed bottom-0 left-0 right-0 z-[90] border-t border-slate-200 bg-white">
           <div className="mx-auto grid max-w-7xl grid-cols-5 px-2 py-2">
@@ -553,10 +540,7 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* Spacer so bottom nav doesn't cover page content */}
         <div className="h-16" aria-hidden="true" />
-
-        {/* ---------------- MOBILE CATEGORIES SHEET ---------------- */}
         {mobileCatsOpen && (
           <div className="fixed inset-0 z-[95]">
             {/* overlay */}
@@ -567,7 +551,6 @@ export default function Navbar() {
               aria-label="Close categories"
             />
 
-            {/* sheet */}
             <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white shadow-2xl">
               <div className="mx-auto max-w-7xl px-4 py-4">
                 <div className="flex items-center justify-between">

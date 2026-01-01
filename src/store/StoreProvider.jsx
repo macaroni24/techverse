@@ -22,10 +22,6 @@ function loadInitialState() {
   return { cart, wishlist };
 }
 
-/**
- * cart item shape: { id, title, price, image, qty }
- * wishlist item shape: { id, title, price, image }
- */
 function reducer(state, action) {
   switch (action.type) {
     case "CART_ADD": {
@@ -78,7 +74,6 @@ function reducer(state, action) {
 export function StoreProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, undefined, loadInitialState);
 
-  // Persist to localStorage
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.cart, JSON.stringify(state.cart));
   }, [state.cart]);
@@ -87,7 +82,6 @@ export function StoreProvider({ children }) {
     localStorage.setItem(STORAGE_KEYS.wishlist, JSON.stringify(state.wishlist));
   }, [state.wishlist]);
 
-  // Derived counts
   const cartCount = useMemo(
     () => state.cart.reduce((sum, item) => sum + (item.qty || 0), 0),
     [state.cart]
