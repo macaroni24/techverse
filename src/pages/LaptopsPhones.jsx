@@ -3,15 +3,11 @@ import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 import { products } from "../data/products";
 
-export default function Gaming() {
-  const gamingProducts = products.filter((p) => {
-    const t = (p.title || "").toLowerCase();
-    const c = (p.category || "").toLowerCase();
+export default function LaptopsPhones() {
+  const lpProducts = products.filter((p) => {
+    const text = `${p.title || ""} ${p.category || ""}`.toLowerCase();
 
-    const isGamingPc = c === "gaming pcs" || t.includes("gaming pc");
-    const isGamingLaptop = c === "laptops" && t.includes("gaming");
-
-    return isGamingPc || isGamingLaptop;
+    return text.includes("laptop") || text.includes("phone");
   });
 
   return (
@@ -20,24 +16,25 @@ export default function Gaming() {
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-900">Gaming</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Laptops & Phones</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Gaming PCs and gaming laptops.
+            Showing {lpProducts.length} products
           </p>
         </div>
 
-        {gamingProducts.length === 0 ? (
+        {lpProducts.length === 0 ? (
           <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center">
             <p className="text-lg font-semibold text-slate-900">
-              No gaming products found
+              No laptops or phones found
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              Please check back later.
+              This usually means the product categories/titles don’t contain the words
+              “laptop” or “phone”.
             </p>
           </div>
         ) : (
           <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {gamingProducts.map((product) => (
+            {lpProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
