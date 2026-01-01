@@ -1,151 +1,218 @@
 import { Link } from "react-router-dom";
-import { Search, Menu, User, ShoppingBag } from "lucide-react";
+import { Search, Menu, User, ShoppingBag, ChevronRight, X } from "lucide-react";
+import { useState, useEffect } from "react";
+
+const products = Array.from({ length: 10 });
 
 export default function Home() {
-  const products = Array.from({ length: 20 }, (_, i) => i + 1);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const categories = [
+    { name: "Kompiuter, Laptop & Monitor", icon: "🖥️" },
+    { name: "Celular, Tablet & Navigim", icon: "📱" },
+    { name: "TV, Audio & Foto", icon: "📺" },
+    { name: "Gaming", icon: "🎮" },
+    { name: "SMART", icon: "🏠" },
+    { name: "Aksesorë", icon: "🔌" },
+    { name: "Pjesë për kompjuter", icon: "💻" },
+  ];
+
+  const slides = [
+    "https://static.tweaktown.com/news/4x3/100344_acers-project-dualplay-gaming-laptop-has-hidden-controller-under-the-trackpad.jpg",
+    "https://images.ctfassets.net/16nm6vz43ids/ym2NwtECWCYL3JGOCVv3r/a7cf06b969e456efcf39a8eddb6f9337/Best_time_to_buy_a_new_computer.jpg?fm=webp&q=65",
+    "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/dell-plus/db16250/notebook-db16250nt-copilot-pc-mg.png?fmt=pjpg&pscan=auto&scl=1&wid=2048&hei=1397&qlt=100,1&resMode=sharp2&size=2048,1397&chrss=full&imwidth=5000",
+    "https://60a99bedadae98078522-a9b6cded92292ef3bace063619038eb1.ssl.cf2.rackcdn.com/images_images_razer-blade-16%20dan.jpg",
+    "https://media.wired.com/photos/684cee1bfa9dc2887ce54979/4:3/w_1064,h_798,c_limit/How%20to%20Buy%20A%20Laptop.png",
+    "https://us.v-cdn.net/6031942/uploads/KBLFU5KXWB72/image.png",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [slides.length]);
 
   return (
     <div className="min-h-screen bg-white font-sans">
 
-      {/* Header */}
-      <header className="bg-[#0A3D38] text-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-8">
-              <Link to="/" className="text-2xl font-bold">Techverse</Link>
-              <nav className="hidden md:flex gap-6">
-                <Link to="/deals" className="hover:text-gray-300">Deals</Link>
-                <Link to="/categories" className="hover:text-gray-300">Categories</Link>
-                <Link to="/electronics" className="hover:text-gray-300">Electronics</Link>
-                <Link to="/fashion" className="hover:text-gray-300">Fashion</Link>
-              </nav>
-            </div>
-            <div className="flex items-center gap-4">
-              <button className="hidden md:block"><User size={22} /></button>
-              <button><ShoppingBag size={22} /></button>
-              <button className="md:hidden"><Menu size={22} /></button>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Top Bar */}
+<div className="bg-white border-b border-gray-200 mb-6">
+  <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between text-sm">
+    <button
+      onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      className="lg:hidden flex items-center gap-2 text-orange-600 font-medium"
+    >
+      {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+      Kategoritë
+    </button>
 
-      {/* Hero Section with Search */}
-      <section className="bg-[#0A3D38] text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Everything 50% Off Today!
-          </h1>
-          <p className="text-lg mb-8 opacity-90">
-            Shop thousands of tech products with free delivery in Kosovo
-          </p>
-          <div className="max-w-2xl mx-auto">
-            <div className="flex bg-white rounded-sm overflow-hidden shadow-lg">
-              <input
-                type="text"
-                placeholder="Search for products..."
-                className="flex-1 px-6 py-4 text-gray-800 outline-none"
-              />
-              <button className="bg-orange-500 px-8 py-4 hover:bg-orange-600 transition">
-                <Search className="text-white" size={24} />
-              </button>
+    <div className="hidden lg:flex items-center gap-8 text-gray-700">
+      <Link to="/categories" className="hover:text-orange-600 font-medium">Kategoritë</Link>
+      <Link to="/outlet" className="hover:text-orange-600">Outlet</Link>
+      <Link to="/cfare-ka-te-re" className="hover:text-orange-600">Çfarë ka të re?</Link>
+    </div>
+
+    <button className="flex items-center gap-2 text-orange-600">
+      <div className="relative">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span className="absolute -top-1 -right-1 bg-orange-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
+      </div>
+      Chat
+    </button>
+  </div>
+</div>
+   {/* Hero Search Bar (moved below carousel for better flow) */}
+            <div className="max-w-3xl mx-auto -mt-20 relative z-10">
+              <div className="flex bg-white shadow-xl rounded-lg overflow-hidden">
+                <input
+                  className="flex-1 px-6 py-5 text-lg text-gray-800 outline-none"
+                  placeholder="Search for products..."
+                />
+                <button className="bg-orange-500 px-10 hover:bg-orange-600 transition">
+                  <Search className="text-white" size={28} />
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Categories Grid */}
-      <section className="py-12 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-[#0A3D38] mb-8">Shop by Category</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {["Phones", "Laptops", "Fashion", "Home", "Beauty", "Sports"].map((cat) => (
-              <Link
-                key={cat}
-                to={`/category/${cat.toLowerCase()}`}
-                className="bg-white rounded-sm shadow hover:shadow-lg transition text-center p-6"
-              >
-                <div className="bg-gray-200 border-2 border-dashed rounded-sm w-20 h-20 mx-auto mb-3" />
-                <p className="text-[#0A3D38] font-medium">{cat}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Products Grid */}
-      <section className="py-12 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-[#0A3D38] mb-8">Today’s Best Deals</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {products.map((i) => {
-              // Insert a big Oferta Speciale card at index 9 (halfway)
-              if (i === 10) {
-                return (
-                  <div key="oferta" className="col-span-2 md:col-span-2 bg-[#0A3D38] text-white p-6 flex flex-col justify-center items-center">
-                    <h3 className="text-2xl md:text-3xl font-bold mb-2">Oferta Speciale</h3>
-                    <p className="text-lg opacity-90 mb-4">Limited time special deal on this amazing gadget!</p>
-                    <div className="bg-gray-200 rounded-sm w-full h-48 mb-4" />
-                    <button className="bg-orange-500 px-4 py-2 hover:bg-orange-600 transition rounded-sm font-semibold">
-                      View Offer
-                    </button>
+      {/* Main Layout */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="flex gap-8">
+          {/* Left Sidebar - Categories */}
+          <aside className={`${mobileMenuOpen ? "fixed inset-0 z-50 bg-white overflow-y-auto" : "hidden"} lg:block lg:relative w-64`}>
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              {categories.map((cat) => (
+                <Link
+                  key={cat.name}
+                  to={`/category/${cat.name.toLowerCase().replace(/,/g, '').replace(/ & /g, '-').replace(/ /g, '-')}`}
+                  className="flex items-center justify-between px-4 py-3 hover:bg-orange-50 transition border-b border-gray-100 last:border-0"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{cat.icon}</span>
+                    <span className="text-gray-800">{cat.name}</span>
                   </div>
-                );
-              }
-              return (
-                <div key={i} className="bg-white rounded-sm shadow hover:shadow-lg transition flex flex-col">
-                  <div className="bg-gray-200 border border-gray-300 rounded-sm h-48 mb-3" />
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <p className="text-[#0A3D38] font-semibold mb-1">Product {i}</p>
-                    <p className="text-2xl font-bold text-orange-500 mb-1">€49.99</p>
-                    <p className="text-sm text-gray-500 line-through">€99.99</p>
-                    <Link
-                      to="/products"
-                      className="mt-2 bg-green-900 text-white text-center py-2 font-semibold hover:bg-green-800 transition rounded-sm"
-                    >
-                      View Details
-                    </Link>
-                  </div>
+                  <ChevronRight size={18} className="text-gray-400" />
+                </Link>
+              ))}
+            </div>
+          </aside>
+
+          {/* Right Main Content */}
+          <div className="flex-1 space-y-12">
+            {/* Auto-Rotating Carousel */}
+            <div className="relative rounded-xl overflow-hidden shadow-lg group">
+              <div className="relative h-96 md:h-[500px]">
+                {slides.map((src, index) => (
+                  <img
+                    key={index}
+                    src={src}
+                    alt={`Tech promotion ${index + 1}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                      index === currentSlide ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
+                ))}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-8 left-8 text-white">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-2">Tech Deals of the Day</h2>
+                  <p className="text-xl">Up to 50% off on top brands!</p>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+              </div>
 
-      {/* Footer */}
-      <footer className="bg-[#0A3D38] text-white py-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <h4 className="font-bold text-lg mb-4">Techverse</h4>
-              <p className="text-sm opacity-80">Kosovo’s #1 Online Tech Store</p>
+              {/* Dots Indicator */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`w-3 h-3 rounded-full transition ${
+                      index === currentSlide ? "bg-white" : "bg-white/50"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
-            <div>
-              <h4 className="font-bold mb-4">Help</h4>
-              <ul className="space-y-2 text-sm opacity-80">
-                <li><Link to="/contact">Contact Us</Link></li>
-                <li><Link to="/faq">FAQ</Link></li>
-                <li><Link to="/delivery">Delivery Info</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Company</h4>
-              <ul className="space-y-2 text-sm opacity-80">
-                <li><Link to="/about">About Us</Link></li>
-                <li><Link to="/careers">Careers</Link></li>
-                <li><Link to="/terms">Terms & Conditions</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Follow Us</h4>
-              <p className="text-sm opacity-80">Instagram • Facebook • TikTok</p>
-            </div>
-          </div>
-          <div className="mt-10 pt-8 border-t border-white/20 text-center text-sm opacity-80">
-            © 2025 Techverse. All rights reserved.
+
+         
+
+            {/* ROW ABOVE OFERTA */}
+            <section>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+                {products.slice(0, 5).map((_, i) => (
+                  <div key={i} className="bg-white border p-4 hover:shadow-lg transition rounded-lg">
+                    <div className="bg-gray-200 h-40 mb-3 rounded" />
+                    <p className="text-sm font-medium text-[#0A3D38]">Tech Product {i + 1}</p>
+                    <p className="font-bold mt-1">€{(299 - i * 20).toFixed(2)}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Oferta Speciale */}
+            <section className="bg-gray-50 rounded-lg py-8 px-6">
+              <h2 className="text-2xl font-bold text-[#0A3D38] mb-6">Oferta Speciale</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                {/* Big card */}
+                <div className="bg-white border p-6 rounded-lg">
+                  <span className="bg-orange-500 text-white text-xs px-2 py-1 inline-block mb-2">-50%</span>
+                  <div className="bg-gray-200 h-64 mb-4 rounded" />
+                  <p className="font-semibold text-[#0A3D38]">Gaming Chair SENSE7</p>
+                  <div className="flex gap-2 mt-2">
+                    <span className="text-2xl font-bold">€129.50</span>
+                    <span className="line-through text-gray-400">€259.50</span>
+                  </div>
+                  <button className="mt-4 w-full border border-[#0A3D38] py-2 font-semibold hover:bg-[#0A3D38] hover:text-white transition rounded">
+                    SHTO NË SHPORTË
+                  </button>
+                </div>
+
+                {/* Right list */}
+                <div className="md:col-span-2 bg-white border divide-y rounded-lg">
+                  {["MacBook Pro M4", "Galaxy S25 Ultra", "Dell XPS 15", "LG UltraWide", "PS5 Pro"].map((item, i) => (
+                    <div key={i} className="flex gap-4 p-4 hover:bg-gray-50">
+                      <div className="bg-gray-200 w-16 h-16 rounded" />
+                      <div>
+                        <p className="text-sm font-medium text-[#0A3D38]">{item}</p>
+                        <p className="font-bold">€{(999 - i * 90).toFixed(2)}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* TWO ROWS BELOW OFERTA */}
+            <section className="space-y-8">
+              {[0, 5].map(start => (
+                <div key={start} className="grid grid-cols-2 md:grid-cols-5 gap-6">
+                  {products.slice(start, start + 5).map((_, i) => (
+                    <div key={i} className="bg-white border p-4 hover:shadow-lg transition rounded-lg">
+                      <div className="bg-gray-200 h-40 mb-3 rounded" />
+                      <p className="text-sm font-medium text-[#0A3D38]">Tech Product {start + i + 1}</p>
+                      <p className="font-bold mt-1">€{(349 - i * 30).toFixed(2)}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </section>
           </div>
         </div>
-      </footer>
+      </div>
+
+      {/* Trust Badges */}
+      <div className="bg-gray-50 border-t border-gray-200 py-8 mt-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-sm text-gray-700">
+            <div><div className="text-3xl mb-2">🚚</div><p className="font-medium">Dërgesa të shpejta</p><p className="text-gray-500">Kudo në Kosovë</p></div>
+            <div><div className="text-3xl mb-2">🛍️</div><p className="font-medium">Mbi 100,000 produkte</p><p className="text-gray-500">Originale dhe me garancion</p></div>
+            <div><div className="text-3xl mb-2">🎧</div><p className="font-medium">Kujdesi ndaj klientit</p><p className="text-gray-500">Prano përgjigje brenda sekondave</p></div>
+            <div><div className="text-3xl mb-2">❤️</div><p className="font-medium">Çmimi më i mirë i garantuar</p><p className="text-gray-500">Në çdo produkt</p></div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
