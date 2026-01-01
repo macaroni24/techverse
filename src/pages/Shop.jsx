@@ -1,29 +1,40 @@
-import { useMemo } from "react";
-import { NavLink, useSearchParams } from "react-router-dom";
+import { useMemo, useState, useEffect } from "react";
+import { useLocation, NavLink } from "react-router-dom";
 
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 import { products } from "../data/products";
 
+function useQuery() {
+  const { search } = useLocation();
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
+
 function normalize(value) {
   return String(value || "").toLowerCase().trim();
 }
 
 export default function Shop() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const query = useQuery();
 
-  const categoryParam = searchParams.get("category") || "All";
-  const searchParam = searchParams.get("q") || "";
-  const sort = searchParams.get("sort") || "relevance";
+  const categoryParam = query.get("category") || "All";
+  const searchParam = query.get("q") || "";
+  const sortParam = query.get("sort") || "relevance";
+
+  const [sort, setSort] = useState(sortParam);
+
+  // ✅ IMPORTANT: keep state in sync when URL changes
+  useEffect(() => {
+    setSort(sortParam);
+  }, [sortParam]);
 
   const filteredProducts = useMemo(() => {
     let list = [...products];
 
     // Category filter
     if (categoryParam !== "All") {
-      // If you ever use combined categories like "laptops-phones",
-      // handle it here (optional):
+      // Optional: if you ever use /shop?category=laptops-phones
       if (categoryParam === "laptops-phones") {
         list = list.filter((p) => p.category === "Laptops" || p.category === "Phones");
       } else {
@@ -50,28 +61,16 @@ export default function Shop() {
           a.oldPrice && a.oldPrice > a.price
             ? (a.oldPrice - a.price) / a.oldPrice
             : 0;
-
         const db =
           b.oldPrice && b.oldPrice > b.price
             ? (b.oldPrice - b.price) / b.oldPrice
             : 0;
-
         return db - da;
       });
     }
 
     return list;
   }, [categoryParam, searchParam, sort]);
-
-  function setSortParam(nextSort) {
-    const next = new URLSearchParams(searchParams);
-    next.set("sort", nextSort);
-    setSearchParams(next);
-  }
-
-  function clearAll() {
-    setSearchParams(new URLSearchParams()); // back to /shop
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -84,18 +83,18 @@ export default function Shop() {
               {categoryParam !== "All" ? categoryParam : "Shop"}
             </h1>
             <p className="mt-1 text-sm text-slate-600">
-              {filteredProducts.length} product
-              {filteredProducts.length !== 1 ? "s" : ""}
+              {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
               {searchParam ? ` for “${searchParam}”` : ""}
             </p>
           </div>
 
+          {/* ✅ SORT CONTROLS (same as you had) */}
           <div className="flex items-center gap-3">
             <label className="text-sm font-medium text-slate-700">Sort by</label>
 
             <select
               value={sort}
-              onChange={(e) => setSortParam(e.target.value)}
+              onChange={(e) => setSort(e.target.value)}
               className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-200"
             >
               <option value="relevance">Relevance</option>
@@ -104,13 +103,12 @@ export default function Shop() {
               <option value="discount">Best Discount</option>
             </select>
 
-            <button
-              type="button"
-              onClick={clearAll}
+            <NavLink
+              to="/shop"
               className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition"
             >
               Clear
-            </button>
+            </NavLink>
           </div>
         </div>
 

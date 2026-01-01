@@ -4,9 +4,15 @@ import ProductCard from "../components/shop/ProductCard";
 import { products } from "../data/products";
 
 export default function Monitors() {
-  const monitorProducts = products.filter(
-    (p) => p.category === "Monitors"
-  );
+  const monitorProducts = products.filter((p) => {
+    const t = (p.title || "").toLowerCase();
+    const c = (p.category || "").toLowerCase();
+
+    const isMonitorCategory = c === "monitors" || c === "monitor";
+    const isMonitorTitle = t.includes("monitor");
+
+    return isMonitorCategory || isMonitorTitle;
+  });
 
   return (
     <div className="min-h-screen bg-white">
