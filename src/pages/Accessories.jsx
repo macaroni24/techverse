@@ -5,17 +5,11 @@ import { products } from "../data/products";
 
 export default function Accessories() {
   const accessoriesProducts = products.filter((p) => {
-    const text = `${p.title || ""} ${p.category || ""}`.toLowerCase();
+    const c = (p.category || "").toLowerCase();
 
     return (
-      text.includes("accessor") ||
-      text.includes("keyboard") ||
-      text.includes("mouse") ||
-      text.includes("headset") ||
-      text.includes("earbud") ||
-      text.includes("airpods") ||
-      text.includes("watch") ||
-      text.includes("controller")
+      c === "smart accessories" ||
+      c === "keyboards & mice"
     );
   });
 
@@ -27,7 +21,7 @@ export default function Accessories() {
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-slate-900">Accessories</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Keyboards, mice, headsets, smart accessories and more.
+            Keyboards, mice, smart accessories and more.
           </p>
         </div>
 

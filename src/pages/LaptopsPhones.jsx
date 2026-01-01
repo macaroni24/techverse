@@ -5,9 +5,8 @@ import { products } from "../data/products";
 
 export default function LaptopsPhones() {
   const lpProducts = products.filter((p) => {
-    const text = `${p.title || ""} ${p.category || ""}`.toLowerCase();
-
-    return text.includes("laptop") || text.includes("phone");
+    const c = (p.category || "").toLowerCase();
+    return c === "laptops" || c === "phones";
   });
 
   return (
@@ -16,7 +15,9 @@ export default function LaptopsPhones() {
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-900">Laptops & Phones</h1>
+          <h1 className="text-2xl font-bold text-slate-900">
+            Laptops & Phones
+          </h1>
           <p className="mt-1 text-sm text-slate-600">
             Showing {lpProducts.length} products
           </p>
@@ -28,8 +29,7 @@ export default function LaptopsPhones() {
               No laptops or phones found
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              This usually means the product categories/titles don’t contain the words
-              “laptop” or “phone”.
+              Please check back later.
             </p>
           </div>
         ) : (
