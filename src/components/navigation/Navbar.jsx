@@ -9,6 +9,7 @@ const categories = [
   { label: "Accessories", to: "/shop?category=Smart%20Accessories" },
   { label: "Monitors", to: "/shop?category=Monitors" },
 ];
+
 function cx(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -100,31 +101,85 @@ function CloseIcon({ className = "" }) {
   );
 }
 
+/* ---- Bottom-nav extra icons ---- */
+function HomeIcon({ className = "" }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M4 10.5 12 4l8 6.5V20a1.5 1.5 0 0 1-1.5 1.5H5.5A1.5 1.5 0 0 1 4 20v-9.5Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9.5 21V14h5v7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ChatIcon({ className = "" }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M4 5.5A3.5 3.5 0 0 1 7.5 2h9A3.5 3.5 0 0 1 20 5.5v7A3.5 3.5 0 0 1 16.5 16H9l-4.5 4V5.5Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8 9h8M8 12h5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function UserIcon({ className = "" }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path
+        d="M4.5 21a7.5 7.5 0 0 1 15 0"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const { cartCount, wishlistCount } = useStore();
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // ✅ NEW: suggestions dropdown open/close state
+  // suggestions dropdown open/close state
   const [suggestOpen, setSuggestOpen] = useState(false);
 
   const navigate = useNavigate();
 
   const canSearch = useMemo(() => query.trim().length > 0, [query]);
 
-  // ✅ NEW: build suggestions (top 6)
+  // build suggestions (top 6)
   const suggestions = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
     return products
-      .filter((p) =>
-        `${p.title} ${p.brand} ${p.category}`.toLowerCase().includes(q)
-      )
+      .filter((p) => `${p.title} ${p.brand} ${p.category}`.toLowerCase().includes(q))
       .slice(0, 6);
   }, [query]);
 
-  // ✅ NEW: fix “one letter then click again” bug (outside click close)
-  // Works even with hidden mobile/desktop inputs, no ref conflicts.
+  // outside click closes suggestions (no ref conflicts)
   useEffect(() => {
     function onDown(e) {
       const inside = e.target.closest?.('[data-searchbox="true"]');
@@ -134,7 +189,7 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", onDown);
   }, []);
 
-  // ✅ NEW: ESC closes dropdown
+  // ESC closes dropdown
   useEffect(() => {
     function onKey(e) {
       if (e.key === "Escape") setSuggestOpen(false);
@@ -156,7 +211,6 @@ export default function Navbar() {
     goToShopSearch(query);
   }
 
-  // ✅ NEW: dropdown renderer (shared)
   function SuggestionsDropdown({ className = "" }) {
     if (!suggestOpen) return null;
 
@@ -200,9 +254,7 @@ export default function Navbar() {
               </div>
 
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-slate-900">
-                  {p.title}
-                </p>
+                <p className="truncate text-sm font-semibold text-slate-900">{p.title}</p>
                 <p className="mt-0.5 text-xs text-slate-500">
                   {p.brand} • {p.category}
                 </p>
@@ -216,9 +268,7 @@ export default function Navbar() {
         </div>
 
         <div className="border-t border-slate-100 bg-white px-4 py-3 flex items-center justify-between">
-          <p className="text-xs text-slate-500">
-            Showing top {suggestions.length} results
-          </p>
+          <p className="text-xs text-slate-500">Showing top {suggestions.length} results</p>
           <button
             type="button"
             onClick={() => goToShopSearch(query)}
@@ -291,7 +341,6 @@ export default function Navbar() {
 
             {/* Row 2: search */}
             <div className="mt-3">
-              {/* ✅ NEW: wrapper enables correct outside-click behavior */}
               <div data-searchbox="true" className="relative">
                 <form onSubmit={onSubmit}>
                   <div className="flex items-center gap-2 rounded-md bg-white px-3 py-2">
@@ -324,12 +373,11 @@ export default function Navbar() {
                   </div>
                 </form>
 
-                {/* ✅ NEW: suggestions dropdown */}
                 <SuggestionsDropdown />
               </div>
             </div>
 
-            {/* Row 3: burger button (menu under searchbar) */}
+            {/* (Optional) keep your burger categories section here as well */}
             <div className="mt-3">
               <button
                 type="button"
@@ -347,10 +395,7 @@ export default function Navbar() {
               </button>
 
               {menuOpen && (
-                <div
-                  id="mobile-categories"
-                  className="mt-3 rounded-xl bg-white p-3"
-                >
+                <div id="mobile-categories" className="mt-3 rounded-xl bg-white p-3">
                   <div className="grid grid-cols-2 gap-2">
                     <NavLink
                       to="/shop"
@@ -391,7 +436,6 @@ export default function Navbar() {
 
             {/* Search */}
             <form onSubmit={onSubmit} className="flex-1">
-              {/* ✅ NEW: wrapper enables correct outside-click behavior */}
               <div data-searchbox="true" className="relative">
                 <div className="flex items-center gap-2 rounded-md bg-white px-3 py-2">
                   <SearchIcon className="h-5 w-5 text-slate-900" />
@@ -422,7 +466,6 @@ export default function Navbar() {
                   </button>
                 </div>
 
-                {/* ✅ NEW: suggestions dropdown */}
                 <SuggestionsDropdown />
               </div>
             </form>
@@ -480,6 +523,91 @@ export default function Navbar() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* ---------------- MOBILE BOTTOM NAV (NEW) ---------------- */}
+      <div className="md:hidden">
+        <nav className="fixed bottom-0 left-0 right-0 z-[90] border-t border-slate-200 bg-white">
+          <div className="mx-auto grid max-w-7xl grid-cols-5 px-2 py-2">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                cx(
+                  "flex flex-col items-center justify-center gap-1 rounded-lg py-1 text-[11px] font-medium",
+                  isActive ? "text-emerald-900" : "text-slate-500"
+                )
+              }
+            >
+              <HomeIcon className="h-6 w-6" />
+              <span>Ballina</span>
+            </NavLink>
+
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen((v) => !v);
+                setSuggestOpen(false);
+              }}
+              className={cx(
+                "flex flex-col items-center justify-center gap-1 rounded-lg py-1 text-[11px] font-medium",
+                menuOpen ? "text-emerald-900" : "text-slate-500"
+              )}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-categories"
+            >
+              <MenuIcon className="h-6 w-6" />
+              <span>Kategoritë</span>
+            </button>
+
+            <NavLink
+              to="/cart"
+              className={({ isActive }) =>
+                cx(
+                  "relative flex flex-col items-center justify-center gap-1 rounded-lg py-1 text-[11px] font-medium",
+                  isActive ? "text-emerald-900" : "text-slate-500"
+                )
+              }
+            >
+              <CartIcon className="h-6 w-6" />
+              <span>Shporta</span>
+
+              {cartCount > 0 && (
+                <span className="absolute right-3 top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-500 px-1 text-[11px] font-bold text-white">
+                  {cartCount > 99 ? "99+" : cartCount}
+                </span>
+              )}
+            </NavLink>
+
+            <NavLink
+              to="/chat"
+              className={({ isActive }) =>
+                cx(
+                  "flex flex-col items-center justify-center gap-1 rounded-lg py-1 text-[11px] font-medium",
+                  isActive ? "text-emerald-900" : "text-slate-500"
+                )
+              }
+            >
+              <ChatIcon className="h-6 w-6" />
+              <span>Chat</span>
+            </NavLink>
+
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                cx(
+                  "flex flex-col items-center justify-center gap-1 rounded-lg py-1 text-[11px] font-medium",
+                  isActive ? "text-emerald-900" : "text-slate-500"
+                )
+              }
+            >
+              <UserIcon className="h-6 w-6" />
+              <span>Kyçu</span>
+            </NavLink>
+          </div>
+        </nav>
+
+        {/* Spacer so bottom nav doesn't cover page content */}
+        <div className="h-16" aria-hidden="true" />
       </div>
     </header>
   );
