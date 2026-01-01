@@ -9,13 +9,13 @@ import Gaming from "./pages/Gaming";
 import LaptopsPhones from "./pages/LaptopsPhones";
 import Accessories from "./pages/Accessories";
 import Monitors from "./pages/Monitors";
-import Login from "./pages/Login"; // if you added it
+import Login from "./pages/Login";
 
 export default function App() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // always go to top on route change
+
  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [pathname]);
 
