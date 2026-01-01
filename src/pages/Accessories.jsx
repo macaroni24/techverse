@@ -3,30 +3,41 @@ import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 import { products } from "../data/products";
 
+function isMonitorLike(t, c) {
+  return c === "monitors" || c === "monitor" || t.includes("monitor");
+}
+
+function isAccessoryLike(t, c) {
+  return (
+    c === "smart accessories" ||
+    c === "accessories" ||
+    c === "keyboards & mice" ||
+    c === "keyboards and mice" ||
+    t.includes("keyboard") ||
+    t.includes("mouse") ||
+    t.includes("headset") ||
+    t.includes("earbud") ||
+    t.includes("airpods") ||
+    t.includes("watch") ||
+    t.includes("controller") ||
+    t.includes("charger") ||
+    t.includes("cable") ||
+    t.includes("case")
+  );
+}
+
 export default function Accessories() {
   const accessoriesProducts = products.filter((p) => {
     const t = (p.title || "").toLowerCase();
     const c = (p.category || "").toLowerCase();
 
-    const isAccessoryCategory =
-      c === "smart accessories" ||
-      c === "accessories" ||
-      c === "keyboards & mice" ||
-      c === "keyboards and mice";
+    // ✅ accessories page: must look like an accessory
+    if (!isAccessoryLike(t, c)) return false;
 
-    const isAccessoryTitle =
-      t.includes("keyboard") ||
-      t.includes("mouse") ||
-      t.includes("headset") ||
-      t.includes("earbud") ||
-      t.includes("airpods") ||
-      t.includes("watch") ||
-      t.includes("controller") ||
-      t.includes("charger") ||
-      t.includes("cable") ||
-      t.includes("case");
+    // ✅ hard stop: do NOT allow anything monitor-like here
+    if (isMonitorLike(t, c)) return false;
 
-    return isAccessoryCategory || isAccessoryTitle;
+    return true;
   });
 
   return (
@@ -43,12 +54,8 @@ export default function Accessories() {
 
         {accessoriesProducts.length === 0 ? (
           <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center">
-            <p className="text-lg font-semibold text-slate-900">
-              No accessories found
-            </p>
-            <p className="mt-2 text-sm text-slate-600">
-              Please check back later.
-            </p>
+            <p className="text-lg font-semibold text-slate-900">No accessories found</p>
+            <p className="mt-2 text-sm text-slate-600">Please check back later.</p>
           </div>
         ) : (
           <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">

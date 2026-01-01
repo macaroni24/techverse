@@ -3,15 +3,41 @@ import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 import { products } from "../data/products";
 
+function isAccessoryLike(t, c) {
+  return (
+    c === "smart accessories" ||
+    c === "accessories" ||
+    c === "keyboards & mice" ||
+    c === "keyboards and mice" ||
+    t.includes("keyboard") ||
+    t.includes("mouse") ||
+    t.includes("headset") ||
+    t.includes("earbud") ||
+    t.includes("airpods") ||
+    t.includes("watch") ||
+    t.includes("controller") ||
+    t.includes("charger") ||
+    t.includes("cable") ||
+    t.includes("case")
+  );
+}
+
+function isMonitorLike(t, c) {
+  return c === "monitors" || c === "monitor" || t.includes("monitor");
+}
+
 export default function Monitors() {
   const monitorProducts = products.filter((p) => {
     const t = (p.title || "").toLowerCase();
     const c = (p.category || "").toLowerCase();
 
-    const isMonitorCategory = c === "monitors" || c === "monitor";
-    const isMonitorTitle = t.includes("monitor");
+    // ✅ monitor page: must look like a monitor
+    if (!isMonitorLike(t, c)) return false;
 
-    return isMonitorCategory || isMonitorTitle;
+    // ✅ exclude items that are clearly accessories bundles/mis-tagged
+    if (isAccessoryLike(t, c) && !t.includes("monitor")) return false;
+
+    return true;
   });
 
   return (
@@ -28,12 +54,8 @@ export default function Monitors() {
 
         {monitorProducts.length === 0 ? (
           <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center">
-            <p className="text-lg font-semibold text-slate-900">
-              No monitors found
-            </p>
-            <p className="mt-2 text-sm text-slate-600">
-              Please check back later.
-            </p>
+            <p className="text-lg font-semibold text-slate-900">No monitors found</p>
+            <p className="mt-2 text-sm text-slate-600">Please check back later.</p>
           </div>
         ) : (
           <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">

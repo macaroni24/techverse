@@ -7,10 +7,12 @@ import Gaming from "./pages/Gaming";
 import LaptopsPhones from "./pages/LaptopsPhones";
 import Accessories from "./pages/Accessories";
 import Monitors from "./pages/Monitors";
+import Login from "./pages/Login";
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/monitors" element={<Monitors />} />
       <Route path="/accessories" element={<Accessories />} />
       <Route path="/laptops-phones" element={<LaptopsPhones />} />

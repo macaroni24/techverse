@@ -6,8 +6,8 @@ import { products } from "../../data/products";
 const categories = [
   { label: "Gaming", to: "/gaming" },
   { label: "Laptops & Phones", to: "/laptops-phones" },
-  { label: "Accessories", to: "/shop?category=Smart%20Accessories" },
-  { label: "Monitors", to: "/shop?category=Monitors" },
+  { label: "Accessories", to: "/Accessories" },
+  { label: "Monitors", to: "/Monitors" },
 ];
 
 function cx(...classes) {
