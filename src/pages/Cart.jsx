@@ -15,11 +15,7 @@ function findProductById(id) {
 function normalizeCartFromStore(store) {
   // 1) Array of items already
   const raw =
-    store.cartItems ||
-    store.cart ||
-    store.cartList ||
-    store.itemsInCart ||
-    null;
+    store.cartItems || store.cart || store.cartList || store.itemsInCart || null;
 
   if (Array.isArray(raw)) {
     // ensure qty exists
@@ -64,15 +60,11 @@ export default function Cart() {
 
   const cartItems = normalizeCartFromStore(store);
 
-  const addToCart = store.addToCart;
   const toggleWishlist = store.toggleWishlist;
   const isWishlisted = store.isWishlisted;
 
   const removeFromCart =
-    store.removeFromCart ||
-    store.removeCartItem ||
-    store.deleteFromCart ||
-    null;
+    store.removeFromCart || store.removeCartItem || store.deleteFromCart || null;
 
   const updateCartQty =
     store.updateCartQty ||
@@ -86,13 +78,15 @@ export default function Cart() {
     0
   );
   const shipping = subtotal >= 100 ? 0 : cartItems.length ? 5.99 : 0;
+ 
   const total = subtotal + shipping;
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      {/* ✅ prevents any accidental horizontal scroll on mobile */}
+      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 overflow-x-hidden">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Cart</h1>
@@ -131,7 +125,11 @@ export default function Cart() {
                   const lineTotal = Number(item.price || 0) * qty;
 
                   return (
-                    <div key={item.id} className="flex gap-4 p-4 sm:p-5">
+                    <div
+                      key={item.id}
+                      className="flex gap-4 p-4 sm:p-5 flex-col sm:flex-row"
+                    >
+                      {/* Image */}
                       <div className="h-20 w-20 shrink-0 rounded-xl bg-slate-50 p-2">
                         <img
                           src={item.image}
@@ -141,28 +139,35 @@ export default function Cart() {
                         />
                       </div>
 
+                      {/* Middle (IMPORTANT: min-w-0 so it can shrink on mobile) */}
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-semibold text-slate-900">
+                        {/* ✅ break-words avoids titles forcing width */}
+                        <p className="text-sm font-semibold text-slate-900 break-words">
                           {item.title}
                         </p>
-                        <p className="mt-1 text-xs text-slate-500">
+
+                        <p className="mt-1 text-xs text-slate-500 break-words">
                           {item.brand} • {item.category}
                         </p>
 
                         <div className="mt-3 flex flex-wrap items-center gap-3">
                           {/* Quantity */}
                           {typeof updateCartQty === "function" ? (
-                            <div className="inline-flex items-center rounded-md border border-slate-200">
+                            <div className="inline-flex items-center rounded-md border border-slate-200 max-w-full">
                               <button
                                 type="button"
-                                onClick={() => updateCartQty(item.id, Math.max(1, qty - 1))}
+                                onClick={() =>
+                                  updateCartQty(item.id, Math.max(1, qty - 1))
+                                }
                                 className="px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
                               >
                                 −
                               </button>
+
                               <span className="px-3 py-2 text-sm font-semibold text-slate-900">
                                 {qty}
                               </span>
+
                               <button
                                 type="button"
                                 onClick={() => updateCartQty(item.id, qty + 1)}
@@ -178,26 +183,27 @@ export default function Cart() {
                           )}
 
                           {/* Save / Wishlist */}
-                          {typeof toggleWishlist === "function" && typeof isWishlisted === "function" && (
-                            <button
-                              type="button"
-                              onClick={() => toggleWishlist(item)}
-                              className={`rounded-md px-3 py-2 text-sm font-semibold transition ${
-                                isWishlisted(item.id)
-                                  ? "bg-emerald-900 text-white hover:bg-emerald-950"
-                                  : "bg-white text-slate-900 border border-slate-200 hover:bg-slate-50"
-                              }`}
-                            >
-                              {isWishlisted(item.id) ? "Wishlisted" : "Save"}
-                            </button>
-                          )}
+                          {typeof toggleWishlist === "function" &&
+                            typeof isWishlisted === "function" && (
+                              <button
+                                type="button"
+                                onClick={() => toggleWishlist(item)}
+                                className={`rounded-md px-3 py-2 text-sm font-semibold transition whitespace-nowrap ${
+                                  isWishlisted(item.id)
+                                    ? "bg-emerald-900 text-white hover:bg-emerald-950"
+                                    : "bg-white text-slate-900 border border-slate-200 hover:bg-slate-50"
+                                }`}
+                              >
+                                {isWishlisted(item.id) ? "Wishlisted" : "Save"}
+                              </button>
+                            )}
 
                           {/* Remove */}
                           {typeof removeFromCart === "function" ? (
                             <button
                               type="button"
                               onClick={() => removeFromCart(item.id)}
-                              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition"
+                              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition whitespace-nowrap"
                             >
                               Remove
                             </button>
@@ -209,7 +215,8 @@ export default function Cart() {
                         </div>
                       </div>
 
-                      <div className="shrink-0 text-right">
+                      {/* Price column: on mobile it sits naturally below, not forcing width */}
+                      <div className="shrink-0 text-left sm:text-right">
                         <p className="text-sm font-semibold text-slate-900">
                           {formatPriceEUR(lineTotal)}
                         </p>
