@@ -40,7 +40,6 @@ function normalizeCartFromStore(store) {
   const mapObj = store.cartMap || store.cartObject || store.cartById || raw;
   if (mapObj && typeof mapObj === "object") {
     const entries = Object.entries(mapObj);
-    // if it looks like a map of id->qty
     if (entries.length && typeof entries[0][1] !== "object") {
       return entries
         .map(([id, qty]) => {
@@ -85,7 +84,6 @@ export default function Cart() {
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      {/* ✅ prevents any accidental horizontal scroll on mobile */}
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 overflow-x-hidden">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -129,7 +127,6 @@ export default function Cart() {
                       key={item.id}
                       className="flex gap-4 p-4 sm:p-5 flex-col sm:flex-row"
                     >
-                      {/* Image */}
                       <div className="h-20 w-20 shrink-0 rounded-xl bg-slate-50 p-2">
                         <img
                           src={item.image}
@@ -139,9 +136,7 @@ export default function Cart() {
                         />
                       </div>
 
-                      {/* Middle (IMPORTANT: min-w-0 so it can shrink on mobile) */}
                       <div className="min-w-0 flex-1">
-                        {/* ✅ break-words avoids titles forcing width */}
                         <p className="text-sm font-semibold text-slate-900 break-words">
                           {item.title}
                         </p>
@@ -151,7 +146,6 @@ export default function Cart() {
                         </p>
 
                         <div className="mt-3 flex flex-wrap items-center gap-3">
-                          {/* Quantity */}
                           {typeof updateCartQty === "function" ? (
                             <div className="inline-flex items-center rounded-md border border-slate-200 max-w-full">
                               <button
@@ -182,7 +176,6 @@ export default function Cart() {
                             </span>
                           )}
 
-                          {/* Save / Wishlist */}
                           {typeof toggleWishlist === "function" &&
                             typeof isWishlisted === "function" && (
                               <button
@@ -215,7 +208,6 @@ export default function Cart() {
                         </div>
                       </div>
 
-                      {/* Price column: on mobile it sits naturally below, not forcing width */}
                       <div className="shrink-0 text-left sm:text-right">
                         <p className="text-sm font-semibold text-slate-900">
                           {formatPriceEUR(lineTotal)}
@@ -230,7 +222,6 @@ export default function Cart() {
               </div>
             </div>
 
-            {/* Summary */}
             <aside className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-bold text-slate-900">Order summary</h2>
 

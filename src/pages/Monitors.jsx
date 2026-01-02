@@ -31,10 +31,8 @@ export default function Monitors() {
     const t = (p.title || "").toLowerCase();
     const c = (p.category || "").toLowerCase();
 
-    // ✅ monitor page: must look like a monitor
     if (!isMonitorLike(t, c)) return false;
 
-    // ✅ exclude items that are clearly accessories bundles/mis-tagged
     if (isAccessoryLike(t, c) && !t.includes("monitor")) return false;
 
     return true;

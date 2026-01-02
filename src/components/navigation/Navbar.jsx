@@ -449,6 +449,7 @@ export default function Navbar() {
               Shop
             </NavLink>
 
+            
             {categories.map((c) => (
               <NavLink
                 key={c.to}
@@ -475,7 +476,7 @@ export default function Navbar() {
               }
             >
               <HomeIcon className="h-6 w-6" />
-              <span>Ballina</span>
+              <span>Home</span>
             </NavLink>
 
             <button
@@ -491,7 +492,7 @@ export default function Navbar() {
               aria-expanded={mobileCatsOpen}
             >
               <MenuIcon className="h-6 w-6" />
-              <span>Kategoritë</span>
+              <span>Categories</span>
             </button>
 
             <NavLink
@@ -504,7 +505,7 @@ export default function Navbar() {
               }
             >
               <CartIcon className="h-6 w-6" />
-              <span>Shporta</span>
+              <span>Cart</span>
               {cartCount > 0 && (
                 <span className="absolute right-3 top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-500 px-1 text-[11px] font-bold text-white">
                   {cartCount > 99 ? "99+" : cartCount}
@@ -535,7 +536,7 @@ export default function Navbar() {
               }
             >
               <UserIcon className="h-6 w-6" />
-              <span>Kyçu</span>
+              <span>Login</span>
             </NavLink>
           </div>
         </nav>
@@ -554,7 +555,7 @@ export default function Navbar() {
             <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white shadow-2xl">
               <div className="mx-auto max-w-7xl px-4 py-4">
                 <div className="flex items-center justify-between">
-                  <p className="text-base font-bold text-slate-900">Kategoritë</p>
+                  <p className="text-base font-bold text-slate-900">Categories</p>
                   <button
                     type="button"
                     onClick={() => setMobileCatsOpen(false)}

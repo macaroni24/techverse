@@ -185,7 +185,7 @@ export default function PayingSection() {
                       className={`mt-1 w-full rounded-xl border px-3 py-2 text-sm outline-none ${
                         errors.fullName ? "border-red-300" : "border-slate-200 focus:border-orange-400"
                       }`}
-                      placeholder="John Doe"
+                      placeholder="Your Name"
                     />
                     {errors.fullName && (
                       <p className="mt-1 text-xs font-semibold text-red-600">{errors.fullName}</p>

@@ -100,8 +100,8 @@ export default function Footer() {
             </NavLink>
 
             <p className="mt-4 text-sm leading-6 text-slate-600 max-w-md">
-              TechVerse is a modern e-commerce frontend built with React and Tailwind.
-              Browse products, save to wishlist, and manage your cart with a clean UI.
+              TechVerse is a modern e-commerce Store.
+              Browse products, save to wishlist, and manage your cart.
             </p>
 
             <div className="mt-6 space-y-2 text-sm text-slate-600">
@@ -200,7 +200,7 @@ export default function Footer() {
             <div>
               <p className="text-sm font-semibold text-slate-900">Payment Methods</p>
               <p className="mt-2 text-sm text-slate-600">
-                Visa, Mastercard, PayPal (UI only).
+                Visa, Mastercard, PayPal .
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Badge>Visa</Badge>
@@ -224,7 +224,7 @@ export default function Footer() {
             <div>
               <p className="text-sm font-semibold text-slate-900">Security</p>
               <p className="mt-2 text-sm text-slate-600">
-                Secure checkout and protected data (frontend demo).
+                Secure checkout and protected data .
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Badge>SSL</Badge>

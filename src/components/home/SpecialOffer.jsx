@@ -189,7 +189,7 @@ export default function SpecialOffer({
                       strokeWidth="2"
                     />
                   </svg>
-                  Shto në shportë
+                  Add To Cart
                 </button>
 
                 <button

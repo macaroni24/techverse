@@ -88,7 +88,6 @@ export default function Shop() {
             </p>
           </div>
 
-          {/* ✅ SORT CONTROLS (same as you had) */}
           <div className="flex items-center gap-3">
             <label className="text-sm font-medium text-slate-700">Sort by</label>
 

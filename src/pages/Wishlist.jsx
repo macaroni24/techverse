@@ -25,7 +25,6 @@ function normalizeWishlistFromStore(store) {
       .filter(Boolean);
   }
 
-  // wishlist object map: { id: true } or { id: 1 }
   const mapObj = store.wishlistMap || store.wishlistObject || raw;
   if (mapObj && typeof mapObj === "object") {
     const entries = Object.entries(mapObj);

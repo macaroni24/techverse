@@ -89,7 +89,7 @@ export default function ProductCard({ product }) {
               </span>
             ) : (
               <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-900">
-                In stock
+              stock
               </span>
             )}
           </div>
@@ -130,7 +130,7 @@ export default function ProductCard({ product }) {
                 : "bg-orange-500 text-white hover:bg-orange-600"
             }`}
           >
-            {product.stock === 0 ? "Out of stock" : added ? "Added to cart" : "Add to cart"}
+            {product.stock === 0 ? "Out of stock" : added ? "Added" : "Add"}
           </button>
         </div>
       </div>

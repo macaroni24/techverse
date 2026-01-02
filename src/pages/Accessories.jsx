@@ -31,10 +31,8 @@ export default function Accessories() {
     const t = (p.title || "").toLowerCase();
     const c = (p.category || "").toLowerCase();
 
-    // ✅ accessories page: must look like an accessory
     if (!isAccessoryLike(t, c)) return false;
 
-    // ✅ hard stop: do NOT allow anything monitor-like here
     if (isMonitorLike(t, c)) return false;
 
     return true;
