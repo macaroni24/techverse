@@ -10,6 +10,9 @@ import LaptopsPhones from "./pages/LaptopsPhones";
 import Accessories from "./pages/Accessories";
 import Monitors from "./pages/Monitors";
 import Login from "./pages/Login";
+import ProductDetails from "./pages/ProductDetails";
+import PayingSection from "./pages/PayingSection";
+
 
 export default function App() {
   const { pathname } = useLocation();
@@ -22,6 +25,8 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/product/:id" element={<ProductDetails />} />
+      <Route path="/paying" element={<PayingSection />} />
       <Route path="/shop" element={<Shop />} />
       <Route path="/gaming" element={<Gaming />} />
       <Route path="/laptops-phones" element={<LaptopsPhones />} />
