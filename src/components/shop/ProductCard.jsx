@@ -97,27 +97,29 @@ export default function ProductCard({ product }) {
 
         <div className="mt-auto pt-4 flex items-center gap-2">
        
-          <button
-            type="button"
-            onClick={() => toggleWishlist(product)}
-            className={`inline-flex h-11 w-11 items-center justify-center rounded-md border text-sm font-semibold transition ${
-              wish
-                ? "border-emerald-200 bg-emerald-50 text-emerald-900"
-                : "border-slate-200 bg-white text-slate-900 hover:bg-slate-50"
-            }`}
-            aria-label={wish ? "Remove from wishlist" : "Add to wishlist"}
-          >
-            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
-              <path
-                d="M12 20.5s-7-4.5-9.2-8.8C1.3 8.8 3.2 6 6.4 6c1.8 0 3.3.9 4.2 2 0 0 .9-2 4.2-2C18 6 20 8.8 21.2 11.7 19 16 12 20.5 12 20.5Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
 
-    
+<button
+  type="button"
+  onClick={() => toggleWishlist(product)}
+  className="inline-flex h-11 w-11 items-center justify-center transition-transform duration-200 hover:scale-110 active:scale-95"
+  aria-label={wish ? "Remove from wishlist" : "Add to wishlist"}
+>
+  <svg
+    viewBox="0 0 24 24"
+    className={`h-7 w-7 transition-colors duration-200 ${
+      wish
+        ? "fill-emerald-800 stroke-emerald-800"
+        : "fill-none stroke-slate-500 hover:stroke-emerald-700"
+    }`}
+  >
+    <path
+      d="M12 21s-7.5-4.8-9.9-9.4C0.6 8.2 3.1 5 6.8 5c2.1 0 3.9 1.1 5.2 2.7C13.3 6.1 15.1 5 17.2 5c3.7 0 6.2 3.2 4.7 6.6C19.5 16.2 12 21 12 21Z"
+      strokeWidth="1.8"
+      strokeLinejoin="round"
+    />
+  </svg>
+</button>
+
           <button
             type="button"
             onClick={handleAddToCart}
