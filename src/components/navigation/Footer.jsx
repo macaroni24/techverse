@@ -82,10 +82,8 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Main footer content */}
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
-          {/* Brand + Contact */}
           <div>
             <NavLink to="/" className="flex items-center gap-3">
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-emerald-900 text-white">
