@@ -2,6 +2,7 @@ import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import { useStore } from "../store/StoreProvider";
 import { products } from "../data/products";
+import { useNavigate } from "react-router-dom";
 
 function formatPriceEUR(v) {
   const n = Number(v || 0);
@@ -56,6 +57,7 @@ function normalizeCartFromStore(store) {
 
 export default function Cart() {
   const store = useStore();
+  const navigate = useNavigate();
 
   const cartItems = normalizeCartFromStore(store);
 
@@ -77,7 +79,7 @@ export default function Cart() {
     0
   );
   const shipping = subtotal >= 100 ? 0 : cartItems.length ? 5.99 : 0;
- 
+
   const total = subtotal + shipping;
 
   return (
@@ -250,6 +252,17 @@ export default function Cart() {
 
               <button
                 type="button"
+                onClick={() => {
+                  const first = cartItems[0];
+                  if (!first) return;
+
+                  navigate("/paying", {
+                    state: {
+                      product: first,
+                      qty: Number(first.qty || 1),
+                    },
+                  });
+                }}
                 className="mt-5 w-full rounded-md bg-orange-500 px-5 py-3 text-sm font-semibold text-white hover:bg-orange-600 transition"
               >
                 Checkout
