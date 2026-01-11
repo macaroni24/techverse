@@ -24,7 +24,6 @@ export default function Shop() {
 
   const [sort, setSort] = useState(sortParam);
 
-  // ✅ IMPORTANT: keep state in sync when URL changes
   useEffect(() => {
     setSort(sortParam);
   }, [sortParam]);
@@ -32,9 +31,7 @@ export default function Shop() {
   const filteredProducts = useMemo(() => {
     let list = [...products];
 
-    // Category filter
     if (categoryParam !== "All") {
-      // Optional: if you ever use /shop?category=laptops-phones
       if (categoryParam === "laptops-phones") {
         list = list.filter((p) => p.category === "Laptops" || p.category === "Phones");
       } else {
@@ -42,7 +39,6 @@ export default function Shop() {
       }
     }
 
-    // Search filter
     const q = normalize(searchParam);
     if (q) {
       list = list.filter((p) =>
@@ -50,7 +46,6 @@ export default function Shop() {
       );
     }
 
-    // Sorting (safe because list is a copy)
     if (sort === "price-asc") {
       list.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
     } else if (sort === "price-desc") {
