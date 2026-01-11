@@ -14,19 +14,16 @@ function findProductById(id) {
 }
 
 function normalizeCartFromStore(store) {
-  // 1) Array of items already
   const raw =
     store.cartItems || store.cart || store.cartList || store.itemsInCart || null;
 
   if (Array.isArray(raw)) {
-    // ensure qty exists
     return raw.map((x) => ({
       ...x,
       qty: Number(x.qty || x.quantity || 1),
     }));
   }
 
-  // 2) cartIds array -> map to products
   const ids = store.cartIds || store.cartIDs || null;
   if (Array.isArray(ids)) {
     return ids
@@ -37,7 +34,6 @@ function normalizeCartFromStore(store) {
       .filter(Boolean);
   }
 
-  // 3) cart object map: {id: qty}
   const mapObj = store.cartMap || store.cartObject || store.cartById || raw;
   if (mapObj && typeof mapObj === "object") {
     const entries = Object.entries(mapObj);
@@ -117,8 +113,7 @@ export default function Cart() {
           </div>
         ) : (
           <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-            {/* Items */}
-            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+           <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
               <div className="divide-y divide-slate-100">
                 {cartItems.map((item) => {
                   const qty = Number(item.qty || 1);
@@ -193,8 +188,7 @@ export default function Cart() {
                               </button>
                             )}
 
-                          {/* Remove */}
-                          {typeof removeFromCart === "function" ? (
+                           {typeof removeFromCart === "function" ? (
                             <button
                               type="button"
                               onClick={() => removeFromCart(item.id)}

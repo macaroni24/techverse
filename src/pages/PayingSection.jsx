@@ -34,7 +34,6 @@ export default function PayingSection() {
   const product = location.state?.product;
   const qty = Number(location.state?.qty || 1);
 
-  // Basic guard
   if (!product) {
     return (
       <>
@@ -60,8 +59,7 @@ export default function PayingSection() {
 
   const subtotal = useMemo(() => product.price * qty, [product.price, qty]);
 
-  // Form state
-  const [paymentMethod, setPaymentMethod] = useState("cod"); // cod | card | transfer
+  const [paymentMethod, setPaymentMethod] = useState("cod"); 
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -72,7 +70,6 @@ export default function PayingSection() {
     notes: "",
   });
 
-  // Card fields (only for bank card)
   const [card, setCard] = useState({
     holderName: "",
     number: "",
@@ -80,7 +77,6 @@ export default function PayingSection() {
     cvv: "",
   });
 
-  // UX / validation
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
@@ -102,7 +98,6 @@ export default function PayingSection() {
     if (!form.city.trim()) e.city = "City is required.";
     if (!form.country.trim()) e.country = "Country is required.";
 
-    // Email is optional, but if provided do a light check
     if (form.email.trim() && !/^\S+@\S+\.\S+$/.test(form.email.trim())) {
       e.email = "Please enter a valid email address.";
     }
@@ -127,16 +122,12 @@ export default function PayingSection() {
 
     setIsSubmitting(true);
 
-    // Add to cart (your store logic)
     for (let i = 0; i < qty; i++) addToCart(product);
 
-    // Show animated success
     setSuccessOpen(true);
 
-    // Simulate processing then route (you can change destination)
     window.setTimeout(() => {
       setIsSubmitting(false);
-      // Send them to cart after success
       navigate("/cart");
     }, 1600);
   }
@@ -357,7 +348,7 @@ export default function PayingSection() {
                           className={`mt-1 w-full rounded-xl border px-3 py-2 text-sm outline-none ${
                             errors.holderName ? "border-red-300" : "border-slate-200 focus:border-orange-400"
                           }`}
-                          placeholder="JOHN DOE"
+                          placeholder="Your name"
                         />
                         {errors.holderName && (
                           <p className="mt-1 text-xs font-semibold text-red-600">{errors.holderName}</p>
@@ -415,7 +406,6 @@ export default function PayingSection() {
                   </div>
                 )}
 
-                {/* Conditional: Bank transfer instructions */}
                 {paymentMethod === "transfer" && (
                   <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
                     <div className="text-sm font-semibold text-slate-900">Bank transfer instructions</div>
@@ -438,7 +428,6 @@ export default function PayingSection() {
             </div>
           </div>
 
-          {/* RIGHT: Order summary + submit */}
           <div className="lg:col-span-5">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="text-sm font-semibold text-slate-900">Order summary</div>
@@ -500,7 +489,6 @@ export default function PayingSection() {
         </div>
       </div>
 
-      {/* Success overlay with animation */}
       <div
         className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 transition ${
           successOpen ? "opacity-100" : "pointer-events-none opacity-0"
