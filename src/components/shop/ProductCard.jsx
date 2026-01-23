@@ -29,7 +29,7 @@ export default function ProductCard({ product }) {
   }, [added]);
 
   function handleAddToCart() {
-    if (product.stock === 0) return;
+    if (product.stock === 0) return; 
     addToCart(product);
     setAdded(true);
   }
