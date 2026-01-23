@@ -36,10 +36,8 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="group rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:shadow-md">
-      {/* Make the card content a column so we can push actions to bottom */}
-      <div className="flex h-full flex-col">
-        {/* Clickable top area */}
-        <NavLink to={`/product/${product.id}`} className="block">
+     <div className="flex h-full flex-col">
+      <NavLink to={`/product/${product.id}`} className="block">
           <div className="relative overflow-hidden rounded-xl bg-slate-50">
             <img
               src={product.image}
