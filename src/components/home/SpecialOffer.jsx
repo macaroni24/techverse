@@ -69,10 +69,10 @@ export default function SpecialOffer({
       <div className="flex items-end justify-between gap-6">
         <div>
           <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
-            Oferta speciale
+            Special offers
           </h2>
           <p className="mt-1 text-sm text-slate-600">
-            Zgjedhjet më të mira me zbritje — përditësohen automatikisht.
+            Take a look at today's best offers 
           </p>
         </div>
       </div>
