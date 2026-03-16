@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
 import { useStore } from "../../store/StoreProvider";
 import { products } from "../../data/products";
+import logo from "../../assets/logo.png";
 
 const categories = [
   { label: "Gaming", to: "/gaming" },
@@ -119,25 +120,6 @@ function HomeIcon({ className = "" }) {
   );
 }
 
-function ChatIcon({ className = "" }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <path
-        d="M4 5.5A3.5 3.5 0 0 1 7.5 2h9A3.5 3.5 0 0 1 20 5.5v7A3.5 3.5 0 0 1 16.5 16H9l-4.5 4V5.5Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M8 9h8M8 12h5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 function UserIcon({ className = "" }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -157,7 +139,6 @@ export default function Navbar() {
 
   const [query, setQuery] = useState("");
   const [suggestOpen, setSuggestOpen] = useState(false);
-
   const [mobileCatsOpen, setMobileCatsOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -211,7 +192,7 @@ export default function Navbar() {
       return (
         <div
           className={cx(
-            "absolute left-0 right-0 mt-2 z-[80] rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-lg",
+            "absolute left-0 right-0 z-[80] mt-2 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-xl",
             className
           )}
         >
@@ -225,7 +206,7 @@ export default function Navbar() {
     return (
       <div
         className={cx(
-          "absolute left-0 right-0 mt-2 z-[80] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg",
+          "absolute left-0 right-0 z-[80] mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl",
           className
         )}
       >
@@ -235,9 +216,9 @@ export default function Navbar() {
               key={p.id}
               type="button"
               onClick={() => goToShopSearch(p.title)}
-              className="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition"
+              className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-slate-50"
             >
-              <div className="h-11 w-11 shrink-0 rounded-md bg-slate-50 p-1">
+              <div className="h-11 w-11 shrink-0 rounded-lg bg-slate-50 p-1">
                 <img src={p.image} alt={p.title} className="h-full w-full object-contain" loading="lazy" />
               </div>
 
@@ -255,7 +236,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="border-t border-slate-100 bg-white px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center justify-between border-t border-slate-100 bg-white px-4 py-3">
           <p className="text-xs text-slate-500">Showing top {suggestions.length} results</p>
           <button
             type="button"
@@ -273,38 +254,37 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full">
       <div className="bg-emerald-950 text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6">
-          <p className="text-xs text-white/80">
+          <p className="text-[11px] text-white/80 sm:text-xs">
             Free delivery over <span className="font-semibold text-white">€100</span>
           </p>
-          <p className="text-xs text-white/80">
+          <p className="text-[11px] text-white/80 sm:text-xs">
             Support: <span className="font-semibold text-white">24/7</span>
           </p>
         </div>
       </div>
 
       <div className="bg-emerald-900 text-white shadow-sm">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+          {/* MOBILE */}
           <div className="md:hidden">
             <div className="flex items-center justify-between gap-3">
-              <NavLink to="/" className="flex items-center gap-3">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white">
-                  <span className="text-lg font-bold text-emerald-900">T</span>
-                </span>
-                <div className="leading-tight">
-                  <p className="text-lg font-semibold tracking-wide">TechVerse</p>
-                  <p className="text-xs text-white/75">Gaming • PCs • Phones</p>
-                </div>
+              <NavLink to="/" className="flex min-w-0 shrink-0 items-center">
+                <img
+                  src={logo}
+                  alt="TechVerse"
+                  className="h-12 w-auto object-contain"
+                />
               </NavLink>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <NavLink
                   to="/wishlist"
-                  className="relative inline-flex h-10 items-center justify-center rounded-md bg-white px-3 text-slate-900 hover:bg-slate-50 transition"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition hover:bg-white/10"
                   aria-label="Wishlist"
                 >
-                  <HeartIcon className="h-5 w-5 text-slate-900" />
+                  <HeartIcon className="h-5 w-5" />
                   {wishlistCount > 0 && (
-                    <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-slate-900 px-1 text-xs font-bold text-white">
+                    <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[9px] font-bold text-white">
                       {wishlistCount > 99 ? "99+" : wishlistCount}
                     </span>
                   )}
@@ -312,13 +292,23 @@ export default function Navbar() {
 
                 <NavLink
                   to="/cart"
-                  className="relative inline-flex h-10 items-center justify-center rounded-md bg-orange-500 px-3 text-white hover:bg-orange-600 transition"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition hover:bg-white/10"
                   aria-label="Cart"
                 >
-                  <CartIcon className="h-5 w-5 text-white" />
-                  <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/20 px-1 text-xs font-bold text-white">
-                    {cartCount > 99 ? "99+" : cartCount}
-                  </span>
+                  <CartIcon className="h-5 w-5" />
+                  {cartCount > 0 && (
+                    <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[9px] font-bold text-white">
+                      {cartCount > 99 ? "99+" : cartCount}
+                    </span>
+                  )}
+                </NavLink>
+
+                <NavLink
+                  to="/login"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/15"
+                  aria-label="Login"
+                >
+                  <UserIcon className="h-5 w-5" />
                 </NavLink>
               </div>
             </div>
@@ -326,8 +316,7 @@ export default function Navbar() {
             <div className="mt-3">
               <div data-searchbox="true" className="relative">
                 <form onSubmit={onSubmit}>
-                  <div className="flex items-center gap-2 rounded-md bg-white px-3 py-2">
-                    <SearchIcon className="h-5 w-5 text-slate-900" />
+                  <div className="flex h-10 items-center rounded-full bg-white px-4 shadow-sm">
                     <input
                       value={query}
                       onChange={(e) => {
@@ -338,20 +327,21 @@ export default function Navbar() {
                       onFocus={() => {
                         if (query.trim()) setSuggestOpen(true);
                       }}
-                      placeholder="Search gaming PCs, phones, accessories..."
-                      className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
+                      placeholder="Search products..."
+                      className="w-full bg-transparent text-[14px] text-slate-900 placeholder:text-slate-500 focus:outline-none"
                     />
                     <button
                       type="submit"
                       disabled={!canSearch}
                       className={cx(
-                        "rounded-md px-4 py-2 text-sm font-semibold transition",
+                        "ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition",
                         canSearch
-                          ? "bg-orange-500 text-white hover:bg-orange-600"
-                          : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                          ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                          : "cursor-not-allowed text-slate-300"
                       )}
+                      aria-label="Search"
                     >
-                      Search
+                      <SearchIcon className="h-5 w-5" />
                     </button>
                   </div>
                 </form>
@@ -361,75 +351,91 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="hidden md:flex md:items-center md:gap-6">
-            <NavLink to="/" className="flex items-center gap-3">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-white">
-                <span className="text-lg font-bold text-emerald-900">T</span>
-              </span>
-              <div className="leading-tight">
-                <p className="text-lg font-semibold tracking-wide">TechVerse</p>
-                <p className="text-xs text-white/75">Gaming • PCs • Phones</p>
-              </div>
+          {/* DESKTOP */}
+          <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
+            {/* left */}
+            <NavLink to="/" className="flex shrink-0 items-center">
+              <img
+                src={logo}
+                alt="TechVerse"
+                className="h-10 lg:h-12 w-auto object-contain"
+              />
             </NavLink>
 
-            <form onSubmit={onSubmit} className="flex-1">
+            {/* center */}
+            <div className="w-full max-w-[560px] lg:max-w-[620px] xl:max-w-[680px]">
               <div data-searchbox="true" className="relative">
-                <div className="flex items-center gap-2 rounded-md bg-white px-3 py-2">
-                  <SearchIcon className="h-5 w-5 text-slate-900" />
-                  <input
-                    value={query}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      setQuery(v);
-                      setSuggestOpen(v.trim().length > 0);
-                    }}
-                    onFocus={() => {
-                      if (query.trim()) setSuggestOpen(true);
-                    }}
-                    placeholder="Search gaming PCs, phones, accessories..."
-                    className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
-                  />
-                  <button
-                    type="submit"
-                    disabled={!canSearch}
-                    className={cx(
-                      "rounded-md px-4 py-2 text-sm font-semibold transition",
-                      canSearch
-                        ? "bg-orange-500 text-white hover:bg-orange-600"
-                        : "bg-slate-100 text-slate-400 cursor-not-allowed"
-                    )}
-                  >
-                    Search
-                  </button>
-                </div>
+                <form onSubmit={onSubmit}>
+                  <div className="flex h-11 items-center rounded-full bg-white px-4 shadow-sm">
+                    <input
+                      value={query}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        setQuery(v);
+                        setSuggestOpen(v.trim().length > 0);
+                      }}
+                      onFocus={() => {
+                        if (query.trim()) setSuggestOpen(true);
+                      }}
+                      placeholder="Search products..."
+                      className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      disabled={!canSearch}
+                      className={cx(
+                        "ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition",
+                        canSearch
+                          ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                          : "cursor-not-allowed text-slate-300"
+                      )}
+                      aria-label="Search"
+                    >
+                      <SearchIcon className="h-5 w-5" />
+                    </button>
+                  </div>
+                </form>
 
                 <SuggestionsDropdown />
               </div>
-            </form>
+            </div>
 
-            <NavLink
-              to="/wishlist"
-              className="relative inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 transition"
-            >
-              <HeartIcon className="h-5 w-5 text-slate-900" />
-              Wishlist
-              {wishlistCount > 0 && (
-                <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-slate-900 px-1 text-xs font-bold text-white">
-                  {wishlistCount > 99 ? "99+" : wishlistCount}
-                </span>
-              )}
-            </NavLink>
+            {/* right */}
+            <div className="flex shrink-0 items-center gap-1">
+              <NavLink
+                to="/wishlist"
+                className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition hover:bg-white/10"
+                aria-label="Wishlist"
+              >
+                <HeartIcon className="h-6 w-6" />
+                {wishlistCount > 0 && (
+                  <span className="absolute right-0 top-0 inline-flex h-5 min-w-5 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-bold text-white">
+                    {wishlistCount > 99 ? "99+" : wishlistCount}
+                  </span>
+                )}
+              </NavLink>
 
-            <NavLink
-              to="/cart"
-              className="inline-flex items-center gap-2 rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-600 transition"
-            >
-              <CartIcon className="h-5 w-5 text-white" />
-              Cart
-              <span className="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/20 px-1 text-xs font-bold text-white">
-                {cartCount > 99 ? "99+" : cartCount}
-              </span>
-            </NavLink>
+              <NavLink
+                to="/cart"
+                className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition hover:bg-white/10"
+                aria-label="Cart"
+              >
+                <CartIcon className="h-6 w-6" />
+                {cartCount > 0 && (
+                  <span className="absolute right-0 top-0 inline-flex h-5 min-w-5 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-bold text-white">
+                    {cartCount > 99 ? "99+" : cartCount}
+                  </span>
+                )}
+              </NavLink>
+
+              <NavLink
+                to="/login"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/15"
+                aria-label="Login"
+              >
+                <UserIcon className="h-5 w-5" />
+              </NavLink>
+            </div>
           </div>
         </div>
 
@@ -449,12 +455,11 @@ export default function Navbar() {
               Shop
             </NavLink>
 
-            
             {categories.map((c) => (
               <NavLink
                 key={c.to}
                 to={c.to}
-                className="whitespace-nowrap text-sm font-medium text-white/90 hover:text-white transition"
+                className="whitespace-nowrap text-sm font-medium text-white/90 transition hover:text-white"
               >
                 {c.label}
               </NavLink>
@@ -522,7 +527,7 @@ export default function Navbar() {
                 )
               }
             >
-              <ChatIcon className="h-6 w-6" />
+              <HeartIcon className="h-6 w-6" />
               <span>Wishlist</span>
             </NavLink>
 
@@ -542,9 +547,9 @@ export default function Navbar() {
         </nav>
 
         <div className="h-16" aria-hidden="true" />
+
         {mobileCatsOpen && (
           <div className="fixed inset-0 z-[95]">
-            {/* overlay */}
             <button
               type="button"
               className="absolute inset-0 bg-black/40"
@@ -559,7 +564,7 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={() => setMobileCatsOpen(false)}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-900 hover:bg-slate-200 transition"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-900 transition hover:bg-slate-200"
                     aria-label="Close"
                   >
                     <CloseIcon className="h-5 w-5" />

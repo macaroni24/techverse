@@ -83,7 +83,6 @@ export default function ProductDetails() {
 
   const wish = isWishlisted(product.id);
 
-  // Optional placeholders (your dataset doesn’t have these yet)
   const rating = product.rating ?? 4.6;
   const reviews = product.reviewsCount ?? 128;
   const sku = product.sku ?? product.id;

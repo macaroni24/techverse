@@ -192,48 +192,7 @@ export default function Footer() {
 
 
 
-        {/* Payments / Shipping / Security */}
-        <div className="mt-14 rounded-2xl border border-slate-200 bg-white p-6">
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div>
-              <p className="text-sm font-semibold text-slate-900">Payment Methods</p>
-              <p className="mt-2 text-sm text-slate-600">
-                Visa, Mastercard, PayPal .
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Badge>Visa</Badge>
-                <Badge>Mastercard</Badge>
-                <Badge>PayPal</Badge>
-              </div>
-            </div>
 
-            <div>
-              <p className="text-sm font-semibold text-slate-900">Shipping</p>
-              <p className="mt-2 text-sm text-slate-600">
-                Standard 1–3 days • Express available.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Badge>Standard</Badge>
-                <Badge>Express</Badge>
-                <Badge>Pickup</Badge>
-              </div>
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold text-slate-900">Security</p>
-              <p className="mt-2 text-sm text-slate-600">
-                Secure checkout and protected data .
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Badge>SSL</Badge>
-                <Badge>Encrypted</Badge>
-                <Badge>Protected</Badge>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
         <div className="mt-12 flex flex-col gap-4 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-slate-500">
             © {new Date().getFullYear()} TechVerse. All rights reserved.

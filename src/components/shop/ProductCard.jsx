@@ -28,38 +28,50 @@ export default function ProductCard({ product }) {
     return () => clearTimeout(t);
   }, [added]);
 
-  function handleAddToCart() {
-    if (product.stock === 0) return; 
+  function handleAddToCart(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (product.stock === 0) return;
     addToCart(product);
     setAdded(true);
   }
 
+  function handleWishlist(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(product);
+  }
+
   return (
     <div className="group rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:shadow-md">
-     <div className="flex h-full flex-col">
-      <NavLink to={`/product/${product.id}`} className="block">
+      <div className="flex h-full flex-col">
+        <NavLink to={`/product/${product.id}`} className="block">
           <div className="relative overflow-hidden rounded-xl bg-slate-50">
-            <img
-              src={product.image}
-              alt={product.title}
-              className="h-48 w-full object-contain p-4 transition duration-300 group-hover:scale-[1.02]"
-              loading="lazy"
-            />
 
+            {/* Discount badge */}
             {hasDiscount && (
-              <span className="absolute left-3 top-3 rounded-full bg-orange-500 px-3 py-1 text-xs font-bold text-white">
+              <span className="absolute left-3 top-3 z-10 max-w-[70px] truncate rounded-full bg-orange-500 px-2 py-[3px] text-[10px] font-bold text-white shadow-sm">
                 -{discountPct}%
               </span>
             )}
 
+            {/* Product badge */}
             {product.badge && (
-              <span className="absolute right-3 top-3 rounded-full bg-emerald-900 px-3 py-1 text-xs font-semibold text-white">
+              <span className="absolute right-3 top-3 z-10 max-w-[90px] truncate rounded-full bg-emerald-900 px-2 py-[3px] text-[10px] font-semibold text-white shadow-sm">
                 {product.badge}
               </span>
             )}
+
+            <img
+              src={product.image}
+              alt={product.title}
+              className="h-48 w-full object-contain p-4 pt-10 transition duration-300 group-hover:scale-[1.02]"
+              loading="lazy"
+            />
           </div>
 
-          {/* Title: fixed visual height */}
+          {/* Title */}
           <h3 className="mt-4 line-clamp-2 min-h-[2.75rem] text-sm font-semibold text-slate-900">
             {product.title}
           </h3>
@@ -74,6 +86,7 @@ export default function ProductCard({ product }) {
               <span className="text-lg font-bold text-emerald-900">
                 {formatPriceEUR(product.price)}
               </span>
+
               {hasDiscount && (
                 <span className="text-xs text-slate-400 line-through">
                   {formatPriceEUR(product.oldPrice)}
@@ -87,36 +100,34 @@ export default function ProductCard({ product }) {
               </span>
             ) : (
               <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-900">
-              stock
+                Stock
               </span>
             )}
           </div>
         </NavLink>
 
         <div className="mt-auto pt-4 flex items-center gap-2">
-       
-
-<button
-  type="button"
-  onClick={() => toggleWishlist(product)}
-  className="inline-flex h-11 w-11 items-center justify-center transition-transform duration-200 hover:scale-110 active:scale-95"
-  aria-label={wish ? "Remove from wishlist" : "Add to wishlist"}
->
-  <svg
-    viewBox="0 0 24 24"
-    className={`h-7 w-7 transition-colors duration-200 ${
-      wish
-        ? "fill-emerald-800 stroke-emerald-800"
-        : "fill-none stroke-slate-500 hover:stroke-emerald-700"
-    }`}
-  >
-    <path
-      d="M12 21s-7.5-4.8-9.9-9.4C0.6 8.2 3.1 5 6.8 5c2.1 0 3.9 1.1 5.2 2.7C13.3 6.1 15.1 5 17.2 5c3.7 0 6.2 3.2 4.7 6.6C19.5 16.2 12 21 12 21Z"
-      strokeWidth="1.8"
-      strokeLinejoin="round"
-    />
-  </svg>
-</button>
+          <button
+            type="button"
+            onClick={handleWishlist}
+            className="inline-flex h-11 w-11 items-center justify-center transition-transform duration-200 hover:scale-110 active:scale-95"
+            aria-label={wish ? "Remove from wishlist" : "Add to wishlist"}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className={`h-7 w-7 transition-colors duration-200 ${
+                wish
+                  ? "fill-emerald-800 stroke-emerald-800"
+                  : "fill-none stroke-slate-500 hover:stroke-emerald-700"
+              }`}
+            >
+              <path
+                d="M12 21s-7.5-4.8-9.9-9.4C0.6 8.2 3.1 5 6.8 5c2.1 0 3.9 1.1 5.2 2.7C13.3 6.1 15.1 5 17.2 5c3.7 0 6.2 3.2 4.7 6.6C19.5 16.2 12 21 12 21Z"
+                strokeWidth="1.8"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
 
           <button
             type="button"
