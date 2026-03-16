@@ -11,12 +11,11 @@ export default function Home() {
       <Navbar />
       <HeroSlider />
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-     
         <h1 className="text-2xl font-bold text-slate-900">
-          Featured Products
+          Produktet e Veçuara
         </h1>
         <p className="mt-2 text-sm text-slate-600">
-          Top picks selected for you.
+          Zgjedhjet më të mira të përzgjedhura për ju.
         </p>
 
         <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-4">
@@ -27,24 +26,19 @@ export default function Home() {
 
         <SpecialOffer items={products} intervalMs={3000} />
 
-     
         <section className="mt-14">
           <h2 className="text-xl font-bold text-slate-900">
-            More Products
+            Më Shumë Produkte
           </h2>
           <p className="mt-1 text-sm text-slate-600">
-            Browse more deals and popular items.
+            Shikoni më shumë oferta dhe artikuj të njohur.
           </p>
 
-    
           <div className="mt-6 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {products.slice(4, 9).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
-
-         
-          
         </section>
       </main>
 

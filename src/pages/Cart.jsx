@@ -85,35 +85,35 @@ export default function Cart() {
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 overflow-x-hidden">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Cart</h1>
+            <h1 className="text-2xl font-bold text-slate-900">Shporta</h1>
             <p className="mt-1 text-sm text-slate-600">
-              {cartItems.length} item{cartItems.length === 1 ? "" : "s"} in your cart
+              {cartItems.length} produkt{cartItems.length === 1 ? "" : "e"} në shportën tuaj
             </p>
           </div>
 
           {cartItems.length > 0 && subtotal >= 100 && (
             <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-900">
-              Free delivery applied
+              Dërgesa falas u aplikua
             </span>
           )}
         </div>
 
         {cartItems.length === 0 ? (
           <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-10 text-center">
-            <p className="text-lg font-semibold text-slate-900">Your cart is empty</p>
+            <p className="text-lg font-semibold text-slate-900">Shporta juaj është bosh</p>
             <p className="mt-2 text-sm text-slate-600">
-              Add products to your cart to see them here.
+              Shtoni produkte në shportë për t&apos;i parë këtu.
             </p>
             <a
               href="/shop"
               className="mt-5 inline-flex rounded-md bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 transition"
             >
-              Go to Shop
+              Shko te Dyqani
             </a>
           </div>
         ) : (
           <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-           <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
               <div className="divide-y divide-slate-100">
                 {cartItems.map((item) => {
                   const qty = Number(item.qty || 1);
@@ -169,7 +169,7 @@ export default function Cart() {
                             </div>
                           ) : (
                             <span className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900">
-                              Qty: {qty}
+                              Sasia: {qty}
                             </span>
                           )}
 
@@ -184,21 +184,21 @@ export default function Cart() {
                                     : "bg-white text-slate-900 border border-slate-200 hover:bg-slate-50"
                                 }`}
                               >
-                                {isWishlisted(item.id) ? "Wishlisted" : "Save"}
+                                {isWishlisted(item.id) ? "Në listën e dëshirave" : "Ruaj"}
                               </button>
                             )}
 
-                           {typeof removeFromCart === "function" ? (
+                          {typeof removeFromCart === "function" ? (
                             <button
                               type="button"
                               onClick={() => removeFromCart(item.id)}
                               className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition whitespace-nowrap"
                             >
-                              Remove
+                              Largo
                             </button>
                           ) : (
                             <span className="text-xs text-slate-500">
-                              (Remove function missing in store)
+                              (Mungon funksioni për largim në store)
                             </span>
                           )}
                         </div>
@@ -209,7 +209,7 @@ export default function Cart() {
                           {formatPriceEUR(lineTotal)}
                         </p>
                         <p className="mt-1 text-xs text-slate-500">
-                          {formatPriceEUR(item.price)} each
+                          {formatPriceEUR(item.price)} secila
                         </p>
                       </div>
                     </div>
@@ -219,25 +219,25 @@ export default function Cart() {
             </div>
 
             <aside className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <h2 className="text-lg font-bold text-slate-900">Order summary</h2>
+              <h2 className="text-lg font-bold text-slate-900">Përmbledhja e porosisë</h2>
 
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-600">Subtotal</span>
+                  <span className="text-slate-600">Nëntotali</span>
                   <span className="font-semibold text-slate-900">
                     {formatPriceEUR(subtotal)}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-600">Shipping</span>
+                  <span className="text-slate-600">Transporti</span>
                   <span className="font-semibold text-slate-900">
-                    {shipping === 0 ? "Free" : formatPriceEUR(shipping)}
+                    {shipping === 0 ? "Falas" : formatPriceEUR(shipping)}
                   </span>
                 </div>
 
                 <div className="pt-3 mt-3 border-t border-slate-200 flex items-center justify-between">
-                  <span className="text-slate-900 font-semibold">Total</span>
+                  <span className="text-slate-900 font-semibold">Totali</span>
                   <span className="text-slate-900 font-bold">
                     {formatPriceEUR(total)}
                   </span>
@@ -259,11 +259,11 @@ export default function Cart() {
                 }}
                 className="mt-5 w-full rounded-md bg-orange-500 px-5 py-3 text-sm font-semibold text-white hover:bg-orange-600 transition"
               >
-                Checkout
+                Vazhdo me pagesën
               </button>
 
               <p className="mt-3 text-xs text-slate-500">
-                Free delivery over €100. Taxes included where applicable.
+                Dërgesë falas mbi €100. Taksat përfshihen aty ku aplikohen.
               </p>
             </aside>
           </div>

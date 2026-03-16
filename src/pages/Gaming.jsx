@@ -8,8 +8,8 @@ export default function Gaming() {
     const t = (p.title || "").toLowerCase();
     const c = (p.category || "").toLowerCase();
 
-    const isGamingPc = c === "gaming pcs" || t.includes("gaming pc");
-    const isGamingLaptop = c === "laptops" && t.includes("gaming");
+    const isGamingPc = c === "gaming pc" || c === "gaming pcs" || t.includes("gaming pc");
+    const isGamingLaptop = c === "laptop" || c === "laptops" ? t.includes("gaming") : false;
 
     return isGamingPc || isGamingLaptop;
   });
@@ -22,17 +22,17 @@ export default function Gaming() {
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-slate-900">Gaming</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Gaming PCs and gaming laptops.
+            Gaming PC dhe laptopë gaming.
           </p>
         </div>
 
         {gamingProducts.length === 0 ? (
           <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center">
             <p className="text-lg font-semibold text-slate-900">
-              No gaming products found
+              Nuk u gjetën produkte gaming
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              Please check back later.
+              Ju lutem kontrolloni përsëri më vonë.
             </p>
           </div>
         ) : (

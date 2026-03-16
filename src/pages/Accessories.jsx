@@ -4,24 +4,24 @@ import ProductCard from "../components/shop/ProductCard";
 import { products } from "../data/products";
 
 function isMonitorLike(t, c) {
-  return c === "monitors" || c === "monitor" || t.includes("monitor");
+  return c === "monitor" || c === "monitora" || t.includes("monitor");
 }
 
 function isAccessoryLike(t, c) {
   return (
-    c === "smart accessories" ||
-    c === "accessories" ||
-    c === "keyboards & mice" ||
-    c === "keyboards and mice" ||
-    t.includes("keyboard") ||
-    t.includes("mouse") ||
+    c === "smart aksesor" ||
+    c === "aksesor" ||
+    c === "tastiera & maus" ||
+    c === "tastiera dhe maus" ||
+    t.includes("tastiere") ||
+    t.includes("maus") ||
     t.includes("headset") ||
     t.includes("earbud") ||
     t.includes("airpods") ||
-    t.includes("watch") ||
-    t.includes("controller") ||
-    t.includes("charger") ||
-    t.includes("cable") ||
+    t.includes("ore") ||
+    t.includes("kontroller") ||
+    t.includes("karikues") ||
+    t.includes("kabllo") ||
     t.includes("case")
   );
 }
@@ -32,7 +32,6 @@ export default function Accessories() {
     const c = (p.category || "").toLowerCase();
 
     if (!isAccessoryLike(t, c)) return false;
-
     if (isMonitorLike(t, c)) return false;
 
     return true;
@@ -44,16 +43,16 @@ export default function Accessories() {
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-900">Accessories</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Aksesorë</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Keyboards, mice, smart accessories and more.
+            Tastiera, mausë, aksesorë smart dhe më shumë.
           </p>
         </div>
 
         {accessoriesProducts.length === 0 ? (
           <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center">
-            <p className="text-lg font-semibold text-slate-900">No accessories found</p>
-            <p className="mt-2 text-sm text-slate-600">Please check back later.</p>
+            <p className="text-lg font-semibold text-slate-900">Nuk u gjetën aksesorë</p>
+            <p className="mt-2 text-sm text-slate-600">Ju lutem kontrolloni më vonë.</p>
           </div>
         ) : (
           <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">

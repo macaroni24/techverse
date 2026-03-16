@@ -71,9 +71,9 @@ export default function Login() {
 
   function validate() {
     const emailOk = /^\S+@\S+\.\S+$/.test(form.email.trim());
-    if (mode === "signup" && form.name.trim().length < 2) return "Please enter your full name.";
-    if (!emailOk) return "Please enter a valid email address.";
-    if (form.password.length < 6) return "Password must be at least 6 characters.";
+    if (mode === "signup" && form.name.trim().length < 2) return "Ju lutem shkruani emrin tuaj të plotë.";
+    if (!emailOk) return "Ju lutem shkruani një adresë emaili të vlefshme.";
+    if (form.password.length < 6) return "Fjalëkalimi duhet të ketë të paktën 6 karaktere.";
     return "";
   }
 
@@ -96,7 +96,7 @@ export default function Login() {
 
     const authPayload = {
       mode,
-      name: mode === "signup" ? form.name.trim() : "TechVerse User",
+      name: mode === "signup" ? form.name.trim() : "Përdoruesi TechVerse",
       email: form.email.trim().toLowerCase(),
       remember: form.remember,
       ts: Date.now(),
@@ -115,12 +115,12 @@ export default function Login() {
         <section className="w-full max-w-md rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
           <div className="text-center">
             <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-              {mode === "login" ? "Sign in" : "Create account"}
+              {mode === "login" ? "Kyçu" : "Krijo llogari"}
             </h1>
             <p className="mt-2 text-sm leading-6 text-slate-600">
               {mode === "login"
-                ? "Use your email address and password to access your account."
-                : "Create your account to save your wishlist and manage your orders."}
+                ? "Përdorni adresën tuaj të emailit dhe fjalëkalimin për të hyrë në llogarinë tuaj."
+                : "Krijoni llogarinë tuaj për të ruajtur listën e dëshirave dhe për të menaxhuar porositë."}
             </p>
           </div>
 
@@ -135,7 +135,7 @@ export default function Login() {
                   : "text-slate-500 hover:text-slate-800"
               )}
             >
-              Login
+              Kyçu
               {mode === "login" && (
                 <span className="absolute inset-x-0 -bottom-[13px] h-0.5 rounded-full bg-emerald-900" />
               )}
@@ -151,7 +151,7 @@ export default function Login() {
                   : "text-slate-500 hover:text-slate-800"
               )}
             >
-              Sign up
+              Regjistrohu
               {mode === "signup" && (
                 <span className="absolute inset-x-0 -bottom-[13px] h-0.5 rounded-full bg-emerald-900" />
               )}
@@ -160,7 +160,7 @@ export default function Login() {
 
           {err && (
             <div className="mt-5 rounded-2xl border border-orange-200 bg-orange-50 p-4 text-sm text-orange-800">
-              <p className="font-semibold">Please review the following:</p>
+              <p className="font-semibold">Ju lutem kontrolloni sa vijon:</p>
               <p className="mt-1">{err}</p>
             </div>
           )}
@@ -168,32 +168,32 @@ export default function Login() {
           <form onSubmit={onSubmit} className="mt-6 space-y-5">
             {mode === "signup" && (
               <div>
-                <label className="text-sm font-semibold text-slate-900">Full name</label>
+                <label className="text-sm font-semibold text-slate-900">Emri i plotë</label>
                 <input
                   name="name"
                   value={form.name}
                   onChange={onChange}
-                  placeholder="Enter your full name"
+                  placeholder="Shkruani emrin tuaj të plotë"
                   className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
                 />
               </div>
             )}
 
             <div>
-              <label className="text-sm font-semibold text-slate-900">Email address</label>
+              <label className="text-sm font-semibold text-slate-900">Adresa e emailit</label>
               <input
                 name="email"
                 value={form.email}
                 onChange={onChange}
                 type="email"
                 autoComplete="email"
-                placeholder="you@example.com"
+                placeholder="ju@shembull.com"
                 className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
               />
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-slate-900">Password</label>
+              <label className="text-sm font-semibold text-slate-900">Fjalëkalimi</label>
               <div className="mt-2 flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 focus-within:ring-2 focus-within:ring-orange-200">
                 <input
                   name="password"
@@ -208,7 +208,7 @@ export default function Login() {
                   type="button"
                   onClick={() => setShowPw((v) => !v)}
                   className="inline-flex h-10 w-10 items-center justify-center rounded-xl transition hover:bg-slate-50"
-                  aria-label={showPw ? "Hide password" : "Show password"}
+                  aria-label={showPw ? "Fsheh fjalëkalimin" : "Shfaq fjalëkalimin"}
                 >
                   {showPw ? (
                     <EyeOffIcon className="h-5 w-5 text-slate-700" />
@@ -217,7 +217,7 @@ export default function Login() {
                   )}
                 </button>
               </div>
-              <p className="mt-2 text-xs text-slate-500">Use at least 6 characters.</p>
+              <p className="mt-2 text-xs text-slate-500">Përdorni të paktën 6 karaktere.</p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -229,14 +229,14 @@ export default function Login() {
                   onChange={onChange}
                   className="h-4 w-4 rounded border-slate-300"
                 />
-                Remember me
+                Më mbaj mend
               </label>
 
               <button
                 type="button"
                 className="text-sm font-semibold text-emerald-900 hover:text-emerald-950"
               >
-                Forgot password?
+                Keni harruar fjalëkalimin?
               </button>
             </div>
 
@@ -251,33 +251,33 @@ export default function Login() {
               )}
             >
               {loading
-                ? "Please wait..."
+                ? "Ju lutem prisni..."
                 : mode === "login"
-                ? "Sign in"
-                : "Create account"}
+                ? "Kyçu"
+                : "Krijo llogari"}
             </button>
 
             <p className="text-center text-sm text-slate-600">
               {mode === "login" ? (
                 <>
-                  Don’t have an account?{" "}
+                  Nuk keni llogari?{" "}
                   <button
                     type="button"
                     onClick={() => setMode("signup")}
                     className="font-semibold text-emerald-900 hover:text-emerald-950"
                   >
-                    Sign up
+                    Regjistrohu
                   </button>
                 </>
               ) : (
                 <>
-                  Already have an account?{" "}
+                  Keni tashmë llogari?{" "}
                   <button
                     type="button"
                     onClick={() => setMode("login")}
                     className="font-semibold text-emerald-900 hover:text-emerald-950"
                   >
-                    Log in
+                    Kyçu
                   </button>
                 </>
               )}

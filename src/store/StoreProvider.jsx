@@ -114,6 +114,6 @@ export function StoreProvider({ children }) {
 
 export function useStore() {
   const ctx = useContext(StoreContext);
-  if (!ctx) throw new Error("useStore must be used inside StoreProvider");
+  if (!ctx) throw new Error("useStore duhet te perdoret brenda StoreProvider");
   return ctx;
 }

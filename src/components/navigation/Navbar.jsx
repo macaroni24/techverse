@@ -6,9 +6,9 @@ import logo from "../../assets/logo.png";
 
 const categories = [
   { label: "Gaming", to: "/gaming" },
-  { label: "Laptops & Phones", to: "/laptops-phones" },
-  { label: "Accessories", to: "/Accessories" },
-  { label: "Monitors", to: "/Monitors" },
+  { label: "Laptopë & Telefona", to: "/laptops-phones" },
+  { label: "Aksesorë", to: "/Accessories" },
+  { label: "Monitorë", to: "/Monitors" },
 ];
 
 function cx(...classes) {
@@ -196,7 +196,7 @@ export default function Navbar() {
             className
           )}
         >
-          No results. Press <span className="font-semibold">Search</span> to view in Shop.
+          Nuk u gjet asgjë. Shtypni <span className="font-semibold">Kërko</span> për ta parë në Dyqan.
         </div>
       );
     }
@@ -237,13 +237,13 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center justify-between border-t border-slate-100 bg-white px-4 py-3">
-          <p className="text-xs text-slate-500">Showing top {suggestions.length} results</p>
+          <p className="text-xs text-slate-500">Po shfaqen {suggestions.length} rezultatet kryesore</p>
           <button
             type="button"
             onClick={() => goToShopSearch(query)}
             className="text-sm font-semibold text-orange-600 hover:text-orange-700"
           >
-            View all
+            Shiko të gjitha
           </button>
         </div>
       </div>
@@ -255,17 +255,16 @@ export default function Navbar() {
       <div className="bg-emerald-950 text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6">
           <p className="text-[11px] text-white/80 sm:text-xs">
-            Free delivery over <span className="font-semibold text-white">€100</span>
+            Dërgesë falas mbi <span className="font-semibold text-white">€100</span>
           </p>
           <p className="text-[11px] text-white/80 sm:text-xs">
-            Support: <span className="font-semibold text-white">24/7</span>
+            Mbështetje: <span className="font-semibold text-white">24/7</span>
           </p>
         </div>
       </div>
 
       <div className="bg-emerald-900 text-white shadow-sm">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
-          {/* MOBILE */}
           <div className="md:hidden">
             <div className="flex items-center justify-between gap-3">
               <NavLink to="/" className="flex min-w-0 shrink-0 items-center">
@@ -280,7 +279,7 @@ export default function Navbar() {
                 <NavLink
                   to="/wishlist"
                   className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition hover:bg-white/10"
-                  aria-label="Wishlist"
+                  aria-label="Lista e dëshirave"
                 >
                   <HeartIcon className="h-5 w-5" />
                   {wishlistCount > 0 && (
@@ -293,7 +292,7 @@ export default function Navbar() {
                 <NavLink
                   to="/cart"
                   className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition hover:bg-white/10"
-                  aria-label="Cart"
+                  aria-label="Shporta"
                 >
                   <CartIcon className="h-5 w-5" />
                   {cartCount > 0 && (
@@ -306,7 +305,7 @@ export default function Navbar() {
                 <NavLink
                   to="/login"
                   className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/15"
-                  aria-label="Login"
+                  aria-label="Kyçu"
                 >
                   <UserIcon className="h-5 w-5" />
                 </NavLink>
@@ -327,7 +326,7 @@ export default function Navbar() {
                       onFocus={() => {
                         if (query.trim()) setSuggestOpen(true);
                       }}
-                      placeholder="Search products..."
+                      placeholder="Kërko produkte..."
                       className="w-full bg-transparent text-[14px] text-slate-900 placeholder:text-slate-500 focus:outline-none"
                     />
                     <button
@@ -339,7 +338,7 @@ export default function Navbar() {
                           ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                           : "cursor-not-allowed text-slate-300"
                       )}
-                      aria-label="Search"
+                      aria-label="Kërko"
                     >
                       <SearchIcon className="h-5 w-5" />
                     </button>
@@ -351,9 +350,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* DESKTOP */}
           <div className="hidden md:flex md:items-center md:justify-between md:gap-6">
-            {/* left */}
             <NavLink to="/" className="flex shrink-0 items-center">
               <img
                 src={logo}
@@ -362,7 +359,6 @@ export default function Navbar() {
               />
             </NavLink>
 
-            {/* center */}
             <div className="w-full max-w-[560px] lg:max-w-[620px] xl:max-w-[680px]">
               <div data-searchbox="true" className="relative">
                 <form onSubmit={onSubmit}>
@@ -377,7 +373,7 @@ export default function Navbar() {
                       onFocus={() => {
                         if (query.trim()) setSuggestOpen(true);
                       }}
-                      placeholder="Search products..."
+                      placeholder="Kërko produkte..."
                       className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none"
                     />
                     <button
@@ -389,7 +385,7 @@ export default function Navbar() {
                           ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                           : "cursor-not-allowed text-slate-300"
                       )}
-                      aria-label="Search"
+                      aria-label="Kërko"
                     >
                       <SearchIcon className="h-5 w-5" />
                     </button>
@@ -400,12 +396,11 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* right */}
             <div className="flex shrink-0 items-center gap-1">
               <NavLink
                 to="/wishlist"
                 className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition hover:bg-white/10"
-                aria-label="Wishlist"
+                aria-label="Lista e dëshirave"
               >
                 <HeartIcon className="h-6 w-6" />
                 {wishlistCount > 0 && (
@@ -418,7 +413,7 @@ export default function Navbar() {
               <NavLink
                 to="/cart"
                 className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition hover:bg-white/10"
-                aria-label="Cart"
+                aria-label="Shporta"
               >
                 <CartIcon className="h-6 w-6" />
                 {cartCount > 0 && (
@@ -431,7 +426,7 @@ export default function Navbar() {
               <NavLink
                 to="/login"
                 className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/15"
-                aria-label="Login"
+                aria-label="Kyçu"
               >
                 <UserIcon className="h-5 w-5" />
               </NavLink>
@@ -452,7 +447,7 @@ export default function Navbar() {
                 )
               }
             >
-              Shop
+              Dyqani
             </NavLink>
 
             {categories.map((c) => (
@@ -481,7 +476,7 @@ export default function Navbar() {
               }
             >
               <HomeIcon className="h-6 w-6" />
-              <span>Home</span>
+              <span>Ballina</span>
             </NavLink>
 
             <button
@@ -497,7 +492,7 @@ export default function Navbar() {
               aria-expanded={mobileCatsOpen}
             >
               <MenuIcon className="h-6 w-6" />
-              <span>Categories</span>
+              <span>Kategoritë</span>
             </button>
 
             <NavLink
@@ -510,7 +505,7 @@ export default function Navbar() {
               }
             >
               <CartIcon className="h-6 w-6" />
-              <span>Cart</span>
+              <span>Shporta</span>
               {cartCount > 0 && (
                 <span className="absolute right-3 top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-500 px-1 text-[11px] font-bold text-white">
                   {cartCount > 99 ? "99+" : cartCount}
@@ -528,7 +523,7 @@ export default function Navbar() {
               }
             >
               <HeartIcon className="h-6 w-6" />
-              <span>Wishlist</span>
+              <span>Dëshirat</span>
             </NavLink>
 
             <NavLink
@@ -541,7 +536,7 @@ export default function Navbar() {
               }
             >
               <UserIcon className="h-6 w-6" />
-              <span>Login</span>
+              <span>Kyçu</span>
             </NavLink>
           </div>
         </nav>
@@ -554,18 +549,18 @@ export default function Navbar() {
               type="button"
               className="absolute inset-0 bg-black/40"
               onClick={() => setMobileCatsOpen(false)}
-              aria-label="Close categories"
+              aria-label="Mbyll kategoritë"
             />
 
             <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white shadow-2xl">
               <div className="mx-auto max-w-7xl px-4 py-4">
                 <div className="flex items-center justify-between">
-                  <p className="text-base font-bold text-slate-900">Categories</p>
+                  <p className="text-base font-bold text-slate-900">Kategoritë</p>
                   <button
                     type="button"
                     onClick={() => setMobileCatsOpen(false)}
                     className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-900 transition hover:bg-slate-200"
-                    aria-label="Close"
+                    aria-label="Mbyll"
                   >
                     <CloseIcon className="h-5 w-5" />
                   </button>
@@ -577,7 +572,7 @@ export default function Navbar() {
                     onClick={() => setMobileCatsOpen(false)}
                     className="rounded-md border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50"
                   >
-                    Shop
+                    Dyqani
                   </NavLink>
 
                   {categories.map((c) => (

@@ -1,8 +1,4 @@
-
 export const products = [
-  // =========================
-  // Gaming PCs (6)
-  // =========================
   {
     id: "pc-rtx4070-ryzen7",
     title: "Gaming PC Ryzen 7 + RTX 4070 (32GB RAM, 1TB SSD)",
@@ -11,7 +7,7 @@ export const products = [
     price: 1599.99,
     oldPrice: 1799.99,
     stock: 7,
-    badge: "Best Deal",
+    badge: "Oferta më e mirë",
     image:
       "https://content.ibuypower.com/cdn-cgi/image/width=828,format=auto,quality=75/https://content.ibuypower.com/Images/Components/26640/CS-IBP-Y40P-B-V2-2400.png?v=3590630d81f94d3fd558ec036d4e7b0d0186cf9b",
   },
@@ -47,7 +43,7 @@ export const products = [
     price: 1799.99,
     oldPrice: 1999.99,
     stock: 6,
-    badge: "New",
+    badge: "E re",
     image:
       "https://www.alan.ae/cdn/shop/files/IMG_1712-3_700x700.png?v=1721746373",
   },
@@ -75,10 +71,6 @@ export const products = [
     image:
       "https://assets.corsair.com/image/upload/v1728426047/products/Systems/i7600/content/vengeance_i7600_specs.png",
   },
-
-  // =========================
-  // Phones (8)
-  // =========================
   {
     id: "iphone-15-pro-256",
     title: "Apple iPhone 15 Pro (256GB)",
@@ -87,7 +79,7 @@ export const products = [
     price: 1299.99,
     oldPrice: 0,
     stock: 9,
-    badge: "New",
+    badge: "E re",
     image:
       "https://assets.swappie.com/cdn-cgi/image/width=600,height=600,fit=contain,format=auto/swappie-iphone-15-pro-natural-titanium.png?v=cc5784d1",
   },
@@ -99,7 +91,7 @@ export const products = [
     price: 999.99,
     oldPrice: 1099.99,
     stock: 10,
-    badge: "Sale",
+    badge: "Zbritje",
     image:
       "https://samtronixguyana.com/cdn/shop/files/in-galaxy-s24-s928-sm-s928bztcins-539573310_800x.png?v=1758126739",
   },
@@ -147,7 +139,7 @@ export const products = [
     price: 899.99,
     oldPrice: 999.99,
     stock: 12,
-    badge: "Fast",
+    badge: "I shpejtë",
     image:
       "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Communication/Mobiles/Images/312536_0_ymiz2z.png?tr=w-600",
   },
@@ -159,14 +151,14 @@ export const products = [
     price: 699.99,
     oldPrice: 749.99,
     stock: 15,
-    badge: "Deal",
+    badge: "Ofertë",
     image:
       "https://salgsbutikken.dk/images/6941812712153.png",
   },
   {
-    id: "Iphone-17-1tb",
-    title: "Iphone 17 (1TB )",
-    brand: "Phones",
+    id: "iphone-17-1tb",
+    title: "Apple iPhone 17 (1TB)",
+    brand: "Apple",
     category: "Phones",
     price: 1999.99,
     oldPrice: 0,
@@ -175,16 +167,11 @@ export const products = [
     image:
       "https://img-prd-pim.poorvika.com/cdn-cgi/image/width=500,height=500,quality=75/product/Apple-iphone-17-pro-cosmic-orange-1Tb-Front-Back-View.png",
   },
-
-  // =========================
-  // Laptops (7)
-  // =========================
   {
     id: "laptop-asus-tuf-4060",
     title: "ASUS TUF Gaming Laptop (Ryzen 7, RTX 4060, 16GB, 512GB)",
     brand: "ASUS",
     category: "Laptops",
-    category: "Gaming PCs",
     price: 1299.99,
     oldPrice: 1399.99,
     stock: 5,
@@ -203,11 +190,6 @@ export const products = [
     badge: "Top",
     image:
       "https://ipowerresale.com/cdn/shop/files/media_834668a8-f04d-4df8-88f4-0caa85f553cb.png?v=1766098444",
-      image:
-      "https://ipowerresale.com/cdn/shop/files/media_834668a8-f04d-4df8-88f4-0caa85f553cb.png?v=1766098444",
-      image:
-      "https://ipowerresale.com/cdn/shop/files/media_834668a8-f04d-4df8-88f4-0caa85f553cb.png?v=1766098444",
-      
   },
   {
     id: "laptop-lenovo-legion-4070",
@@ -269,10 +251,6 @@ export const products = [
     image:
       "https://storage-asset.msi.com/global/picture/image/feature/nb/GF/Katana-15-A13V/cpu15-img.png",
   },
-
-  // =========================
-  // Smart Accessories (7)
-  // =========================
   {
     id: "airpods-pro-2",
     title: "Apple AirPods Pro (2nd Gen)",
@@ -325,7 +303,6 @@ export const products = [
     title: "Logitech G PRO X Headset (Blue VO!CE)",
     brand: "Logitech",
     category: "Smart Accessories",
-    category: "Gaming PCs",
     price: 129.99,
     oldPrice: 149.99,
     stock: 18,
@@ -341,7 +318,7 @@ export const products = [
     price: 49.99,
     oldPrice: 59.99,
     stock: 30,
-    badge: "Fast",
+    badge: "I shpejtë",
     image:
       "https://droni.lv/wp-content/uploads/2024/01/A2668311-Anker_735_Charger_GaNPrime_65W_2_3840x.webp",
   },
@@ -353,20 +330,15 @@ export const products = [
     price: 39.99,
     oldPrice: 49.99,
     stock: 40,
-    badge: "Travel",
+    badge: "Udhëtim",
     image:
       "https://www.3chub.com/cdn/shop/files/PB20PD3.png?v=1707920273",
   },
-
-  // =========================
-  // Monitors (6)
-  // =========================
   {
     id: "monitor-27-165-ips",
     title: `27" Gaming Monitor 165Hz (1ms, IPS)`,
     brand: "MSI",
     category: "Monitors",
-    category: "Gaming PCs",
     price: 249.99,
     oldPrice: 299.99,
     stock: 18,
@@ -382,7 +354,7 @@ export const products = [
     price: 399.99,
     oldPrice: 449.99,
     stock: 8,
-    badge: "Deal",
+    badge: "Ofertë",
     image:
       "https://pixiogaming.com/cdn/shop/files/PXC348CMain2.png?v=1714520681&width=3840",
   },
@@ -434,16 +406,11 @@ export const products = [
     image:
       "https://images.samsung.com/is/image/samsung/sa-en-odyssey-g9-lc49g95tssmxue-swivelwhite-300721582?$Q90_1248_936_F_PNG$",
   },
-
-  // =========================
-  // PC Components (8)
-  // =========================
   {
     id: "gpu-rtx-4070-12gb",
     title: "NVIDIA GeForce RTX 4070 12GB",
     brand: "NVIDIA",
     category: "PC Components",
-    category: "Gaming PCs",
     price: 649.99,
     oldPrice: 699.99,
     stock: 6,
@@ -456,7 +423,6 @@ export const products = [
     title: "AMD Ryzen 7 Processor (8-Core)",
     brand: "AMD",
     category: "PC Components",
-    category: "Gaming PCs",
     price: 299.99,
     oldPrice: 349.99,
     stock: 11,
@@ -472,7 +438,7 @@ export const products = [
     price: 79.99,
     oldPrice: 99.99,
     stock: 40,
-    badge: "Fast",
+    badge: "I shpejtë",
     image:
       "https://www.datarecovery.net/i/misc/crucial-p1-nvme-ssd-data-recovery%20.png",
   },
@@ -536,16 +502,11 @@ export const products = [
     image:
       "https://asset.msi.com/resize/image/global/product/product_1704700391c0ff70dde2655cc06ad6ccc5737c84bf.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png",
   },
-
-  // =========================
-  // Keyboards & Mice (6)
-  // =========================
   {
     id: "kb-mech-blue",
     title: "Mechanical Keyboard (RGB, Blue Switches)",
     brand: "Logitech",
     category: "Keyboards & Mice",
-    category: "Gaming PCs",
     price: 89.99,
     oldPrice: 99.99,
     stock: 30,
@@ -557,8 +518,7 @@ export const products = [
     id: "mouse-gaming-dpi",
     title: "Gaming Mouse (Adjustable DPI)",
     brand: "Razer",
-    category: "Gaming PCs",
-    category: "Gaming",
+    category: "Keyboards & Mice",
     price: 49.99,
     oldPrice: 0,
     stock: 22,
@@ -570,7 +530,6 @@ export const products = [
     id: "kb-keychron-k2",
     title: "Keychron K2 Wireless Mechanical Keyboard",
     brand: "Keychron",
-    category: "Gaming PCs",
     category: "Keyboards & Mice",
     price: 99.99,
     oldPrice: 119.99,
@@ -584,7 +543,6 @@ export const products = [
     title: "Logitech G PRO X Superlight Wireless Mouse",
     brand: "Logitech",
     category: "Keyboards & Mice",
-    category: "Gaming PCs",
     price: 129.99,
     oldPrice: 149.99,
     stock: 12,
@@ -609,7 +567,6 @@ export const products = [
     title: "SteelSeries Rival 3 Gaming Mouse",
     brand: "SteelSeries",
     category: "Keyboards & Mice",
-    category: "Gaming PCs",
     price: 34.99,
     oldPrice: 39.99,
     stock: 20,
@@ -617,16 +574,11 @@ export const products = [
     image:
       "https://images.ctfassets.net/hmm5mo4qf4mf/uoYR01YJuSC6xBtuV3d01/afa49490acb84e3d78b761c0c907d597/buyimg_rival3wl_005.png__1920x1080_crop-fit_optimize_subsampling-2-1377.png",
   },
-
-  // =========================
-  // Gaming Consoles (NEW category) (2)
-  // =========================
   {
     id: "ps5-slim-1tb",
     title: "PlayStation 5 Slim (1TB)",
     brand: "Sony",
     category: "Gaming Consoles",
-    category: "Gaming PCs",
     price: 549.99,
     oldPrice: 599.99,
     stock: 9,
@@ -639,7 +591,6 @@ export const products = [
     title: "PlayStation DualSense Wireless Controller",
     brand: "Sony",
     category: "Gaming Consoles",
-    category: "Gaming PCs",
     price: 69.99,
     oldPrice: 79.99,
     stock: 25,

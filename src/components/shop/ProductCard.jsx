@@ -48,15 +48,12 @@ export default function ProductCard({ product }) {
       <div className="flex h-full flex-col">
         <NavLink to={`/product/${product.id}`} className="block">
           <div className="relative overflow-hidden rounded-xl bg-slate-50">
-
-            {/* Discount badge */}
             {hasDiscount && (
               <span className="absolute left-3 top-3 z-10 max-w-[70px] truncate rounded-full bg-orange-500 px-2 py-[3px] text-[10px] font-bold text-white shadow-sm">
                 -{discountPct}%
               </span>
             )}
 
-            {/* Product badge */}
             {product.badge && (
               <span className="absolute right-3 top-3 z-10 max-w-[90px] truncate rounded-full bg-emerald-900 px-2 py-[3px] text-[10px] font-semibold text-white shadow-sm">
                 {product.badge}
@@ -71,7 +68,6 @@ export default function ProductCard({ product }) {
             />
           </div>
 
-          {/* Title */}
           <h3 className="mt-4 line-clamp-2 min-h-[2.75rem] text-sm font-semibold text-slate-900">
             {product.title}
           </h3>
@@ -80,7 +76,6 @@ export default function ProductCard({ product }) {
             {product.brand} • {product.category}
           </p>
 
-          {/* Price */}
           <div className="mt-3 flex items-end justify-between">
             <div className="flex flex-col">
               <span className="text-lg font-bold text-emerald-900">
@@ -96,11 +91,11 @@ export default function ProductCard({ product }) {
 
             {product.stock === 0 ? (
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">
-                Out of stock
+                Pa stok
               </span>
             ) : (
               <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-900">
-                Stock
+                Stok
               </span>
             )}
           </div>
@@ -111,7 +106,7 @@ export default function ProductCard({ product }) {
             type="button"
             onClick={handleWishlist}
             className="inline-flex h-11 w-11 items-center justify-center transition-transform duration-200 hover:scale-110 active:scale-95"
-            aria-label={wish ? "Remove from wishlist" : "Add to wishlist"}
+            aria-label={wish ? "Largo nga lista e dëshirave" : "Shto në listën e dëshirave"}
           >
             <svg
               viewBox="0 0 24 24"
@@ -141,7 +136,7 @@ export default function ProductCard({ product }) {
                 : "bg-orange-500 text-white hover:bg-orange-600"
             }`}
           >
-            {product.stock === 0 ? "Out of stock" : added ? "Added" : "Add"}
+            {product.stock === 0 ? "Pa stok" : added ? "U shtua" : "Shto"}
           </button>
         </div>
       </div>

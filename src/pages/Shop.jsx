@@ -75,33 +75,33 @@ export default function Shop() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">
-              {categoryParam !== "All" ? categoryParam : "Shop"}
+              {categoryParam !== "All" ? categoryParam : "Dyqani"}
             </h1>
             <p className="mt-1 text-sm text-slate-600">
-              {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
-              {searchParam ? ` for “${searchParam}”` : ""}
+              {filteredProducts.length} produkt{filteredProducts.length !== 1 ? "e" : ""}
+              {searchParam ? ` për “${searchParam}”` : ""}
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <label className="text-sm font-medium text-slate-700">Sort by</label>
+            <label className="text-sm font-medium text-slate-700">Rendit sipas</label>
 
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
               className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-200"
             >
-              <option value="relevance">Relevance</option>
-              <option value="price-asc">Price: Low → High</option>
-              <option value="price-desc">Price: High → Low</option>
-              <option value="discount">Best Discount</option>
+              <option value="relevance">Relevanca</option>
+              <option value="price-asc">Çmimi: Ulët → Lartë</option>
+              <option value="price-desc">Çmimi: Lartë → Ulët</option>
+              <option value="discount">Zbritja më e madhe</option>
             </select>
 
             <NavLink
               to="/shop"
               className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition"
             >
-              Clear
+              Pastro
             </NavLink>
           </div>
         </div>
@@ -114,15 +114,15 @@ export default function Shop() {
 
         {filteredProducts.length === 0 && (
           <div className="mt-12 rounded-xl border border-slate-200 bg-white p-10 text-center">
-            <p className="text-lg font-semibold text-slate-900">No products found</p>
+            <p className="text-lg font-semibold text-slate-900">Nuk u gjet asnjë produkt</p>
             <p className="mt-2 text-sm text-slate-600">
-              Try a different category or clear filters.
+              Provoni një kategori tjetër ose pastroni filtrat.
             </p>
             <NavLink
               to="/shop"
               className="mt-5 inline-flex rounded-md bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 transition"
             >
-              Back to Shop
+              Kthehu te Dyqani
             </NavLink>
           </div>
         )}

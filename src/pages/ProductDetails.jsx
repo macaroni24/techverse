@@ -87,15 +87,15 @@ export default function ProductDetails() {
         <Navbar />
         <div className="mx-auto max-w-6xl px-4 py-10">
           <div className="rounded-2xl border border-slate-200 bg-white p-6">
-            <h1 className="text-lg font-semibold text-slate-900">Product not found</h1>
+            <h1 className="text-lg font-semibold text-slate-900">Produkti nuk u gjet</h1>
             <p className="mt-2 text-sm text-slate-600">
-              The product you’re looking for doesn’t exist or was removed.
+              Produkti që po kërkoni nuk ekziston ose është larguar.
             </p>
             <NavLink
               to="/shop"
               className="mt-6 inline-flex rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
             >
-              Back to Shop
+              Kthehu te Dyqani
             </NavLink>
           </div>
         </div>
@@ -120,7 +120,7 @@ export default function ProductDetails() {
             onClick={() => navigate(-1)}
             className="inline-flex items-center gap-2 rounded-md border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
           >
-            <span aria-hidden>←</span> Back
+            <span aria-hidden>←</span> Kthehu
           </button>
 
           {product.badge && (
@@ -145,7 +145,7 @@ export default function ProductDetails() {
                           ? "border-orange-500"
                           : "border-slate-200 hover:border-slate-300"
                       }`}
-                      aria-label={`Select image ${idx + 1}`}
+                      aria-label={`Zgjidh imazhin ${idx + 1}`}
                     >
                       <img
                         src={src}
@@ -192,7 +192,7 @@ export default function ProductDetails() {
                 <span className="inline-flex items-center gap-1">
                   <span className="text-orange-600">★</span>
                   <span className="font-semibold text-slate-900">{rating.toFixed(1)}</span>
-                  <span className="text-slate-500">({reviews} reviews)</span>
+                  <span className="text-slate-500">({reviews} vlerësime)</span>
                 </span>
                 <span className="text-slate-300">•</span>
                 <span>
@@ -209,20 +209,20 @@ export default function ProductDetails() {
                   <div className="mt-1 text-sm text-slate-500">
                     <span className="line-through">{formatPriceEUR(product.oldPrice)}</span>
                     <span className="ml-2 rounded-full bg-orange-50 px-2 py-0.5 text-xs font-semibold text-orange-700">
-                      Save {formatPriceEUR(product.oldPrice - product.price)}
+                      Kurseni {formatPriceEUR(product.oldPrice - product.price)}
                     </span>
                   </div>
                 )}
 
-                <div className="mt-2 text-xs text-slate-500">VAT included (where applicable)</div>
+                <div className="mt-2 text-xs text-slate-500">TVSH e përfshirë aty ku aplikohet</div>
               </div>
 
               <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-                Pay in installments from{" "}
+                Paguani me këste nga{" "}
                 <span className="font-semibold text-slate-900">
                   {formatPriceEUR((product.price / 24).toFixed(2))}
                 </span>{" "}
-                / month (example)
+                / muaj
               </div>
 
               <button
@@ -235,19 +235,19 @@ export default function ProductDetails() {
                     : "bg-orange-500 text-white hover:bg-orange-600"
                 }`}
               >
-                Buy now
+                Bli tani
               </button>
 
               <div className="mt-5">
                 <div className="flex items-center justify-between">
-                  <div className="text-sm font-semibold text-slate-900">Quantity</div>
+                  <div className="text-sm font-semibold text-slate-900">Sasia</div>
                   {product.stock === 0 ? (
                     <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">
-                      Out of stock
+                      Pa stok
                     </span>
                   ) : (
                     <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-900">
-                      In stock ({product.stock})
+                      Në stok ({product.stock})
                     </span>
                   )}
                 </div>
@@ -258,7 +258,7 @@ export default function ProductDetails() {
                       type="button"
                       onClick={decQty}
                       className="h-11 w-11 rounded-l-xl text-lg font-semibold text-slate-700 hover:bg-slate-50"
-                      aria-label="Decrease quantity"
+                      aria-label="Zvogëlo sasinë"
                     >
                       −
                     </button>
@@ -269,7 +269,7 @@ export default function ProductDetails() {
                       type="button"
                       onClick={incQty}
                       className="h-11 w-11 rounded-r-xl text-lg font-semibold text-slate-700 hover:bg-slate-50"
-                      aria-label="Increase quantity"
+                      aria-label="Rrit sasinë"
                       disabled={product.stock !== 0 && qty >= product.stock}
                     >
                       +
@@ -288,7 +288,7 @@ export default function ProductDetails() {
                         : "border border-slate-200 bg-white text-slate-900 hover:bg-slate-50"
                     }`}
                   >
-                    {product.stock === 0 ? "Out of stock" : added ? "Added to cart" : "Add to cart"}
+                    {product.stock === 0 ? "Pa stok" : added ? "U shtua në shportë" : "Shto në shportë"}
                   </button>
 
                   <button
@@ -299,8 +299,8 @@ export default function ProductDetails() {
                         ? "border-emerald-200 bg-emerald-50 text-emerald-900"
                         : "border-slate-200 bg-white text-slate-900 hover:bg-slate-50"
                     }`}
-                    aria-label={wish ? "Remove from wishlist" : "Add to wishlist"}
-                    title={wish ? "Wishlisted" : "Add to wishlist"}
+                    aria-label={wish ? "Largo nga lista e dëshirave" : "Shto në listën e dëshirave"}
+                    title={wish ? "Në listën e dëshirave" : "Shto në listën e dëshirave"}
                   >
                     <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
                       <path
@@ -315,15 +315,15 @@ export default function ProductDetails() {
               </div>
 
               <div className="mt-5 border-t border-slate-200 pt-4">
-                <div className="text-sm font-semibold text-slate-900">Shipping</div>
+                <div className="text-sm font-semibold text-slate-900">Dërgesa</div>
                 <div className="mt-2 grid gap-2 text-sm text-slate-600">
                   <div className="flex items-start justify-between gap-3">
-                    <span>Delivery (City)</span>
-                    <span className="font-semibold text-slate-900">2–4 business days</span>
+                    <span>Dërgesa (Qytet)</span>
+                    <span className="font-semibold text-slate-900">2–4 ditë pune</span>
                   </div>
                   <div className="flex items-start justify-between gap-3">
-                    <span>Delivery (Other areas)</span>
-                    <span className="font-semibold text-slate-900">3–6 business days</span>
+                    <span>Dërgesa (Zona tjera)</span>
+                    <span className="font-semibold text-slate-900">3–6 ditë pune</span>
                   </div>
                 </div>
               </div>
@@ -335,9 +335,9 @@ export default function ProductDetails() {
           <section className="mt-10">
             <div className="mb-5 flex items-center justify-between gap-3">
               <div>
-                <h2 className="text-xl font-bold text-slate-900">Similar products</h2>
+                <h2 className="text-xl font-bold text-slate-900">Produkte të ngjashme</h2>
                 <p className="mt-1 text-sm text-slate-600">
-                  More {product.category?.toLowerCase() || "products"} you may like.
+                  Më shumë {product.category?.toLowerCase() || "produkte"} që mund t’ju pëlqejnë.
                 </p>
               </div>
 
@@ -345,7 +345,7 @@ export default function ProductDetails() {
                 to="/shop"
                 className="text-sm font-semibold text-emerald-900 hover:text-emerald-950"
               >
-                View all
+                Shiko të gjitha
               </NavLink>
             </div>
 

@@ -6,7 +6,7 @@ import { products } from "../data/products";
 export default function LaptopsPhones() {
   const lpProducts = products.filter((p) => {
     const c = (p.category || "").toLowerCase();
-    return c === "laptops" || c === "phones";
+    return c === "laptop" || c === "laptops" || c === "telefon" || c === "phones";
   });
 
   return (
@@ -16,20 +16,20 @@ export default function LaptopsPhones() {
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-slate-900">
-            Laptops & Phones
+            Laptopë & Telefona
           </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Showing {lpProducts.length} products
+            Duke shfaqur {lpProducts.length} produkte
           </p>
         </div>
 
         {lpProducts.length === 0 ? (
           <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center">
             <p className="text-lg font-semibold text-slate-900">
-              No laptops or phones found
+              Nuk u gjetën laptopë ose telefona
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              Please check back later.
+              Ju lutem kontrolloni përsëri më vonë.
             </p>
           </div>
         ) : (
