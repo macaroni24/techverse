@@ -253,7 +253,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full">
       <div className="bg-emerald-950 text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-1.5 sm:px-6">
           <p className="text-[11px] text-white/80 sm:text-xs">
             Dërgesë falas mbi <span className="font-semibold text-white">€100</span>
           </p>
@@ -264,14 +264,14 @@ export default function Navbar() {
       </div>
 
       <div className="bg-emerald-900 text-white shadow-sm">
-        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6">
           <div className="md:hidden">
             <div className="flex items-center justify-between gap-3">
               <NavLink to="/" className="flex min-w-0 shrink-0 items-center">
                 <img
                   src={logo}
                   alt="TechVerse"
-                  className="h-12 w-auto object-contain"
+                  className="h-10 w-auto object-contain"
                 />
               </NavLink>
 
@@ -312,7 +312,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="mt-3">
+            <div className="mt-2.5">
               <div data-searchbox="true" className="relative">
                 <form onSubmit={onSubmit}>
                   <div className="flex h-10 items-center rounded-full bg-white px-4 shadow-sm">
@@ -355,14 +355,14 @@ export default function Navbar() {
               <img
                 src={logo}
                 alt="TechVerse"
-                className="h-10 lg:h-12 w-auto object-contain"
+                className="h-9 lg:h-10 w-auto object-contain"
               />
             </NavLink>
 
             <div className="w-full max-w-[560px] lg:max-w-[620px] xl:max-w-[680px]">
               <div data-searchbox="true" className="relative">
                 <form onSubmit={onSubmit}>
-                  <div className="flex h-11 items-center rounded-full bg-white px-4 shadow-sm">
+                  <div className="flex h-10 items-center rounded-full bg-white px-4 shadow-sm">
                     <input
                       value={query}
                       onChange={(e) => {
@@ -399,10 +399,10 @@ export default function Navbar() {
             <div className="flex shrink-0 items-center gap-1">
               <NavLink
                 to="/wishlist"
-                className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition hover:bg-white/10"
+                className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition hover:bg-white/10"
                 aria-label="Lista e dëshirave"
               >
-                <HeartIcon className="h-6 w-6" />
+                <HeartIcon className="h-5 w-5" />
                 {wishlistCount > 0 && (
                   <span className="absolute right-0 top-0 inline-flex h-5 min-w-5 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-bold text-white">
                     {wishlistCount > 99 ? "99+" : wishlistCount}
@@ -412,10 +412,10 @@ export default function Navbar() {
 
               <NavLink
                 to="/cart"
-                className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition hover:bg-white/10"
+                className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white transition hover:bg-white/10"
                 aria-label="Shporta"
               >
-                <CartIcon className="h-6 w-6" />
+                <CartIcon className="h-5 w-5" />
                 {cartCount > 0 && (
                   <span className="absolute right-0 top-0 inline-flex h-5 min-w-5 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-bold text-white">
                     {cartCount > 99 ? "99+" : cartCount}
@@ -425,7 +425,7 @@ export default function Navbar() {
 
               <NavLink
                 to="/login"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/15"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/15"
                 aria-label="Kyçu"
               >
                 <UserIcon className="h-5 w-5" />
@@ -435,7 +435,7 @@ export default function Navbar() {
         </div>
 
         <div className="border-t border-white/10">
-          <div className="mx-auto hidden max-w-7xl items-center gap-6 overflow-x-auto px-4 py-3 sm:px-6 md:flex">
+          <div className="mx-auto hidden max-w-7xl items-center gap-6 overflow-x-auto px-4 py-2 sm:px-6 md:flex">
             <NavLink
               to="/shop"
               className={({ isActive }) =>
