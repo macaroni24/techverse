@@ -18,7 +18,7 @@ function cx(...classes) {
 export default function SpecialOffer({
   items = [],
   intervalMs = 3000,
-  maxItems = 6, 
+  maxItems = 6,
 }) {
   const { addToCart, toggleWishlist, isWishlisted } = useStore();
 
@@ -41,7 +41,6 @@ export default function SpecialOffer({
 
   const active = offers[activeIndex];
 
- 
   useEffect(() => {
     if (!offers.length) return;
 
@@ -69,17 +68,15 @@ export default function SpecialOffer({
       <div className="flex items-end justify-between gap-6">
         <div>
           <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
-            Special offers
+            Oferta speciale
           </h2>
           <p className="mt-1 text-sm text-slate-600">
-            Take a look at today's best offers 
+            Shikoni ofertat më të mira të ditës
           </p>
         </div>
       </div>
 
-
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-     
         <div
           className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
           onMouseEnter={() => (pausedRef.current = true)}
@@ -105,7 +102,7 @@ export default function SpecialOffer({
                 type="button"
                 onClick={() => toggleWishlist(active)}
                 className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 transition"
-                aria-label="Toggle wishlist"
+                aria-label="Ndrysho listën e dëshirave"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -189,7 +186,7 @@ export default function SpecialOffer({
                       strokeWidth="2"
                     />
                   </svg>
-                  Add To Cart
+                  Shto në shportë
                 </button>
 
                 <button
@@ -201,14 +198,13 @@ export default function SpecialOffer({
                       : "bg-orange-500 text-white hover:bg-orange-600"
                   }`}
                 >
-                  {isWishlisted(active.id) ? "Në Wishlist" : "Wishlist"}
+                  {isWishlisted(active.id) ? "Në listën e dëshirave" : "Lista e dëshirave"}
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-    
         <div
           className="w-full rounded-2xl border border-slate-200 bg-white shadow-sm"
           onMouseEnter={() => (pausedRef.current = true)}

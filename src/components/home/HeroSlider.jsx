@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
+import h1 from "../../assets/h1.jpeg";
+import h2 from "../../assets/h2.jpg";
+import h3 from "../../assets/h3.png";
 
 const slides = [
   {
     id: 1,
-    image:
-      "https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?q=80&w=2000",
+    image: h1,
     title: "Make Your Good Time worth it",
     subtitle: "High performance parts & setups",
   },
   {
     id: 2,
-    image:
-      "https://article.images.consumerreports.org/image/upload/w_652,f_auto,q_auto,ar_16:9,c_lfill/v1757514488/prod/content/dam/CRO-Images-2025/Electronics/CR-Electronics-InlineHero-Best-Portable-Chargers-0925",
+    image: h2,
     title: "Latest Phones & Tech",
     subtitle: "Apple, Samsung, Xiaomi & more",
   },
   {
     id: 3,
-    image:
-      "https://cdn.create.vista.com/api/media/medium/223900254/stock-photo-close-shot-modern-workplace-various-devices-wooden-desk?token=",
+    image: h3,
     title: "Accessories That Matter",
     subtitle: "Keyboards, mice, monitors & gear",
   },
@@ -53,10 +53,8 @@ export default function HeroSlider() {
               className="h-full w-full object-cover"
             />
 
-            {/* Overlay */}
             <div className="absolute inset-0 bg-black/40" />
 
-            {/* Text */}
             <div className="absolute left-6 bottom-6 sm:left-10 sm:bottom-10 text-white">
               <h2 className="text-xl sm:text-3xl font-bold">
                 {slide.title}
@@ -69,7 +67,6 @@ export default function HeroSlider() {
         ))}
       </div>
 
-      {/* Dots */}
       <div className="mt-4 flex justify-center gap-2">
         {slides.map((_, i) => (
           <button
