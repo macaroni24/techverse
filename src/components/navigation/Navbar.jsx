@@ -355,7 +355,7 @@ export default function Navbar() {
               <img
                 src={logo}
                 alt="TechVerse"
-                className="h-9 lg:h-10 w-auto object-contain"
+                className="h-9 w-auto object-contain lg:h-10"
               />
             </NavLink>
 
@@ -431,34 +431,6 @@ export default function Navbar() {
                 <UserIcon className="h-5 w-5" />
               </NavLink>
             </div>
-          </div>
-        </div>
-
-        <div className="border-t border-white/10">
-          <div className="mx-auto hidden max-w-7xl items-center gap-6 overflow-x-auto px-4 py-2 sm:px-6 md:flex">
-            <NavLink
-              to="/shop"
-              className={({ isActive }) =>
-                cx(
-                  "whitespace-nowrap text-sm font-medium transition",
-                  isActive
-                    ? "text-white underline underline-offset-8"
-                    : "text-white/90 hover:text-white"
-                )
-              }
-            >
-              Dyqani
-            </NavLink>
-
-            {categories.map((c) => (
-              <NavLink
-                key={c.to}
-                to={c.to}
-                className="whitespace-nowrap text-sm font-medium text-white/90 transition hover:text-white"
-              >
-                {c.label}
-              </NavLink>
-            ))}
           </div>
         </div>
       </div>

@@ -101,7 +101,7 @@ export default function ProductCard({ product }) {
           </div>
         </NavLink>
 
-        <div className="mt-auto pt-4 flex items-center gap-2">
+        <div className="mt-auto flex items-center gap-2 pt-4">
           <button
             type="button"
             onClick={handleWishlist}
@@ -130,7 +130,7 @@ export default function ProductCard({ product }) {
             disabled={product.stock === 0}
             className={`flex-1 rounded-md px-4 py-3 text-sm font-semibold transition ${
               product.stock === 0
-                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+                ? "cursor-not-allowed bg-slate-200 text-slate-400"
                 : added
                 ? "bg-emerald-900 text-white"
                 : "bg-orange-500 text-white hover:bg-orange-600"

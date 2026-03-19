@@ -286,7 +286,6 @@ export default function Login() {
         </section>
       </main>
 
-      <Footer />
     </div>
   );
 }

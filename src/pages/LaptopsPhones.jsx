@@ -5,8 +5,19 @@ import { products } from "../data/products";
 
 export default function LaptopsPhones() {
   const lpProducts = products.filter((p) => {
-    const c = (p.category || "").toLowerCase();
-    return c === "laptop" || c === "laptops" || c === "telefon" || c === "phones";
+    const category = (p.category || "").toLowerCase();
+    const section = (p.section || "").toLowerCase();
+
+    if (section === "laptops-phones") return true;
+
+    return (
+      category === "laptop" ||
+      category === "laptops" ||
+      category === "telefon" ||
+      category === "telefona" ||
+      category === "phone" ||
+      category === "phones"
+    );
   });
 
   return (
@@ -33,7 +44,7 @@ export default function LaptopsPhones() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {lpProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

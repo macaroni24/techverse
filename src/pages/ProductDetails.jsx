@@ -42,20 +42,45 @@ export default function ProductDetails() {
   const similarProducts = useMemo(() => {
     if (!product) return [];
 
-    const sameCategory = products.filter(
-      (p) =>
-        String(p.id) !== String(product.id) &&
-        p.category?.toLowerCase() === product.category?.toLowerCase()
-    );
+    const currentSection = (product.section || "").toLowerCase();
+    const currentCategory = (product.category || "").toLowerCase();
+    const currentBrand = (product.brand || "").toLowerCase();
+    const currentTitle = (product.title || "").toLowerCase();
 
-    const sameBrand = products.filter(
-      (p) =>
-        String(p.id) !== String(product.id) &&
-        p.brand?.toLowerCase() === product.brand?.toLowerCase() &&
-        !sameCategory.some((item) => String(item.id) === String(p.id))
-    );
+    return products
+      .filter((p) => String(p.id) !== String(product.id))
+      .map((p) => {
+        const section = (p.section || "").toLowerCase();
+        const category = (p.category || "").toLowerCase();
+        const brand = (p.brand || "").toLowerCase();
+        const title = (p.title || "").toLowerCase();
 
-    return [...sameCategory, ...sameBrand].slice(0, 5);
+        let score = 0;
+
+        if (section && section === currentSection) score += 5;
+        if (category && category === currentCategory) score += 4;
+        if (brand && brand === currentBrand) score += 2;
+
+        if (currentTitle.includes("gaming") && title.includes("gaming")) score += 1;
+        if (currentTitle.includes("wireless") && title.includes("wireless")) score += 1;
+        if (currentTitle.includes("monitor") && title.includes("monitor")) score += 1;
+        if (currentTitle.includes("iphone") && title.includes("iphone")) score += 1;
+        if (currentTitle.includes("rtx") && title.includes("rtx")) score += 1;
+        if (currentTitle.includes("airpods") && title.includes("airpods")) score += 1;
+        if (currentTitle.includes("headset") && title.includes("headset")) score += 1;
+        if (currentTitle.includes("laptop") && title.includes("laptop")) score += 1;
+        if (currentTitle.includes("phone") && title.includes("phone")) score += 1;
+
+        return { ...p, similarityScore: score };
+      })
+      .filter((p) => p.similarityScore > 0)
+      .sort((a, b) => {
+        if (b.similarityScore !== a.similarityScore) {
+          return b.similarityScore - a.similarityScore;
+        }
+        return Number(b.price || 0) - Number(a.price || 0);
+      })
+      .slice(0, 5);
   }, [product]);
 
   const activeImage = gallery[activeIndex] || product?.image;

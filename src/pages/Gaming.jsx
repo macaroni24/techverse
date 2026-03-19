@@ -5,13 +5,30 @@ import { products } from "../data/products";
 
 export default function Gaming() {
   const gamingProducts = products.filter((p) => {
-    const t = (p.title || "").toLowerCase();
-    const c = (p.category || "").toLowerCase();
+    const title = (p.title || "").toLowerCase();
+    const category = (p.category || "").toLowerCase();
+    const section = (p.section || "").toLowerCase();
 
-    const isGamingPc = c === "gaming pc" || c === "gaming pcs" || t.includes("gaming pc");
-    const isGamingLaptop = c === "laptop" || c === "laptops" ? t.includes("gaming") : false;
+    if (section === "gaming") return true;
 
-    return isGamingPc || isGamingLaptop;
+    const isGamingPc =
+      category === "gaming pc" ||
+      category === "gaming pcs" ||
+      title.includes("gaming pc");
+
+    const isGamingLaptop =
+      (category === "laptop" || category === "laptops") &&
+      title.includes("gaming");
+
+    const isPcComponent =
+      category === "pc components" ||
+      category === "pc component";
+
+    const isGamingConsole =
+      category === "gaming consoles" ||
+      category === "gaming console";
+
+    return isGamingPc || isGamingLaptop || isPcComponent || isGamingConsole;
   });
 
   return (
@@ -22,7 +39,7 @@ export default function Gaming() {
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-slate-900">Gaming</h1>
           <p className="mt-1 text-sm text-slate-600">
-            Gaming PC dhe laptopë gaming.
+            Gaming PC, laptopë gaming, komponentë dhe konzola.
           </p>
         </div>
 
@@ -36,7 +53,7 @@ export default function Gaming() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {gamingProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
