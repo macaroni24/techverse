@@ -1,39 +1,18 @@
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
+import CategoriesMenu from "../components/shop/CategoriesMenu";
 import { products } from "../data/products";
 
 export default function Gaming() {
-  const gamingProducts = products.filter((p) => {
-    const title = (p.title || "").toLowerCase();
-    const category = (p.category || "").toLowerCase();
-    const section = (p.section || "").toLowerCase();
-
-    if (section === "gaming") return true;
-
-    const isGamingPc =
-      category === "gaming pc" ||
-      category === "gaming pcs" ||
-      title.includes("gaming pc");
-
-    const isGamingLaptop =
-      (category === "laptop" || category === "laptops") &&
-      title.includes("gaming");
-
-    const isPcComponent =
-      category === "pc components" ||
-      category === "pc component";
-
-    const isGamingConsole =
-      category === "gaming consoles" ||
-      category === "gaming console";
-
-    return isGamingPc || isGamingLaptop || isPcComponent || isGamingConsole;
-  });
+  const gamingProducts = products.filter((p) =>
+    p.category?.toLowerCase().includes("gaming")
+  );
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
+      <CategoriesMenu variant="topbar" />
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="mb-6">

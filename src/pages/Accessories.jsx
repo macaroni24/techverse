@@ -1,6 +1,7 @@
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
+import CategoriesMenu from "../components/shop/CategoriesMenu";
 import { products } from "../data/products";
 
 function isMonitorLike(title, category) {
@@ -51,7 +52,6 @@ export default function Accessories() {
 
     if (section === "accessories") return true;
     if (section === "monitors") return false;
-
     if (!isAccessoryLike(title, category)) return false;
     if (isMonitorLike(title, category)) return false;
 
@@ -61,6 +61,7 @@ export default function Accessories() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
+      <CategoriesMenu variant="topbar" />
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="mb-6">

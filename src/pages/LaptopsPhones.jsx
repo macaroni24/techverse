@@ -1,6 +1,7 @@
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
+import CategoriesMenu from "../components/shop/CategoriesMenu";
 import { products } from "../data/products";
 
 export default function LaptopsPhones() {
@@ -23,6 +24,7 @@ export default function LaptopsPhones() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
+      <CategoriesMenu variant="topbar" />
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="mb-6">
