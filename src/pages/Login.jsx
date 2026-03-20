@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 
+const API_BASE = "http://localhost:5000";
+
 function cx(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -66,45 +68,111 @@ export default function Login() {
 
   function onChange(e) {
     const { name, value, type, checked } = e.target;
-    setForm((p) => ({ ...p, [name]: type === "checkbox" ? checked : value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   }
 
   function validate() {
     const emailOk = /^\S+@\S+\.\S+$/.test(form.email.trim());
-    if (mode === "signup" && form.name.trim().length < 2) return "Ju lutem shkruani emrin tuaj të plotë.";
-    if (!emailOk) return "Ju lutem shkruani një adresë emaili të vlefshme.";
-    if (form.password.length < 6) return "Fjalëkalimi duhet të ketë të paktën 6 karaktere.";
+
+    if (mode === "signup" && form.name.trim().length < 2) {
+      return "Ju lutem shkruani emrin tuaj të plotë.";
+    }
+
+    if (!emailOk) {
+      return "Ju lutem shkruani një adresë emaili të vlefshme.";
+    }
+
+    if (form.password.length < 6) {
+      return "Fjalëkalimi duhet të ketë të paktën 6 karaktere.";
+    }
+
     return "";
   }
 
   function saveAuth(payload) {
-    localStorage.setItem("techverse_auth", JSON.stringify(payload));
+    localStorage.removeItem("techverse_auth");
+    sessionStorage.removeItem("techverse_auth");
+
+    const storage = payload?.remember ? localStorage : sessionStorage;
+    storage.setItem("techverse_auth", JSON.stringify(payload));
   }
 
   async function onSubmit(e) {
     e.preventDefault();
     setErr("");
 
-    const msg = validate();
-    if (msg) {
-      setErr(msg);
+    const validationError = validate();
+    if (validationError) {
+      setErr(validationError);
       return;
     }
 
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 650));
 
-    const authPayload = {
-      mode,
-      name: mode === "signup" ? form.name.trim() : "Përdoruesi TechVerse",
-      email: form.email.trim().toLowerCase(),
-      remember: form.remember,
-      ts: Date.now(),
-    };
+    try {
+      const endpoint =
+        mode === "signup"
+          ? `${API_BASE}/api/auth/register`
+          : `${API_BASE}/api/auth/login`;
 
-    saveAuth(authPayload);
-    setLoading(false);
-    navigate("/");
+      const payload =
+        mode === "signup"
+          ? {
+              name: form.name.trim(),
+              email: form.email.trim().toLowerCase(),
+              password: form.password,
+            }
+          : {
+              email: form.email.trim().toLowerCase(),
+              password: form.password,
+            };
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      let data = null;
+      const raw = await response.text();
+
+      try {
+        data = raw ? JSON.parse(raw) : null;
+      } catch {
+        data = null;
+      }
+
+      if (!response.ok) {
+        setErr(data?.message || "Ndodhi një gabim. Ju lutem provoni përsëri.");
+        return;
+      }
+
+      saveAuth({
+        token: data?.token || "",
+        user: data?.user || {
+          name: mode === "signup" ? form.name.trim() : "",
+          email: form.email.trim().toLowerCase(),
+        },
+        remember: form.remember,
+        ts: Date.now(),
+      });
+
+      navigate("/");
+    } catch {
+      setErr("Nuk u arrit lidhja me serverin.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function switchMode(nextMode) {
+    setMode(nextMode);
+    setErr("");
   }
 
   return (
@@ -127,7 +195,7 @@ export default function Login() {
           <div className="mt-6 flex items-center justify-center gap-6 border-b border-slate-200 pb-3">
             <button
               type="button"
-              onClick={() => setMode("login")}
+              onClick={() => switchMode("login")}
               className={cx(
                 "relative pb-2 text-sm font-semibold transition",
                 mode === "login"
@@ -143,7 +211,7 @@ export default function Login() {
 
             <button
               type="button"
-              onClick={() => setMode("signup")}
+              onClick={() => switchMode("signup")}
               className={cx(
                 "relative pb-2 text-sm font-semibold transition",
                 mode === "signup"
@@ -206,7 +274,7 @@ export default function Login() {
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPw((v) => !v)}
+                  onClick={() => setShowPw((prev) => !prev)}
                   className="inline-flex h-10 w-10 items-center justify-center rounded-xl transition hover:bg-slate-50"
                   aria-label={showPw ? "Fsheh fjalëkalimin" : "Shfaq fjalëkalimin"}
                 >
@@ -250,11 +318,7 @@ export default function Login() {
                   : "bg-orange-500 hover:bg-orange-600"
               )}
             >
-              {loading
-                ? "Ju lutem prisni..."
-                : mode === "login"
-                ? "Kyçu"
-                : "Krijo llogari"}
+              {loading ? "Ju lutem prisni..." : mode === "login" ? "Kyçu" : "Krijo llogari"}
             </button>
 
             <p className="text-center text-sm text-slate-600">
@@ -263,7 +327,7 @@ export default function Login() {
                   Nuk keni llogari?{" "}
                   <button
                     type="button"
-                    onClick={() => setMode("signup")}
+                    onClick={() => switchMode("signup")}
                     className="font-semibold text-emerald-900 hover:text-emerald-950"
                   >
                     Regjistrohu
@@ -274,7 +338,7 @@ export default function Login() {
                   Keni tashmë llogari?{" "}
                   <button
                     type="button"
-                    onClick={() => setMode("login")}
+                    onClick={() => switchMode("login")}
                     className="font-semibold text-emerald-900 hover:text-emerald-950"
                   >
                     Kyçu
@@ -286,6 +350,7 @@ export default function Login() {
         </section>
       </main>
 
+      <Footer />
     </div>
   );
 }
