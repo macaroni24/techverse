@@ -10,16 +10,15 @@ import LaptopsPhones from "./pages/LaptopsPhones";
 import Accessories from "./pages/Accessories";
 import Monitors from "./pages/Monitors";
 import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 import ProductDetails from "./pages/ProductDetails";
 import PayingSection from "./pages/PayingSection";
-
 
 export default function App() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-
- window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [pathname]);
 
   return (
@@ -35,6 +34,7 @@ export default function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 }

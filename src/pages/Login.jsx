@@ -162,7 +162,7 @@ export default function Login() {
         ts: Date.now(),
       });
 
-      navigate("/");
+      navigate("/dashboard");
     } catch {
       setErr("Nuk u arrit lidhja me serverin.");
     } finally {
