@@ -8,7 +8,6 @@ import { NavLink } from "react-router-dom";
 
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
-import CategoriesMenu from "../components/shop/CategoriesMenu";
 import ProductCard from "../components/shop/ProductCard";
 import SpecialOffer from "../components/home/SpecialOffer";
 import HeroSlider from "../components/home/HeroSlider";
@@ -208,97 +207,188 @@ const shoppingBenefits = [
 ========================================================= */
 
 function SafeShopping() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] =
+    useState(0);
 
   const sliderRef = useRef(null);
 
-  /* AUTO SLIDE MOBILE */
+  const activeIndexRef = useRef(0);
+
+  const isTouchingRef = useRef(false);
+
+  const scrollEndTimerRef = useRef(null);
+
+  /* =======================================================
+     GET CARD STEP
+  ======================================================= */
+
+  function getBenefitStep() {
+    const slider = sliderRef.current;
+
+    if (!slider) return 0;
+
+    const firstCard =
+      slider.children[0];
+
+    if (!firstCard) return 0;
+
+    const styles =
+      window.getComputedStyle(slider);
+
+    const gap =
+      parseFloat(styles.columnGap) ||
+      parseFloat(styles.gap) ||
+      0;
+
+    return (
+      firstCard.getBoundingClientRect().width +
+      gap
+    );
+  }
+
+  /* =======================================================
+     GO TO CARD
+  ======================================================= */
+
+  function goToBenefit(
+    targetIndex,
+    behavior = "smooth"
+  ) {
+    const slider = sliderRef.current;
+
+    const total =
+      shoppingBenefits.length;
+
+    const safeIndex =
+      ((targetIndex % total) + total) %
+      total;
+
+    activeIndexRef.current = safeIndex;
+
+    setActiveIndex(safeIndex);
+
+    if (!slider) return;
+
+    const step = getBenefitStep();
+
+    if (!step) return;
+
+    slider.scrollTo({
+      left: safeIndex * step,
+      behavior,
+    });
+  }
+
+  /* =======================================================
+     AUTO SLIDE
+  ======================================================= */
+
   useEffect(() => {
     const timer = setInterval(() => {
-      if (window.innerWidth >= 1024) return;
+      if (window.innerWidth >= 1024) {
+        return;
+      }
 
-      setActiveIndex(
-        (current) =>
-          (current + 1) %
-          shoppingBenefits.length
+      if (isTouchingRef.current) {
+        return;
+      }
+
+      goToBenefit(
+        activeIndexRef.current + 1
       );
     }, 3500);
 
     return () => clearInterval(timer);
   }, []);
 
-  /* MOVE SLIDER */
-  useEffect(() => {
-    if (window.innerWidth >= 1024) return;
+  /* =======================================================
+     USER SCROLL
+  ======================================================= */
 
-    const slider = sliderRef.current;
-
-    if (!slider) return;
-
-    const firstCard = slider.children[0];
-
-    if (!firstCard) return;
-
-    const styles =
-      window.getComputedStyle(slider);
-
-    const gap =
-      parseFloat(styles.columnGap) ||
-      parseFloat(styles.gap) ||
-      0;
-
-    const step =
-      firstCard.getBoundingClientRect().width +
-      gap;
-
-    slider.scrollTo({
-      left: activeIndex * step,
-      behavior: "smooth",
-    });
-  }, [activeIndex]);
-
-  /* USER SWIPE */
-  function handleMobileScroll() {
-    const slider = sliderRef.current;
-
-    if (!slider) return;
-
-    const firstCard = slider.children[0];
-
-    if (!firstCard) return;
-
-    const styles =
-      window.getComputedStyle(slider);
-
-    const gap =
-      parseFloat(styles.columnGap) ||
-      parseFloat(styles.gap) ||
-      0;
-
-    const step =
-      firstCard.getBoundingClientRect().width +
-      gap;
-
-    const newIndex = Math.round(
-      slider.scrollLeft / step
-    );
-
-    if (
-      newIndex >= 0 &&
-      newIndex < shoppingBenefits.length
-    ) {
-      setActiveIndex(newIndex);
+  function handleBenefitScroll() {
+    if (scrollEndTimerRef.current) {
+      clearTimeout(
+        scrollEndTimerRef.current
+      );
     }
+
+    /*
+     * IMPORTANT:
+     * Do NOT force scrollTo here.
+     *
+     * We wait until the finger/momentum scrolling
+     * has finished, then only synchronize the index.
+     */
+    scrollEndTimerRef.current =
+      setTimeout(() => {
+        const slider =
+          sliderRef.current;
+
+        if (!slider) return;
+
+        const step =
+          getBenefitStep();
+
+        if (!step) return;
+
+        const calculatedIndex =
+          Math.round(
+            slider.scrollLeft / step
+          );
+
+        const safeIndex = Math.max(
+          0,
+          Math.min(
+            calculatedIndex,
+            shoppingBenefits.length - 1
+          )
+        );
+
+        activeIndexRef.current =
+          safeIndex;
+
+        setActiveIndex(safeIndex);
+      }, 120);
   }
+
+  /* =======================================================
+     TOUCH
+  ======================================================= */
+
+  function handleBenefitTouchStart() {
+    isTouchingRef.current = true;
+  }
+
+  function handleBenefitTouchEnd() {
+    setTimeout(() => {
+      isTouchingRef.current = false;
+    }, 300);
+  }
+
+  /* =======================================================
+     CLEANUP
+  ======================================================= */
+
+  useEffect(() => {
+    return () => {
+      if (
+        scrollEndTimerRef.current
+      ) {
+        clearTimeout(
+          scrollEndTimerRef.current
+        );
+      }
+    };
+  }, []);
 
   return (
     <section className="w-full bg-white">
 
       {/* =================================================
-          MOBILE VERSION — RESTORED
+          MOBILE VERSION
       ================================================= */}
 
-      <div className="mx-auto w-full max-w-7xl px-4 pb-3 pt-4 sm:px-6 lg:hidden">
+      <div className="w-full pb-3 pt-4 lg:hidden">
 
         <h2 className="mb-2 text-[14px] font-medium text-slate-700">
           Blerje të sigurta
@@ -315,14 +405,29 @@ function SafeShopping() {
         >
           <div
             ref={sliderRef}
-            onScroll={handleMobileScroll}
+            onScroll={
+              handleBenefitScroll
+            }
+            onTouchStart={
+              handleBenefitTouchStart
+            }
+            onTouchEnd={
+              handleBenefitTouchEnd
+            }
+            onTouchCancel={
+              handleBenefitTouchEnd
+            }
             className="
               safe-shopping-carousel
+
               flex
               w-full
+
               snap-x
               snap-mandatory
+
               overflow-x-auto
+
               scroll-smooth
             "
           >
@@ -337,14 +442,20 @@ function SafeShopping() {
                   key={id}
                   className="
                     flex
+
                     min-h-[60px]
+
                     w-[68%]
                     shrink-0
+
                     snap-start
+
                     items-center
                     gap-2.5
+
                     border-r
                     border-slate-200/70
+
                     px-3
                     py-2.5
 
@@ -352,33 +463,38 @@ function SafeShopping() {
 
                     md:w-[36%]
                   "
+                  style={{
+                    scrollSnapStop:
+                      "always",
+                  }}
                 >
-                  {/* ICON */}
-
                   <div
                     className="
                       flex
                       h-7
                       w-7
                       shrink-0
+
                       items-center
                       justify-center
+
                       text-slate-500
+
                       opacity-80
                     "
                   >
                     <Icon />
                   </div>
 
-                  {/* TEXT */}
-
                   <div className="min-w-0">
                     <h3
                       className="
                         truncate
+
                         text-[11px]
                         font-semibold
                         leading-4
+
                         text-slate-700
                       "
                     >
@@ -388,9 +504,12 @@ function SafeShopping() {
                     <p
                       className="
                         mt-[2px]
+
                         truncate
+
                         text-[9.5px]
                         leading-3
+
                         text-slate-400
                       "
                     >
@@ -402,13 +521,60 @@ function SafeShopping() {
             )}
           </div>
         </div>
+
+        {/* DOTS */}
+
+        <div
+          className="
+            mt-1.5
+
+            flex
+            items-center
+            justify-center
+
+            gap-1
+          "
+        >
+          {shoppingBenefits.map(
+            (
+              benefit,
+              benefitIndex
+            ) => (
+              <button
+                key={benefit.id}
+                type="button"
+                onClick={() =>
+                  goToBenefit(
+                    benefitIndex
+                  )
+                }
+                aria-label={`Shfaq ${benefit.title}`}
+                className={`
+                  h-[4px]
+
+                  rounded-full
+
+                  transition-all
+                  duration-300
+
+                  ${
+                    activeIndex ===
+                    benefitIndex
+                      ? "w-3.5 bg-slate-500"
+                      : "w-[4px] bg-slate-200"
+                  }
+                `}
+              />
+            )
+          )}
+        </div>
       </div>
 
       {/* =================================================
           DESKTOP VERSION
       ================================================= */}
 
-      <div className="mx-auto hidden w-full max-w-7xl px-4 py-7 sm:px-6 lg:block">
+      <div className="hidden w-full py-6 lg:block">
 
         <h2 className="mb-4 text-[18px] font-semibold text-slate-950">
           Blerje të sigurta
@@ -418,9 +584,13 @@ function SafeShopping() {
           className="
             grid
             grid-cols-4
+
             overflow-hidden
+
             rounded-[7px]
+
             bg-slate-50
+
             shadow-[0_2px_10px_rgba(15,23,42,0.035)]
           "
         >
@@ -435,14 +605,21 @@ function SafeShopping() {
                 key={id}
                 className="
                   flex
+
                   min-h-[82px]
+
                   items-center
+
                   gap-3
+
                   border-r
                   border-slate-200
+
                   px-5
                   py-4
+
                   last:border-r-0
+
                   xl:px-7
                 "
               >
@@ -472,8 +649,13 @@ function SafeShopping() {
           .safe-shopping-carousel {
             scrollbar-width: none;
             -ms-overflow-style: none;
-            overscroll-behavior-x: contain;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: contain;
+
+            /*
+             * Important for real finger swiping.
+             */
+            touch-action: auto;
           }
 
           .safe-shopping-carousel::-webkit-scrollbar {
@@ -496,60 +678,15 @@ export default function Home() {
     setVisibleMoreProducts,
   ] = useState(15);
 
-  const [
-    categoriesCollapsed,
-    setCategoriesCollapsed,
-  ] = useState(false);
-
-  /* =======================================================
-     CATEGORY COLLAPSE
-  ======================================================= */
-
-  useEffect(() => {
-    function handleScroll() {
-      const y = window.scrollY;
-
-      setCategoriesCollapsed(
-        (current) => {
-          if (y >= 90) {
-            return true;
-          }
-
-          if (y <= 25) {
-            return false;
-          }
-
-          return current;
-        }
-      );
-    }
-
-    handleScroll();
-
-    window.addEventListener(
-      "scroll",
-      handleScroll,
-      {
-        passive: true,
-      }
-    );
-
-    return () => {
-      window.removeEventListener(
-        "scroll",
-        handleScroll
-      );
-    };
-  }, []);
-
   /* =======================================================
      PRODUCTS
   ======================================================= */
 
-  const moreProducts = products.slice(
-    4,
-    4 + visibleMoreProducts
-  );
+  const moreProducts =
+    products.slice(
+      4,
+      4 + visibleMoreProducts
+    );
 
   const hasMoreProducts =
     4 + visibleMoreProducts <
@@ -570,164 +707,78 @@ export default function Home() {
 
       {/* =================================================
           HERO AREA
+          Hero + Blerje të sigurta use the EXACT same width.
+          The category sidebar is global now and is mounted by Navbar.
       ================================================= */}
 
       <div className="w-full bg-white">
+        <div className="mx-auto w-full max-w-[1240px] px-4 pt-3 sm:px-6 min-[1500px]:ml-[282px] min-[1500px]:mr-6 min-[1500px]:w-[calc(100%-306px)] min-[1800px]:mx-auto min-[1800px]:w-full">
 
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
-
-          {/* =============================================
-              MOBILE INFO BAR
-              PHONE ONLY
-          ============================================= */}
-
+          {/* MOBILE INFO BAR */}
           <div
             className="
               mb-2
               mt-2
-
               flex
               items-center
               justify-between
-
               rounded-[6px]
-
               border
               border-slate-100
-
               bg-slate-100/70
-
               px-3
               py-[7px]
-
               md:hidden
             "
           >
-            {/* LEFT */}
-
             <div className="min-w-0">
-              <p
-                className="
-                  text-[10px]
-                  font-medium
-                  leading-[14px]
-                  text-slate-600
-                "
-              >
+              <p className="text-[10px] font-medium leading-[14px] text-slate-600">
                 Dërgesa të shpejta • 100% të sigurta
               </p>
 
               <NavLink
                 to="/terms"
-                className="
-                  block
-                  text-[8.5px]
-                  leading-3
-                  text-slate-400
-                  transition
-                  hover:text-emerald-800
-                "
+                className="block text-[8.5px] leading-3 text-slate-400 transition hover:text-emerald-800"
               >
                 Termat & Kushtet
               </NavLink>
             </div>
 
-            {/* RIGHT */}
-
             <NavLink
               to="/contact"
-              className="
-                ml-3
-                shrink-0
-
-                border-l
-                border-slate-300/70
-
-                pl-3
-
-                text-[9.5px]
-                font-medium
-                text-slate-500
-
-                transition
-                hover:text-emerald-900
-              "
+              className="ml-3 shrink-0 border-l border-slate-300/70 pl-3 text-[9.5px] font-medium text-slate-500 transition hover:text-emerald-900"
             >
               Support
             </NavLink>
           </div>
 
-          {/* =============================================
-              CATEGORIES + HERO
-          ============================================= */}
+          {/* HERO — no category column, no collapse, no width animation */}
+          <HeroSlider />
 
-          <div
-            className={`
-              relative
-              grid
-              w-full
-              grid-cols-1
-              gap-3
-              overflow-visible
-
-              ${
-                categoriesCollapsed
-                  ? "lg:grid-cols-[0px_minmax(0,1fr)]"
-                  : "lg:grid-cols-[230px_minmax(0,1fr)]"
-              }
-            `}
-            style={{
-              transition:
-                "grid-template-columns 650ms cubic-bezier(0.22, 1, 0.36, 1)",
-            }}
-          >
-            {/* CATEGORIES */}
-
-            <div
-              className={`
-                relative
-                z-[80]
-
-                hidden
-
-                min-w-0
-                overflow-visible
-
-                lg:block
-
-                ${
-                  categoriesCollapsed
-                    ? "lg:pointer-events-none lg:-translate-x-8 lg:opacity-0"
-                    : "lg:translate-x-0 lg:opacity-100"
-                }
-              `}
-              style={{
-                transition:
-                  "opacity 420ms ease, transform 580ms cubic-bezier(0.22, 1, 0.36, 1)",
-              }}
-            >
-              <CategoriesMenu />
-            </div>
-
-            {/* HERO */}
-
-            <div className="relative z-0 w-full min-w-0">
-              <HeroSlider />
-            </div>
-          </div>
+          {/* EXACT SAME CONTENT WIDTH AS HERO */}
+          <SafeShopping />
         </div>
-
-        {/* SAFE SHOPPING */}
-
-        <SafeShopping />
-
       </div>
 
       {/* =================================================
-          MAIN
+          MAIN CONTENT
       ================================================= */}
 
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <main
+        className="
+          mx-auto
+          w-full
+          max-w-[1240px]
+          px-4
+          py-10
+          sm:px-6
+          min-[1500px]:ml-[282px]
+          min-[1500px]:mr-6
+          min-[1500px]:w-[calc(100%-306px)]
+          min-[1800px]:mx-auto
+          min-[1800px]:w-full
+        "
+      >
 
         {/* FEATURED PRODUCTS */}
 
@@ -744,8 +795,10 @@ export default function Home() {
           <div
             className="
               mt-8
+
               grid
               grid-cols-2
+
               gap-4
 
               sm:grid-cols-2
@@ -790,8 +843,10 @@ export default function Home() {
           <div
             className="
               mt-6
+
               grid
               grid-cols-2
+
               gap-4
 
               sm:grid-cols-3
@@ -815,32 +870,45 @@ export default function Home() {
 
           {hasMoreProducts && (
             <div className="mt-8 flex justify-center">
+
               <button
                 type="button"
-                onClick={handleShowMore}
+                onClick={
+                  handleShowMore
+                }
                 className="
                   min-w-[150px]
+
                   rounded-md
-                  bg-emerald-900
+
+                  bg-orange-500
+
                   px-6
                   py-3
+
                   text-sm
                   font-semibold
                   text-white
+
                   shadow-sm
+
                   transition-all
                   duration-200
+
                   hover:bg-emerald-800
                   hover:shadow-md
+
                   active:scale-[0.98]
                 "
               >
-                Më shumë
+                SHFAQ MË SHUMË PRODUKTE  
               </button>
+
             </div>
           )}
 
         </section>
+
       </main>
 
       <Footer />

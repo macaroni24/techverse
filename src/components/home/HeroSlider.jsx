@@ -54,37 +54,43 @@ const promos = [
     id: 1,
     image: promo1,
     to: "/laptops-phones",
-    alt: "Oferta për laptopë dhe telefona",
+    alt:
+      "Oferta për laptopë dhe telefona",
   },
   {
     id: 2,
     image: promo2,
     to: "/gaming",
-    alt: "Oferta gaming",
+    alt:
+      "Oferta gaming",
   },
   {
     id: 3,
     image: promo3,
     to: "/Accessories",
-    alt: "Oferta për aksesorë",
+    alt:
+      "Oferta për aksesorë",
   },
   {
     id: 4,
     image: promo4,
     to: "/Monitors",
-    alt: "Oferta për monitorë",
+    alt:
+      "Oferta për monitorë",
   },
   {
     id: 5,
     image: promo5,
     to: "/shop",
-    alt: "Oferta speciale",
+    alt:
+      "Oferta speciale",
   },
   {
     id: 6,
     image: promo6,
     to: "/shop",
-    alt: "Zbritjet më të reja",
+    alt:
+      "Zbritjet më të reja",
   },
 ];
 
@@ -93,16 +99,116 @@ const promos = [
 ========================================================= */
 
 export default function HeroSlider() {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] =
+    useState(0);
 
-  const [
-    promoIndex,
-    setPromoIndex,
-  ] = useState(0);
+  const [promoIndex, setPromoIndex] =
+    useState(0);
 
-  const mobileHeroRef = useRef(null);
+  /* =======================================================
+     REFS
+  ======================================================= */
 
-  const promoRef = useRef(null);
+  const mobileHeroRef =
+    useRef(null);
+
+  const promoRef =
+    useRef(null);
+
+  const heroIndexRef =
+    useRef(0);
+
+  const isHeroTouchingRef =
+    useRef(false);
+
+  const heroScrollEndTimerRef =
+    useRef(null);
+
+  const heroTouchStartXRef =
+    useRef(0);
+
+  const heroWasDraggedRef =
+    useRef(false);
+
+  /* =======================================================
+     HERO MOBILE STEP
+  ======================================================= */
+
+  function getMobileHeroStep() {
+    const slider =
+      mobileHeroRef.current;
+
+    if (!slider) return 0;
+
+    const firstCard =
+      slider.children[0];
+
+    if (!firstCard) return 0;
+
+    const styles =
+      window.getComputedStyle(
+        slider
+      );
+
+    const gap =
+      parseFloat(
+        styles.columnGap
+      ) ||
+      parseFloat(styles.gap) ||
+      12;
+
+    return (
+      firstCard
+        .getBoundingClientRect()
+        .width + gap
+    );
+  }
+
+  /* =======================================================
+     GO TO HERO
+  ======================================================= */
+
+  function goToHero(
+    targetIndex,
+    behavior = "smooth"
+  ) {
+    const total = slides.length;
+
+    const safeIndex =
+      ((targetIndex % total) + total) %
+      total;
+
+    heroIndexRef.current =
+      safeIndex;
+
+    setIndex(safeIndex);
+
+    /*
+     * Desktop uses opacity animation.
+     * Native horizontal scrolling is only
+     * used below md / 768px.
+     */
+    if (
+      window.innerWidth >= 768
+    ) {
+      return;
+    }
+
+    const slider =
+      mobileHeroRef.current;
+
+    if (!slider) return;
+
+    const step =
+      getMobileHeroStep();
+
+    if (!step) return;
+
+    slider.scrollTo({
+      left: safeIndex * step,
+      behavior,
+    });
+  }
 
   /* =======================================================
      HERO AUTOPLAY
@@ -110,121 +216,171 @@ export default function HeroSlider() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setIndex(
-        (current) =>
-          (current + 1) %
-          slides.length
+      /*
+       * Do not move while user is
+       * touching/swiping the carousel.
+       */
+      if (
+        window.innerWidth < 768 &&
+        isHeroTouchingRef.current
+      ) {
+        return;
+      }
+
+      goToHero(
+        heroIndexRef.current + 1
       );
     }, 4500);
 
-    return () => clearInterval(timer);
+    return () =>
+      clearInterval(timer);
   }, []);
 
   /* =======================================================
-     MOBILE HERO
-     SCROLL TO CURRENT SLIDE
-  ======================================================= */
-
-  useEffect(() => {
-    /*
-     * Mobile peeking version is only below 768px.
-     */
-    if (window.innerWidth >= 768) {
-      return;
-    }
-
-    const slider = mobileHeroRef.current;
-
-    if (!slider) return;
-
-    const cards = slider.children;
-
-    const card = cards[index];
-
-    if (!card) return;
-
-    const firstCard = cards[0];
-
-    if (!firstCard) return;
-
-    const styles =
-      window.getComputedStyle(slider);
-
-    const gap =
-      parseFloat(styles.columnGap) ||
-      parseFloat(styles.gap) ||
-      12;
-
-    const cardWidth =
-      firstCard.getBoundingClientRect().width;
-
-    const step =
-      cardWidth + gap;
-
-    slider.scrollTo({
-      left: index * step,
-      behavior: "smooth",
-    });
-  }, [index]);
-
-  /* =======================================================
-     MOBILE USER SWIPE
+     MOBILE HERO SCROLL
   ======================================================= */
 
   function handleMobileHeroScroll() {
-    const slider = mobileHeroRef.current;
+    if (
+      heroScrollEndTimerRef.current
+    ) {
+      clearTimeout(
+        heroScrollEndTimerRef.current
+      );
+    }
 
-    if (!slider) return;
+    /*
+     * Do not call scrollTo from onScroll.
+     *
+     * That was what made the slider
+     * feel locked.
+     *
+     * We only update the active index
+     * after scrolling has settled.
+     */
+    heroScrollEndTimerRef.current =
+      setTimeout(() => {
+        const slider =
+          mobileHeroRef.current;
 
-    const firstCard = slider.children[0];
+        if (!slider) return;
 
-    if (!firstCard) return;
+        const step =
+          getMobileHeroStep();
 
-    const styles =
-      window.getComputedStyle(slider);
+        if (!step) return;
 
-    const gap =
-      parseFloat(styles.columnGap) ||
-      parseFloat(styles.gap) ||
-      12;
+        const calculatedIndex =
+          Math.round(
+            slider.scrollLeft / step
+          );
 
-    const step =
-      firstCard.getBoundingClientRect().width +
-      gap;
+        const safeIndex =
+          Math.max(
+            0,
+            Math.min(
+              calculatedIndex,
+              slides.length - 1
+            )
+          );
 
-    const newIndex = Math.round(
-      slider.scrollLeft / step
-    );
+        heroIndexRef.current =
+          safeIndex;
 
-    const safeIndex = Math.max(
-      0,
-      Math.min(
-        newIndex,
-        slides.length - 1
-      )
-    );
+        setIndex(safeIndex);
+      }, 120);
+  }
 
-    if (safeIndex !== index) {
-      setIndex(safeIndex);
+  /* =======================================================
+     TOUCH START
+  ======================================================= */
+
+  function handleHeroTouchStart(
+    event
+  ) {
+    isHeroTouchingRef.current =
+      true;
+
+    heroWasDraggedRef.current =
+      false;
+
+    heroTouchStartXRef.current =
+      event.touches[0].clientX;
+  }
+
+  /* =======================================================
+     TOUCH MOVE
+  ======================================================= */
+
+  function handleHeroTouchMove(
+    event
+  ) {
+    const currentX =
+      event.touches[0].clientX;
+
+    const difference =
+      Math.abs(
+        currentX -
+          heroTouchStartXRef.current
+      );
+
+    /*
+     * If finger moved horizontally
+     * more than 6px, treat it as swipe,
+     * not as link click.
+     */
+    if (difference > 6) {
+      heroWasDraggedRef.current =
+        true;
     }
   }
 
   /* =======================================================
-     DESKTOP HERO CONTROLS
+     TOUCH END
+  ======================================================= */
+
+  function handleHeroTouchEnd() {
+    setTimeout(() => {
+      isHeroTouchingRef.current =
+        false;
+    }, 350);
+
+    /*
+     * Keep drag status for a moment
+     * because the browser fires click
+     * immediately after touchend.
+     */
+    setTimeout(() => {
+      heroWasDraggedRef.current =
+        false;
+    }, 400);
+  }
+
+  /* =======================================================
+     STOP LINK NAVIGATION AFTER SWIPE
+  ======================================================= */
+
+  function handleHeroClickCapture(
+    event
+  ) {
+    if (
+      heroWasDraggedRef.current
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  /* =======================================================
+     DESKTOP HERO ARROWS
   ======================================================= */
 
   function previousHero(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    setIndex(
-      (current) =>
-        (
-          current -
-          1 +
-          slides.length
-        ) %
-        slides.length
+    goToHero(
+      heroIndexRef.current - 1
     );
   }
 
@@ -232,24 +388,70 @@ export default function HeroSlider() {
     event.preventDefault();
     event.stopPropagation();
 
-    setIndex(
-      (current) =>
-        (current + 1) %
-        slides.length
+    goToHero(
+      heroIndexRef.current + 1
     );
   }
 
   /* =======================================================
-     DESKTOP PROMO AUTOPLAY
+     KEEP MOBILE POSITION AFTER RESIZE
+  ======================================================= */
+
+  useEffect(() => {
+    function handleResize() {
+      if (
+        window.innerWidth >= 768
+      ) {
+        return;
+      }
+
+      requestAnimationFrame(() => {
+        const slider =
+          mobileHeroRef.current;
+
+        if (!slider) return;
+
+        const step =
+          getMobileHeroStep();
+
+        if (!step) return;
+
+        slider.scrollTo({
+          left:
+            heroIndexRef.current *
+            step,
+          behavior: "auto",
+        });
+      });
+    }
+
+    window.addEventListener(
+      "resize",
+      handleResize
+    );
+
+    return () => {
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
+    };
+  }, []);
+
+  /* =======================================================
+     PROMO AUTOPLAY - DESKTOP
   ======================================================= */
 
   useEffect(() => {
     const timer = setInterval(() => {
-      if (window.innerWidth < 1024) {
+      if (
+        window.innerWidth < 1024
+      ) {
         return;
       }
 
-      const slider = promoRef.current;
+      const slider =
+        promoRef.current;
 
       if (!slider) return;
 
@@ -259,15 +461,20 @@ export default function HeroSlider() {
       if (!firstCard) return;
 
       const styles =
-        window.getComputedStyle(slider);
+        window.getComputedStyle(
+          slider
+        );
 
       const gap =
-        parseFloat(styles.columnGap) ||
+        parseFloat(
+          styles.columnGap
+        ) ||
         parseFloat(styles.gap) ||
         10;
 
       const step =
-        firstCard.getBoundingClientRect()
+        firstCard
+          .getBoundingClientRect()
           .width + gap;
 
       const maxScroll =
@@ -275,7 +482,8 @@ export default function HeroSlider() {
         slider.clientWidth;
 
       if (
-        slider.scrollLeft + step >=
+        slider.scrollLeft +
+          step >=
         maxScroll - 8
       ) {
         slider.scrollTo({
@@ -292,15 +500,17 @@ export default function HeroSlider() {
       }
     }, 3000);
 
-    return () => clearInterval(timer);
+    return () =>
+      clearInterval(timer);
   }, []);
 
   /* =======================================================
-     PROMO USER SCROLL
+     PROMO SCROLL
   ======================================================= */
 
   function handlePromoScroll() {
-    const slider = promoRef.current;
+    const slider =
+      promoRef.current;
 
     if (!slider) return;
 
@@ -310,20 +520,26 @@ export default function HeroSlider() {
     if (!firstCard) return;
 
     const styles =
-      window.getComputedStyle(slider);
+      window.getComputedStyle(
+        slider
+      );
 
     const gap =
-      parseFloat(styles.columnGap) ||
+      parseFloat(
+        styles.columnGap
+      ) ||
       parseFloat(styles.gap) ||
       10;
 
     const step =
-      firstCard.getBoundingClientRect()
+      firstCard
+        .getBoundingClientRect()
         .width + gap;
 
     setPromoIndex(
       Math.round(
-        slider.scrollLeft / step
+        slider.scrollLeft /
+          step
       )
     );
   }
@@ -332,36 +548,28 @@ export default function HeroSlider() {
      PROMO VISUAL EFFECT
   ======================================================= */
 
-  function getPromoStyle(itemIndex) {
-    const relative =
-      itemIndex - promoIndex;
-
-    if (relative <= 0) {
-      return {
-        filter: "blur(0px)",
-        opacity: 1,
-      };
-    }
-
-    if (relative === 1) {
-      return {
-        filter: "blur(0.15px)",
-        opacity: 0.98,
-      };
-    }
-
-    if (relative === 2) {
-      return {
-        filter: "blur(0.35px)",
-        opacity: 0.94,
-      };
-    }
-
+  function getPromoStyle() {
     return {
-      filter: "blur(0.7px)",
-      opacity: 0.87,
+      filter: "none",
+      opacity: 1,
     };
   }
+
+  /* =======================================================
+     CLEANUP
+  ======================================================= */
+
+  useEffect(() => {
+    return () => {
+      if (
+        heroScrollEndTimerRef.current
+      ) {
+        clearTimeout(
+          heroScrollEndTimerRef.current
+        );
+      }
+    };
+  }, []);
 
   return (
     <section
@@ -374,7 +582,7 @@ export default function HeroSlider() {
 
       {/* =================================================
           MOBILE HERO
-          CURRENT IMAGE + NEXT IMAGE PEEK
+          CURRENT CARD + NEXT CARD VISIBLE
       ================================================= */}
 
       <div className="w-full md:hidden">
@@ -383,11 +591,36 @@ export default function HeroSlider() {
 
           <div
             ref={mobileHeroRef}
-            onScroll={handleMobileHeroScroll}
+
+            onScroll={
+              handleMobileHeroScroll
+            }
+
+            onTouchStart={
+              handleHeroTouchStart
+            }
+
+            onTouchMove={
+              handleHeroTouchMove
+            }
+
+            onTouchEnd={
+              handleHeroTouchEnd
+            }
+
+            onTouchCancel={
+              handleHeroTouchEnd
+            }
+
+            onClickCapture={
+              handleHeroClickCapture
+            }
+
             className="
               mobile-hero-carousel
 
               flex
+
               w-full
 
               snap-x
@@ -396,112 +629,136 @@ export default function HeroSlider() {
               gap-3
 
               overflow-x-auto
+
               scroll-smooth
 
               pb-1
             "
           >
-            {slides.map((slide) => (
-              <NavLink
-                key={slide.id}
-                to={slide.to}
-                className="
-                  group
+            {slides.map(
+              (slide) => (
+                <NavLink
+                  key={slide.id}
 
-                  relative
+                  to={slide.to}
 
-                  block
-
-                  h-[205px]
-
-                  w-[88%]
-                  shrink-0
-
-                  snap-start
-
-                  overflow-hidden
-
-                  rounded-[8px]
-
-                  bg-slate-950
-
-                  outline-none
-
-                  min-[390px]:h-[220px]
-                "
-              >
-                {/* IMAGE */}
-
-                <img
-                  src={slide.image}
-                  alt=""
                   draggable="false"
+
                   className="
-                    absolute
-                    inset-0
+                    group
+                    relative
 
                     block
 
-                    h-full
-                    w-full
+                    h-[205px]
 
-                    object-cover
-                    object-center
+                    w-[88%]
 
-                    transition-transform
-                    duration-500
+                    shrink-0
 
-                    group-active:scale-[0.995]
+                    snap-start
+
+                    select-none
+
+                    overflow-hidden
+
+                    rounded-[8px]
+
+                    bg-slate-950
+
+                    outline-none
+
+                    min-[390px]:h-[220px]
                   "
-                />
 
-                {/* GRADIENT */}
-
-                <div
-                  className="
-                    absolute
-                    inset-0
-
-                    bg-gradient-to-t
-
-                    from-black/70
-                    via-black/[0.07]
-                    to-transparent
-                  "
-                />
-
-                {/* TEXT */}
-
-                <div
-                  className="
-                    absolute
-                    bottom-0
-                    left-0
-                    right-0
-
-                    z-10
-
-                    px-4
-                    pb-4
-                  "
+                  style={{
+                    scrollSnapStop:
+                      "always",
+                  }}
                 >
-                  <p
+
+                  {/* IMAGE */}
+
+                  <img
+                    src={slide.image}
+
+                    alt=""
+
+                    draggable="false"
+
                     className="
-                      max-w-[82%]
+                      pointer-events-none
 
-                      text-[10.5px]
-                      font-semibold
-                      leading-[1.45]
+                      absolute
+                      inset-0
 
-                      text-white
+                      block
+
+                      h-full
+                      w-full
+
+                      select-none
+
+                      object-cover
+                      object-center
+                    "
+                  />
+
+                  {/* GRADIENT */}
+
+                  <div
+                    className="
+                      pointer-events-none
+
+                      absolute
+                      inset-0
+
+                      bg-gradient-to-t
+
+                      from-black/70
+                      via-black/[0.07]
+                      to-transparent
+                    "
+                  />
+
+                  {/* TEXT */}
+
+                  <div
+                    className="
+                      pointer-events-none
+
+                      absolute
+
+                      bottom-0
+                      left-0
+                      right-0
+
+                      z-10
+
+                      px-4
+                      pb-4
                     "
                   >
-                    {slide.subtitle}
-                  </p>
-                </div>
+                    <p
+                      className="
+                        max-w-[82%]
 
-              </NavLink>
-            ))}
+                        text-[10.5px]
+
+                        font-semibold
+
+                        leading-[1.45]
+
+                        text-white
+                      "
+                    >
+                      {slide.subtitle}
+                    </p>
+                  </div>
+
+                </NavLink>
+              )
+            )}
           </div>
 
         </div>
@@ -520,16 +777,25 @@ export default function HeroSlider() {
           "
         >
           {slides.map(
-            (slide, slideIndex) => (
+            (
+              slide,
+              slideIndex
+            ) => (
               <button
                 key={slide.id}
+
                 type="button"
+
                 onClick={() =>
-                  setIndex(slideIndex)
+                  goToHero(
+                    slideIndex
+                  )
                 }
+
                 aria-label={`Slajdi ${
                   slideIndex + 1
                 }`}
+
                 className={`
                   h-[4px]
 
@@ -539,7 +805,8 @@ export default function HeroSlider() {
                   duration-300
 
                   ${
-                    slideIndex === index
+                    slideIndex ===
+                    index
                       ? "w-4 bg-slate-600"
                       : "w-[4px] bg-slate-200"
                   }
@@ -553,7 +820,6 @@ export default function HeroSlider() {
 
       {/* =================================================
           TABLET / DESKTOP HERO
-          NORMAL FULL WIDTH VERSION
       ================================================= */}
 
       <div
@@ -561,21 +827,22 @@ export default function HeroSlider() {
           relative
 
           hidden
+
           w-full
           min-w-0
 
           overflow-hidden
 
-          rounded-[7px]
+          rounded-[2px]
 
           bg-slate-950
 
           md:block
-          md:h-[340px]
+          md:h-[300px]
 
-          lg:h-[390px]
+          lg:h-[332px]
 
-          xl:h-[420px]
+          xl:h-[356px]
         "
       >
         {slides.map(
@@ -585,7 +852,9 @@ export default function HeroSlider() {
           ) => (
             <NavLink
               key={slide.id}
+
               to={slide.to}
+
               className={`
                 absolute
                 inset-0
@@ -598,25 +867,32 @@ export default function HeroSlider() {
                 outline-none
 
                 transition-all
+
                 duration-700
+
                 ease-out
 
                 focus:outline-none
                 focus:ring-0
 
                 ${
-                  slideIndex === index
+                  slideIndex ===
+                  index
                     ? "pointer-events-auto translate-x-0 opacity-100"
                     : "pointer-events-none translate-x-3 opacity-0"
                 }
               `}
             >
+
               {/* IMAGE */}
 
               <img
                 src={slide.image}
+
                 alt=""
+
                 draggable="false"
+
                 className="
                   absolute
                   inset-0
@@ -651,6 +927,7 @@ export default function HeroSlider() {
               <div
                 className="
                   absolute
+
                   bottom-0
                   left-0
                   right-0
@@ -689,12 +966,17 @@ export default function HeroSlider() {
           )
         )}
 
-        {/* PREVIOUS */}
+        {/* LEFT */}
 
         <button
           type="button"
-          onClick={previousHero}
+
+          onClick={
+            previousHero
+          }
+
           aria-label="Slajdi paraprak"
+
           className="
             absolute
 
@@ -704,6 +986,7 @@ export default function HeroSlider() {
             z-20
 
             flex
+
             h-10
             w-8
 
@@ -712,7 +995,7 @@ export default function HeroSlider() {
             items-center
             justify-center
 
-            rounded-[5px]
+            rounded-[2px]
 
             bg-black/20
 
@@ -723,6 +1006,7 @@ export default function HeroSlider() {
             backdrop-blur-[2px]
 
             transition-all
+
             duration-200
 
             hover:bg-black/40
@@ -731,12 +1015,17 @@ export default function HeroSlider() {
           ‹
         </button>
 
-        {/* NEXT */}
+        {/* RIGHT */}
 
         <button
           type="button"
-          onClick={nextHero}
+
+          onClick={
+            nextHero
+          }
+
           aria-label="Slajdi tjetër"
+
           className="
             absolute
 
@@ -746,6 +1035,7 @@ export default function HeroSlider() {
             z-20
 
             flex
+
             h-10
             w-8
 
@@ -754,7 +1044,7 @@ export default function HeroSlider() {
             items-center
             justify-center
 
-            rounded-[5px]
+            rounded-[2px]
 
             bg-black/20
 
@@ -765,6 +1055,7 @@ export default function HeroSlider() {
             backdrop-blur-[2px]
 
             transition-all
+
             duration-200
 
             hover:bg-black/40
@@ -773,7 +1064,7 @@ export default function HeroSlider() {
           ›
         </button>
 
-        {/* DESKTOP DOTS */}
+        {/* DOTS */}
 
         <div
           className="
@@ -789,6 +1080,7 @@ export default function HeroSlider() {
             -translate-x-1/2
 
             items-center
+
             gap-1.5
           "
         >
@@ -799,26 +1091,36 @@ export default function HeroSlider() {
             ) => (
               <button
                 key={slide.id}
+
                 type="button"
-                onClick={(event) => {
+
+                onClick={(
+                  event
+                ) => {
                   event.preventDefault();
                   event.stopPropagation();
 
-                  setIndex(slideIndex);
+                  goToHero(
+                    slideIndex
+                  );
                 }}
+
                 aria-label={`Slajdi ${
                   slideIndex + 1
                 }`}
+
                 className={`
                   h-[5px]
 
                   rounded-full
 
                   transition-all
+
                   duration-300
 
                   ${
-                    slideIndex === index
+                    slideIndex ===
+                    index
                       ? "w-4 bg-white"
                       : "w-[5px] bg-white/50"
                   }
@@ -832,7 +1134,7 @@ export default function HeroSlider() {
 
       {/* =================================================
           PROMOS
-          ONLY LAPTOP / DESKTOP
+          LAPTOP / DESKTOP ONLY
       ================================================= */}
 
       <div
@@ -852,11 +1154,16 @@ export default function HeroSlider() {
       >
         <div
           ref={promoRef}
-          onScroll={handlePromoScroll}
+
+          onScroll={
+            handlePromoScroll
+          }
+
           className="
             promo-carousel
 
             flex
+
             w-full
 
             snap-x
@@ -865,6 +1172,7 @@ export default function HeroSlider() {
             gap-2.5
 
             overflow-x-auto
+
             scroll-smooth
           "
         >
@@ -875,7 +1183,9 @@ export default function HeroSlider() {
             ) => (
               <NavLink
                 key={promo.id}
+
                 to={promo.to}
+
                 className="
                   group
                   relative
@@ -883,13 +1193,14 @@ export default function HeroSlider() {
                   block
 
                   w-[30.5%]
+
                   shrink-0
 
                   snap-start
 
                   overflow-hidden
 
-                  rounded-[7px]
+                  rounded-[2px]
 
                   bg-slate-100
 
@@ -909,17 +1220,26 @@ export default function HeroSlider() {
 
                     overflow-hidden
 
-                    rounded-[7px]
+                    rounded-[2px]
                   "
                 >
                   <img
-                    src={promo.image}
-                    alt={promo.alt}
+                    src={
+                      promo.image
+                    }
+
+                    alt={
+                      promo.alt
+                    }
+
                     draggable="false"
+
                     loading="lazy"
+
                     style={getPromoStyle(
                       promoItemIndex
                     )}
+
                     className="
                       h-full
                       w-full
@@ -927,7 +1247,9 @@ export default function HeroSlider() {
                       object-cover
 
                       transition-all
+
                       duration-700
+
                       ease-out
 
                       group-hover:scale-[1.012]
@@ -946,16 +1268,41 @@ export default function HeroSlider() {
 
       <style>
         {`
+          /*
+           * MOBILE HERO
+           */
+
           .mobile-hero-carousel {
             scrollbar-width: none;
             -ms-overflow-style: none;
-            overscroll-behavior-x: contain;
+
             -webkit-overflow-scrolling: touch;
+
+            overscroll-behavior-x: contain;
+
+            touch-action: auto;
+
+            scroll-behavior: smooth;
           }
 
           .mobile-hero-carousel::-webkit-scrollbar {
             display: none;
           }
+
+          /*
+           * Prevent browser image/link dragging from
+           * competing with carousel swiping.
+           */
+
+          .mobile-hero-carousel img,
+          .mobile-hero-carousel a {
+            -webkit-user-drag: none;
+            user-select: none;
+          }
+
+          /*
+           * DESKTOP PROMOS
+           */
 
           .promo-carousel {
             scrollbar-width: none;
