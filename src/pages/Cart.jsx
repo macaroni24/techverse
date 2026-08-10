@@ -131,7 +131,7 @@ export default function Cart() {
           </div>
 
           {cartItems.length > 0 && subtotal >= 100 && (
-            <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-900">
+            <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-800">
               Dërgesa falas u aplikua
             </span>
           )}
@@ -150,7 +150,7 @@ export default function Cart() {
 
             <NavLink
               to="/shop"
-              className="mt-5 inline-flex rounded-md bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600"
+              className="mt-5 inline-flex rounded-md bg-blue-800 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-900"
             >
               Shko te Dyqani
             </NavLink>
@@ -236,7 +236,7 @@ export default function Cart() {
                           to={`/product/${item.id}`}
                           className="inline-block"
                         >
-                          <p className="break-words pr-2 text-sm font-semibold text-slate-900 transition hover:text-orange-600">
+                          <p className="break-words pr-2 text-sm font-semibold text-slate-900 transition hover:text-blue-800">
                             {item.title}
                           </p>
                         </NavLink>
@@ -296,7 +296,7 @@ export default function Cart() {
                                 }
                                 className={`whitespace-nowrap rounded-md px-3 py-2 text-sm font-semibold transition ${
                                   isWishlisted(item.id)
-                                    ? "bg-emerald-900 text-white hover:bg-emerald-950"
+                                    ? "bg-blue-800 text-white hover:bg-blue-900"
                                     : "border border-slate-200 bg-white text-slate-900 hover:bg-slate-50"
                                 }`}
                               >
@@ -381,7 +381,7 @@ export default function Cart() {
                     },
                   });
                 }}
-                className="mt-5 w-full rounded-md bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+                className="mt-5 w-full rounded-md bg-blue-800 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-900"
               >
                 Vazhdo me pagesën
               </button>

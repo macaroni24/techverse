@@ -233,15 +233,18 @@ export default function ProductDetails() {
         {/* =====================================================
             ONE SINGLE PRODUCT SECTION
         ====================================================== */}
+
         <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="grid items-stretch lg:grid-cols-[1.05fr_0.95fr]">
 
             {/* =================================================
                 LEFT SIDE - PRODUCT IMAGE
             ================================================== */}
+
             <div className="relative min-h-[420px] p-5 sm:p-6 lg:min-h-[560px]">
 
               {/* IMAGE COUNT */}
+
               {gallery.length > 0 && (
                 <div className="absolute right-5 top-5 z-10 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
                   {activeIndex + 1} / {gallery.length}
@@ -251,8 +254,11 @@ export default function ProductDetails() {
               <div className="flex h-full">
 
                 {/* THUMBNAILS */}
+
                 <div className="mr-4 flex w-16 shrink-0 flex-col justify-center gap-3">
+
                   {gallery.map((src, idx) => (
+
                     <button
                       key={`${src}-${idx}`}
                       type="button"
@@ -261,52 +267,66 @@ export default function ProductDetails() {
                       }
                       className={`h-14 w-14 overflow-hidden rounded-lg border bg-white p-1.5 transition ${
                         idx === activeIndex
-                          ? "border-orange-500"
+                          ? "border-slate-400"
                           : "border-slate-200 hover:border-slate-400"
                       }`}
                       aria-label={`Zgjidh imazhin ${idx + 1}`}
                     >
+
                       <img
                         src={src}
                         alt={`${product.title} ${idx + 1}`}
                         className="h-full w-full object-contain"
                       />
+
                     </button>
+
                   ))}
+
                 </div>
 
                 {/* MAIN IMAGE */}
+
                 <div className="flex min-w-0 flex-1 items-center justify-center">
+
                   <img
                     src={activeImage}
                     alt={product.title}
                     className="max-h-[420px] w-full object-contain p-4 lg:max-h-[490px]"
                     loading="lazy"
                   />
+
                 </div>
+
               </div>
+
             </div>
 
             {/* =================================================
                 RIGHT SIDE - PRODUCT INFORMATION
             ================================================== */}
+
             <div className="flex flex-col justify-center p-5 sm:p-6 lg:pr-8">
 
               {/* BRAND - KEEP TECHVERSE */}
-              <div className="text-xs font-semibold text-orange-600">
+
+              <div className="text-xs font-semibold text-blue-800">
                 {product.brand}
               </div>
 
               {/* PRODUCT TITLE - SLIGHTLY SMALLER */}
+
               <h1 className="mt-1 max-w-xl text-lg font-semibold leading-snug text-slate-900 sm:text-xl">
                 {product.title}
               </h1>
 
               {/* RATING / VLERSO */}
+
               <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
+
                 <button
                   type="button"
-                  className="font-medium text-slate-500 transition hover:text-orange-600"
+                  className="font-medium text-slate-500 transition hover:text-blue-800"
                 >
                   Vlerëso
                 </button>
@@ -316,7 +336,8 @@ export default function ProductDetails() {
                 </span>
 
                 <span className="inline-flex items-center gap-1">
-                  <span className="text-orange-500">
+
+                  <span className="text-blue-800">
                     ★
                   </span>
 
@@ -327,30 +348,41 @@ export default function ProductDetails() {
                   <span className="text-slate-400">
                     ({reviews})
                   </span>
+
                 </span>
+
               </div>
 
               {/* =================================================
                   PRICE
               ================================================== */}
+
               <div className="mt-4">
 
                 {hasDiscount && (
+
                   <div className="text-xs text-slate-400 line-through">
+
                     {formatPriceEUR(
                       product.oldPrice
                     )}
+
                   </div>
+
                 )}
 
                 <div className="mt-0.5 text-2xl font-bold text-slate-900 sm:text-[28px]">
+
                   {formatPriceEUR(
                     product.price
                   )}
+
                 </div>
 
                 {/* VAT INFO */}
+
                 <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px]">
+
                   <span className="font-medium text-slate-500">
                     Përfshirë TVSH-në
                   </span>
@@ -360,43 +392,62 @@ export default function ProductDetails() {
                   </span>
 
                   <span className="text-slate-500">
+
                     Pa TVSH{" "}
+
                     <span className="font-semibold text-slate-700">
+
                       {formatPriceEUR(
                         priceWithoutVAT
                       )}
+
                     </span>
+
                   </span>
+
                 </div>
 
                 {/* SAVING */}
+
                 {hasDiscount && (
-                  <div className="mt-1.5 text-xs font-medium text-orange-600">
+
+                  <div className="mt-1.5 text-xs font-medium text-slate-700">
+
                     Ju kurseni{" "}
+
                     {formatPriceEUR(
                       product.oldPrice -
                         product.price
                     )}
+
                   </div>
+
                 )}
+
               </div>
 
               {/* =================================================
                   QUANTITY SECTION TITLE
               ================================================== */}
+
               <div className="mt-5 flex items-center gap-3">
+
                 <span className="shrink-0 text-xs font-medium text-slate-500">
                   Sasia
                 </span>
 
                 <div className="h-px flex-1 bg-slate-200" />
+
               </div>
 
               {/* QUANTITY + STOCK */}
+
               <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
 
                 {/* COMPACT QUANTITY */}
+
                 <div className="inline-flex h-9 items-center overflow-hidden rounded-lg border border-slate-200 bg-white">
+
                   <button
                     type="button"
                     onClick={decQty}
@@ -422,43 +473,58 @@ export default function ProductDetails() {
                   >
                     +
                   </button>
+
                 </div>
 
                 {/* STOCK */}
+
                 {product.stock === 0 ? (
+
                   <span className="text-xs font-semibold text-red-500">
                     Pa stok
                   </span>
+
                 ) : (
-                  <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-800">
+
+                  <span className="rounded-full bg-blue-100 px-3 py-1 text-[11px] font-semibold text-blue-800">
                     Në stok ({product.stock})
                   </span>
+
                 )}
+
               </div>
 
               {/* =================================================
                   PAYMENT DIVIDER LIKE REFERENCE
               ================================================== */}
+
               <div className="mt-5 flex items-center gap-3">
+
                 <span className="shrink-0 text-xs font-medium text-slate-500">
                   Pagesa
                 </span>
 
                 <div className="h-px flex-1 bg-slate-200" />
+
               </div>
 
               {/* PAYMENT OPTIONS */}
-              <div className="mt-3 grid gap-2 sm:grid-cols-3">
+
+              <div className="mt-3 grid grid-cols-3 gap-1.5 sm:gap-2">
 
                 {/* CASH */}
-                <div className="flex items-center gap-2 rounded-lg px-1 py-1.5">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-orange-500">
+
+                <div className="flex min-w-0 items-center gap-1.5 rounded-lg px-0.5 py-1.5 sm:gap-2 sm:px-1">
+
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-blue-800 sm:h-8 sm:w-8">
+
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
                       className="h-4 w-4"
                       aria-hidden="true"
                     >
+
                       <path
                         d="M5 7h14v10H5V7Z"
                         stroke="currentColor"
@@ -472,23 +538,30 @@ export default function ProductDetails() {
                         strokeWidth="1.7"
                         strokeLinecap="round"
                       />
+
                     </svg>
+
                   </div>
 
-                  <span className="text-[11px] font-medium text-slate-700">
+                  <span className="min-w-0 text-[9px] font-medium leading-tight text-slate-700 sm:text-[11px]">
                     Para në dorë
                   </span>
+
                 </div>
 
                 {/* ONLINE */}
-                <div className="flex items-center gap-2 rounded-lg px-1 py-1.5">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-orange-500">
+
+                <div className="flex min-w-0 items-center gap-1.5 rounded-lg px-0.5 py-1.5 sm:gap-2 sm:px-1">
+
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-blue-800 sm:h-8 sm:w-8">
+
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
                       className="h-4 w-4"
                       aria-hidden="true"
                     >
+
                       <rect
                         x="4"
                         y="6"
@@ -505,58 +578,76 @@ export default function ProductDetails() {
                         strokeWidth="1.7"
                         strokeLinecap="round"
                       />
+
                     </svg>
+
                   </div>
 
-                  <span className="text-[11px] font-medium text-slate-700">
+                  <span className="min-w-0 text-[9px] font-medium leading-tight text-slate-700 sm:text-[11px]">
                     Paguaj online
                   </span>
+
                 </div>
 
                 {/* BANK */}
-                <div className="flex items-center gap-2 rounded-lg px-1 py-1.5">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-orange-500">
+
+                <div className="flex min-w-0 items-center gap-1.5 rounded-lg px-0.5 py-1.5 sm:gap-2 sm:px-1">
+
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-blue-800 sm:h-8 sm:w-8">
+
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
                       className="h-4 w-4"
                       aria-hidden="true"
                     >
+
                       <path
                         d="M4 8h16M6 8V6h12v2M6 8v9M18 8v9M4 17h16"
                         stroke="currentColor"
                         strokeWidth="1.7"
                         strokeLinecap="round"
                       />
+
                     </svg>
+
                   </div>
 
-                  <span className="text-[11px] font-medium text-slate-700">
+                  <span className="min-w-0 text-[9px] font-medium leading-tight text-slate-700 sm:text-[11px]">
                     Transfer bankar
                   </span>
+
                 </div>
+
               </div>
 
               {/* =================================================
                   TRANSPORT DIVIDER LIKE REFERENCE
               ================================================== */}
+
               <div className="mt-4 flex items-center gap-3">
+
                 <span className="shrink-0 text-xs font-medium text-slate-500">
                   Transporti
                 </span>
 
                 <div className="h-px flex-1 bg-slate-200" />
+
               </div>
 
               {/* TRANSPORT INFO */}
+
               <div className="mt-3 flex items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-orange-50 text-orange-500">
+
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-800">
+
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
                     className="h-4.5 w-4.5"
                     aria-hidden="true"
                   >
+
                     <path
                       d="M3 6h11v10H3V6Zm11 4h3l3 3v3h-6v-6Z"
                       stroke="currentColor"
@@ -579,10 +670,13 @@ export default function ProductDetails() {
                       stroke="currentColor"
                       strokeWidth="1.7"
                     />
+
                   </svg>
+
                 </div>
 
                 <div>
+
                   <div className="text-xs font-semibold text-slate-900">
                     Dërgesa 2–4 ditë pune
                   </div>
@@ -590,15 +684,19 @@ export default function ProductDetails() {
                   <div className="mt-0.5 text-[11px] text-slate-500">
                     Dërgesë e sigurt në adresën tuaj
                   </div>
+
                 </div>
+
               </div>
 
               {/* =================================================
                   ACTION BUTTONS
               ================================================== */}
+
               <div className="mt-6 flex items-center gap-2.5">
 
                 {/* BUY NOW */}
+
                 <button
                   type="button"
                   onClick={handleBuyNow}
@@ -606,13 +704,14 @@ export default function ProductDetails() {
                   className={`h-11 flex-1 rounded-full px-4 text-xs font-bold transition ${
                     product.stock === 0
                       ? "cursor-not-allowed bg-slate-200 text-slate-400"
-                      : "bg-orange-500 text-white hover:bg-orange-600"
+                      : "bg-blue-800 text-white hover:bg-blue-900"
                   }`}
                 >
                   BLEJ TANI
                 </button>
 
                 {/* ADD TO CART */}
+
                 <button
                   type="button"
                   onClick={handleAddToCart}
@@ -621,32 +720,35 @@ export default function ProductDetails() {
                     product.stock === 0
                       ? "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400"
                       : added
-                      ? "border-emerald-800 bg-emerald-800 text-white"
+                      ? "border-blue-800 bg-blue-800 text-white"
                       : "border-slate-200 bg-slate-50 text-slate-900 hover:bg-slate-100"
                   }`}
                 >
+
                   {product.stock === 0
                     ? "PA STOK"
                     : added
                     ? "U SHTUA ✓"
                     : "SHTO NË SHPORTË"}
+
                 </button>
 
                 {/* =================================================
                     HEART
                     LIKED:
-                    SOLID GREEN
+                    SOLID DARK BLUE
 
                     NOT LIKED:
-                    SAME EXACT HEART SHAPE
-                    WHITE FILL + DARK GREEN OUTLINE
+                    SAME HEART SHAPE
+                    DARK BLUE OUTLINE
                 ================================================== */}
+
                 <button
                   type="button"
                   onClick={() =>
                     toggleWishlist(product)
                   }
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white transition hover:bg-emerald-50"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white transition hover:bg-blue-100"
                   aria-label={
                     wish
                       ? "Largo nga lista e dëshirave"
@@ -658,41 +760,55 @@ export default function ProductDetails() {
                       : "Shto në listën e dëshirave"
                   }
                 >
+
                   <svg
                     viewBox="0 0 24 24"
                     className="h-6 w-6"
                     aria-hidden="true"
                   >
+
                     <path
-                      d="M12 20.5s-7-4.5-9.2-8.8C1.3 8.8 3.2 6 6.4 6c1.8 0 3.3.9 4.2 2 0 0 .9-2 4.2-2C18 6 20 8.8 21.2 11.7 19 16 12 20.5 12 20.5Z"
+                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L4.22 13.45 12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z"
                       fill={
                         wish
-                          ? "#047857"
-                          : "#ffffff"
+                          ? "#1e3a8a"
+                          : "none"
                       }
-                      stroke="#065f46"
+                      stroke="#1e3a8a"
                       strokeWidth="1.8"
+                      strokeLinecap="round"
                       strokeLinejoin="round"
                     />
+
                   </svg>
+
                 </button>
+
               </div>
+
             </div>
+
           </div>
+
         </section>
 
         {/* =====================================================
             SIMILAR PRODUCTS
         ====================================================== */}
+
         {similarProducts.length > 0 && (
+
           <section className="mt-10">
+
             <h2 className="mb-5 text-lg font-bold text-slate-900">
               Produkte të ngjashme
             </h2>
 
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+
               {similarProducts.map(
                 (item, index) => {
+
                   const itemHasDiscount =
                     typeof item.oldPrice ===
                       "number" &&
@@ -710,12 +826,15 @@ export default function ProductDetails() {
                       : null;
 
                   return (
+
                     <NavLink
                       key={item.id}
                       to={`/product/${item.id}`}
                       className="group rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:p-4"
                     >
+
                       <div className="relative overflow-hidden rounded-xl bg-slate-50">
+
                         <img
                           src={item.image}
                           alt={item.title}
@@ -724,20 +843,26 @@ export default function ProductDetails() {
                         />
 
                         {itemHasDiscount && (
-                          <span className="absolute left-2 top-2 rounded-full bg-orange-500 px-2 py-1 text-[10px] font-bold text-white">
+
+                          <span className="absolute left-2 top-2 rounded-full bg-blue-800 px-2 py-1 text-[10px] font-bold text-white">
                             -{itemDiscountPct}%
                           </span>
+
                         )}
 
                         {index < 4 && (
+
                           <span className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold text-slate-700">
                             E ngjashme
                           </span>
+
                         )}
+
                       </div>
 
                       <div className="mt-3">
-                        <p className="text-[11px] font-semibold uppercase tracking-wide text-orange-600 sm:text-xs">
+
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-800 sm:text-xs">
                           {item.brand}
                         </p>
 
@@ -746,40 +871,59 @@ export default function ProductDetails() {
                         </h3>
 
                         <div className="mt-2">
+
                           <div className="text-sm font-bold text-slate-900 sm:text-base">
+
                             {formatPriceEUR(
                               item.price
                             )}
+
                           </div>
 
                           {itemHasDiscount && (
+
                             <div className="mt-1 text-[11px] text-slate-400 line-through sm:text-xs">
+
                               {formatPriceEUR(
                                 item.oldPrice
                               )}
+
                             </div>
+
                           )}
+
                         </div>
+
                       </div>
+
                     </NavLink>
+
                   );
+
                 }
               )}
+
             </div>
 
             <div className="mt-6 flex justify-center">
+
               <NavLink
                 to="/shop"
                 className="inline-flex items-center rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
               >
                 Shiko më shumë
               </NavLink>
+
             </div>
+
           </section>
+
         )}
+
       </main>
 
       <Footer />
+
     </>
   );
 }

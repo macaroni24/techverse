@@ -7,15 +7,16 @@ import {
 import { NavLink } from "react-router-dom";
 
 import h1 from "../../assets/h1.png";
-import h2 from "../../assets/h2.jpg";
-import h3 from "../../assets/h1.png";
+import h2 from "../../assets/h2.png";
+import h3 from "../../assets/h3.png";
+import h4 from "../../assets/h4.png";
 
 import promo1 from "../../assets/h1.png";
-import promo2 from "../../assets/h2.jpg";
+import promo2 from "../../assets/h2.png";
 import promo3 from "../../assets/h3.png";
-import promo4 from "../../assets/h1.jpeg";
+import promo4 from "../../assets/h4.png";
 import promo5 from "../../assets/h1.png";
-import promo6 from "../../assets/h2.jpg";
+import promo6 from "../../assets/h2.png";
 
 const slides = [
   {
@@ -31,6 +32,11 @@ const slides = [
   {
     id: 3,
     image: h3,
+    to: "/Accessories",
+  },
+  {
+    id: 3,
+    image: h4,
     to: "/Accessories",
   },
 ];
@@ -552,9 +558,14 @@ export default function HeroSlider() {
   return (
     <section
       className="
+        relative
         w-full
         min-w-0
         bg-[#f5f6f8]
+
+        md:left-1/2
+        md:w-[min(1460px,calc(100vw-40px))]
+        md:-translate-x-1/2
       "
     >
       <div className="w-full md:hidden">

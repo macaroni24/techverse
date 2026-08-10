@@ -42,7 +42,7 @@ function DeliveryIcon() {
 
       <path
         d="M2 20h8M2 25h6"
-        stroke="#f97316"
+        stroke="#1e40af"
         strokeWidth="2"
         strokeLinecap="round"
       />
@@ -84,7 +84,7 @@ function ProductsIcon() {
 
       <path
         d="M19 9c0-2 1.6-3.5 3.5-3.5S26 7 26 9"
-        stroke="#f97316"
+        stroke="#1e40af"
         strokeWidth="2"
         strokeLinecap="round"
       />
@@ -131,7 +131,7 @@ function SupportIcon() {
 
       <path
         d="M39 24h-5v11h5a4 4 0 0 0 4-4v-3a4 4 0 0 0-4-4Z"
-        stroke="#f97316"
+        stroke="#1e40af"
         strokeWidth="2"
       />
 
@@ -164,7 +164,7 @@ function PriceIcon() {
         cx="32"
         cy="14"
         r="2.5"
-        stroke="#f97316"
+        stroke="#1e40af"
         strokeWidth="2"
       />
     </svg>
@@ -478,9 +478,9 @@ function SafeShopping() {
                       items-center
                       justify-center
 
-                      text-slate-500
+                      text-blue-800
 
-                      opacity-80
+                      opacity-100
                     "
                   >
                     <Icon />
@@ -560,7 +560,7 @@ function SafeShopping() {
                   ${
                     activeIndex ===
                     benefitIndex
-                      ? "w-3.5 bg-slate-500"
+                      ? "w-3.5 bg-blue-800"
                       : "w-[4px] bg-slate-200"
                   }
                 `}
@@ -623,7 +623,7 @@ function SafeShopping() {
                   xl:px-7
                 "
               >
-                <div className="shrink-0 text-orange-500">
+                <div className="shrink-0 text-blue-800">
                   <div className="scale-125">
                     <Icon />
                   </div>
@@ -712,7 +712,7 @@ export default function Home() {
       ================================================= */}
 
       <div className="w-full bg-white">
-        <div className="mx-auto w-full max-w-[1240px] px-4 pt-3 sm:px-6 min-[1500px]:ml-[282px] min-[1500px]:mr-6 min-[1500px]:w-[calc(100%-306px)] min-[1800px]:mx-auto min-[1800px]:w-full">
+        <div className="mx-auto w-full max-w-[1460px] px-4 pt-3 sm:px-6 min-[1500px]:ml-[230px] min-[1500px]:mr-6 min-[1500px]:w-[calc(100%-254px)] min-[1900px]:mx-auto min-[1900px]:w-full">
 
           {/* MOBILE INFO BAR */}
           <div
@@ -738,7 +738,7 @@ export default function Home() {
 
               <NavLink
                 to="/terms"
-                className="block text-[8.5px] leading-3 text-slate-400 transition hover:text-emerald-800"
+                className="block text-[8.5px] leading-3 text-slate-400 transition hover:text-blue-800"
               >
                 Termat & Kushtet
               </NavLink>
@@ -746,7 +746,7 @@ export default function Home() {
 
             <NavLink
               to="/contact"
-              className="ml-3 shrink-0 border-l border-slate-300/70 pl-3 text-[9.5px] font-medium text-slate-500 transition hover:text-emerald-900"
+              className="ml-3 shrink-0 border-l border-slate-300/70 pl-3 text-[9.5px] font-medium text-slate-500 transition hover:text-blue-900"
             >
               Support
             </NavLink>
@@ -768,15 +768,15 @@ export default function Home() {
         className="
           mx-auto
           w-full
-          max-w-[1240px]
+          max-w-[1460px]
           px-4
           py-10
           sm:px-6
-          min-[1500px]:ml-[282px]
+          min-[1500px]:ml-[230px]
           min-[1500px]:mr-6
-          min-[1500px]:w-[calc(100%-306px)]
-          min-[1800px]:mx-auto
-          min-[1800px]:w-full
+          min-[1500px]:w-[calc(100%-254px)]
+          min-[1900px]:mx-auto
+          min-[1900px]:w-full
         "
       >
 
@@ -881,7 +881,7 @@ export default function Home() {
 
                   rounded-md
 
-                  bg-orange-500
+                  bg-blue-800
 
                   px-6
                   py-3
@@ -895,7 +895,7 @@ export default function Home() {
                   transition-all
                   duration-200
 
-                  hover:bg-emerald-800
+                  hover:bg-blue-900
                   hover:shadow-md
 
                   active:scale-[0.98]

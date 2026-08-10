@@ -8,127 +8,296 @@ import { products } from "../data/products";
 
 function useQuery() {
   const { search } = useLocation();
-  return useMemo(() => new URLSearchParams(search), [search]);
+
+  return useMemo(
+    () => new URLSearchParams(search),
+    [search]
+  );
 }
 
 function normalize(value) {
-  return String(value || "").toLowerCase().trim();
+  return String(value || "")
+    .toLowerCase()
+    .trim();
 }
 
 export default function Shop() {
   const query = useQuery();
 
-  const categoryParam = query.get("category") || "All";
-  const searchParam = query.get("q") || "";
-  const sortParam = query.get("sort") || "relevance";
+  const categoryParam =
+    query.get("category") || "All";
 
-  const [sort, setSort] = useState(sortParam);
+  const searchParam =
+    query.get("q") || "";
+
+  const sortParam =
+    query.get("sort") || "relevance";
+
+  const [sort, setSort] =
+    useState(sortParam);
 
   useEffect(() => {
     setSort(sortParam);
   }, [sortParam]);
 
-  const filteredProducts = useMemo(() => {
-    let list = [...products];
+  const filteredProducts =
+    useMemo(() => {
+      let list = [...products];
 
-    if (categoryParam !== "All") {
-      if (categoryParam === "laptops-phones") {
-        list = list.filter((p) => p.category === "Laptops" || p.category === "Phones");
-      } else {
-        list = list.filter((p) => p.category === categoryParam);
+      if (categoryParam !== "All") {
+        if (
+          categoryParam ===
+          "laptops-phones"
+        ) {
+          list = list.filter(
+            (p) =>
+              p.category === "Laptops" ||
+              p.category === "Phones"
+          );
+        } else {
+          list = list.filter(
+            (p) =>
+              p.category ===
+              categoryParam
+          );
+        }
       }
-    }
 
-    const q = normalize(searchParam);
-    if (q) {
-      list = list.filter((p) =>
-        normalize(`${p.title} ${p.brand} ${p.category}`).includes(q)
-      );
-    }
+      const q =
+        normalize(searchParam);
 
-    if (sort === "price-asc") {
-      list.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
-    } else if (sort === "price-desc") {
-      list.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
-    } else if (sort === "discount") {
-      list.sort((a, b) => {
-        const da =
-          a.oldPrice && a.oldPrice > a.price
-            ? (a.oldPrice - a.price) / a.oldPrice
-            : 0;
-        const db =
-          b.oldPrice && b.oldPrice > b.price
-            ? (b.oldPrice - b.price) / b.oldPrice
-            : 0;
-        return db - da;
-      });
-    }
+      if (q) {
+        list = list.filter((p) =>
+          normalize(
+            `${p.title} ${p.brand} ${p.category}`
+          ).includes(q)
+        );
+      }
 
-    return list;
-  }, [categoryParam, searchParam, sort]);
+      if (sort === "price-asc") {
+        list.sort(
+          (a, b) =>
+            Number(a.price || 0) -
+            Number(b.price || 0)
+        );
+      } else if (
+        sort === "price-desc"
+      ) {
+        list.sort(
+          (a, b) =>
+            Number(b.price || 0) -
+            Number(a.price || 0)
+        );
+      } else if (
+        sort === "discount"
+      ) {
+        list.sort((a, b) => {
+          const da =
+            a.oldPrice &&
+            a.oldPrice > a.price
+              ? (a.oldPrice -
+                  a.price) /
+                a.oldPrice
+              : 0;
+
+          const db =
+            b.oldPrice &&
+            b.oldPrice > b.price
+              ? (b.oldPrice -
+                  b.price) /
+                b.oldPrice
+              : 0;
+
+          return db - da;
+        });
+      }
+
+      return list;
+    }, [
+      categoryParam,
+      searchParam,
+      sort,
+    ]);
 
   return (
     <div className="min-h-screen bg-white">
+
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <main className="mx-auto w-full max-w-[1460px] px-4 py-10 sm:px-6">
+
+        {/* HEADER */}
+
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+
           <div>
+
             <h1 className="text-2xl font-bold text-slate-900">
-              {categoryParam !== "All" ? categoryParam : "Dyqani"}
+              {categoryParam !== "All"
+                ? categoryParam
+                : "Dyqani"}
             </h1>
+
             <p className="mt-1 text-sm text-slate-600">
-              {filteredProducts.length} produkt{filteredProducts.length !== 1 ? "e" : ""}
-              {searchParam ? ` për “${searchParam}”` : ""}
+              {filteredProducts.length}{" "}
+              produkt
+              {filteredProducts.length !==
+              1
+                ? "e"
+                : ""}
+
+              {searchParam
+                ? ` për “${searchParam}”`
+                : ""}
             </p>
+
           </div>
 
+          {/* SORT */}
+
           <div className="flex items-center gap-3">
-            <label className="text-sm font-medium text-slate-700">Rendit sipas</label>
+
+            <label className="text-sm font-medium text-slate-700">
+              Rendit sipas
+            </label>
 
             <select
               value={sort}
-              onChange={(e) => setSort(e.target.value)}
-              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-200"
+              onChange={(e) =>
+                setSort(
+                  e.target.value
+                )
+              }
+              className="
+                rounded-md
+                border
+                border-slate-200
+                bg-white
+                px-3
+                py-2
+                text-sm
+                text-slate-900
+
+                focus:outline-none
+                focus:ring-2
+                focus:ring-blue-200
+              "
             >
-              <option value="relevance">Relevanca</option>
-              <option value="price-asc">Çmimi: Ulët → Lartë</option>
-              <option value="price-desc">Çmimi: Lartë → Ulët</option>
-              <option value="discount">Zbritja më e madhe</option>
+              <option value="relevance">
+                Relevanca
+              </option>
+
+              <option value="price-asc">
+                Çmimi: Ulët → Lartë
+              </option>
+
+              <option value="price-desc">
+                Çmimi: Lartë → Ulët
+              </option>
+
+              <option value="discount">
+                Zbritja më e madhe
+              </option>
             </select>
 
             <NavLink
               to="/shop"
-              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition"
+              className="
+                rounded-md
+                border
+                border-slate-200
+                bg-white
+                px-3
+                py-2
+                text-sm
+                font-semibold
+                text-slate-900
+                transition
+
+                hover:bg-slate-50
+              "
             >
               Pastro
             </NavLink>
+
           </div>
+
         </div>
 
-        <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+        {/* PRODUCTS */}
+
+        <div
+          className="
+            mt-8
+
+            grid
+            grid-cols-2
+
+            gap-6
+
+            sm:grid-cols-3
+
+            md:grid-cols-4
+
+            lg:grid-cols-5
+          "
+        >
+          {filteredProducts.map(
+            (product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+              />
+            )
+          )}
         </div>
 
-        {filteredProducts.length === 0 && (
+        {/* EMPTY STATE */}
+
+        {filteredProducts.length ===
+          0 && (
+
           <div className="mt-12 rounded-xl border border-slate-200 bg-white p-10 text-center">
-            <p className="text-lg font-semibold text-slate-900">Nuk u gjet asnjë produkt</p>
-            <p className="mt-2 text-sm text-slate-600">
-              Provoni një kategori tjetër ose pastroni filtrat.
+
+            <p className="text-lg font-semibold text-slate-900">
+              Nuk u gjet asnjë
+              produkt
             </p>
+
+            <p className="mt-2 text-sm text-slate-600">
+              Provoni një kategori
+              tjetër ose pastroni
+              filtrat.
+            </p>
+
             <NavLink
               to="/shop"
-              className="mt-5 inline-flex rounded-md bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 transition"
+              className="
+                mt-5
+                inline-flex
+                rounded-md
+                bg-blue-800
+                px-5
+                py-2.5
+                text-sm
+                font-semibold
+                text-white
+                transition
+
+                hover:bg-blue-900
+              "
             >
               Kthehu te Dyqani
             </NavLink>
+
           </div>
+
         )}
+
       </main>
 
       <Footer />
+
     </div>
   );
 }

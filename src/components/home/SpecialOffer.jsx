@@ -30,9 +30,6 @@ function cx(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-/* =========================================================
-   COMPONENT
-========================================================= */
 
 export default function SpecialOffer({
   items = [],
@@ -44,10 +41,6 @@ export default function SpecialOffer({
     toggleWishlist,
     isWishlisted,
   } = useStore();
-
-  /* =========================================================
-     OFFERS
-  ========================================================= */
 
   const offers = useMemo(() => {
     const discounted = items.filter(
@@ -63,9 +56,6 @@ export default function SpecialOffer({
     return list.slice(0, maxItems);
   }, [items, maxItems]);
 
-  /* =========================================================
-     STATE
-  ========================================================= */
 
   const [activeIndex, setActiveIndex] =
     useState(0);
@@ -73,7 +63,6 @@ export default function SpecialOffer({
   const [animKey, setAnimKey] =
     useState(0);
 
-  /* Product that was just added to cart */
   const [addedProductId, setAddedProductId] =
     useState(null);
 
@@ -81,9 +70,6 @@ export default function SpecialOffer({
 
   const cartTimerRef = useRef(null);
 
-  /* =========================================================
-     KEEP INDEX VALID
-  ========================================================= */
 
   useEffect(() => {
     if (activeIndex >= offers.length) {
@@ -93,9 +79,6 @@ export default function SpecialOffer({
 
   const active = offers[activeIndex];
 
-  /* =========================================================
-     OFFER AUTO SLIDER
-  ========================================================= */
 
   useEffect(() => {
     if (!offers.length) return;
@@ -117,9 +100,6 @@ export default function SpecialOffer({
     };
   }, [offers.length, intervalMs]);
 
-  /* =========================================================
-     CLEANUP CART TIMER
-  ========================================================= */
 
   useEffect(() => {
     return () => {
@@ -129,18 +109,11 @@ export default function SpecialOffer({
     };
   }, []);
 
-  /* =========================================================
-     SELECT OFFER
-  ========================================================= */
 
   function selectIndex(i) {
     setActiveIndex(i);
     setAnimKey((k) => k + 1);
   }
-
-  /* =========================================================
-     ADD TO CART ANIMATION
-  ========================================================= */
 
   function handleAddToCart(product) {
     addToCart(product);
@@ -156,17 +129,11 @@ export default function SpecialOffer({
     }, 1300);
   }
 
-  /* =========================================================
-     EMPTY
-  ========================================================= */
 
   if (!offers.length) {
     return null;
   }
 
-  /* =========================================================
-     ACTIVE PRODUCT VALUES
-  ========================================================= */
 
   const pct = discountPct(
     active.price,
@@ -184,9 +151,7 @@ export default function SpecialOffer({
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6">
-      {/* =====================================================
-          TITLE
-      ====================================================== */}
+    
 
       <div className="flex items-end justify-between gap-6">
         <div>
@@ -200,14 +165,8 @@ export default function SpecialOffer({
         </div>
       </div>
 
-      {/* =====================================================
-          CONTENT
-      ====================================================== */}
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-        {/* ===================================================
-            MAIN ACTIVE OFFER
-        ==================================================== */}
 
         <div
           className="
@@ -233,9 +192,6 @@ export default function SpecialOffer({
               motion-reduce:animate-none
             "
           >
-            {/* =================================================
-                PRODUCT IMAGE AREA
-            ================================================== */}
 
             <div className="relative w-full rounded-xl bg-slate-50 p-6">
               {/* DISCOUNT */}
@@ -245,12 +201,15 @@ export default function SpecialOffer({
                   <span
                     className="
                       rounded-full
-                      bg-orange-500
+                      bg-white
                       px-3
                       py-1
                       text-xs
                       font-bold
-                      text-white
+                      text-blue-800
+                      shadow-sm
+                      ring-1
+                      ring-slate-200
                     "
                   >
                     -{pct}%
@@ -259,12 +218,15 @@ export default function SpecialOffer({
                   <span
                     className="
                       rounded-full
-                      bg-emerald-900
+                      bg-white
                       px-3
                       py-1
                       text-xs
                       font-semibold
-                      text-white
+                      text-blue-800
+                      shadow-sm
+                      ring-1
+                      ring-slate-200
                     "
                   >
                     24h
@@ -272,86 +234,6 @@ export default function SpecialOffer({
                 </div>
               )}
 
-              {/* =================================================
-                  HEART
-              ================================================== */}
-
-              <button
-                type="button"
-                onClick={() =>
-                  toggleWishlist(active)
-                }
-                className="
-                  absolute
-                  right-4
-                  top-4
-                  z-10
-                  flex
-                  h-10
-                  w-10
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-white
-                  shadow-sm
-                  ring-1
-                  ring-slate-200
-                  transition-all
-                  duration-200
-
-                  hover:bg-emerald-50
-                  active:scale-90
-                "
-                aria-label={
-                  wish
-                    ? "Largo nga lista e dëshirave"
-                    : "Shto në listën e dëshirave"
-                }
-                title={
-                  wish
-                    ? "Largo nga lista e dëshirave"
-                    : "Shto në listën e dëshirave"
-                }
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="
-                    h-[22px]
-                    w-[22px]
-                    overflow-visible
-                  "
-                  aria-hidden="true"
-                >
-                  <path
-                    d="
-                      M20.84 4.61
-                      a5.5 5.5 0 0 0-7.78 0
-                      L12 5.67
-                      l-1.06-1.06
-                      a5.5 5.5 0 0 0-7.78 7.78
-                      L12 21.23
-                      l8.84-8.84
-                      a5.5 5.5 0 0 0 0-7.78
-                      Z
-                    "
-                    fill={
-                      wish
-                        ? "#065f46"
-                        : "#ffffff"
-                    }
-                    stroke="#065f46"
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="
-                      transition-all
-                      duration-200
-                    "
-                  />
-                </svg>
-              </button>
-
-              {/* PRODUCT */}
 
               <img
                 src={active.image}
@@ -369,9 +251,6 @@ export default function SpecialOffer({
               />
             </div>
 
-            {/* =================================================
-                PRODUCT INFORMATION
-            ================================================== */}
 
             <div className="mt-5 text-center">
               <h3
@@ -387,8 +266,6 @@ export default function SpecialOffer({
               >
                 {active.title}
               </h3>
-
-              {/* PRICE */}
 
               <div
                 className="
@@ -417,12 +294,15 @@ export default function SpecialOffer({
                     <span
                       className="
                         rounded-md
-                        bg-orange-50
+                        bg-white
                         px-2
                         py-1
                         text-xs
                         font-bold
-                        text-orange-600
+                        text-blue-800
+                        shadow-sm
+                        ring-1
+                        ring-slate-200
                       "
                     >
                       -{pct}%
@@ -431,7 +311,6 @@ export default function SpecialOffer({
                 )}
               </div>
 
-              {/* SAVINGS */}
 
               {pct !== null && (
                 <p className="mt-2 text-sm text-slate-600">
@@ -442,24 +321,16 @@ export default function SpecialOffer({
                 </p>
               )}
 
-              {/* =================================================
-                  BUTTONS
-              ================================================== */}
 
               <div
                 className="
                   mt-5
                   flex
-                  flex-col
+                  items-center
                   justify-center
                   gap-3
-
-                  sm:flex-row
                 "
               >
-                {/* ===============================================
-                    ADD TO CART
-                ================================================ */}
 
                 <button
                   type="button"
@@ -469,7 +340,8 @@ export default function SpecialOffer({
                   className={`
                     relative
                     inline-flex
-                    min-w-[185px]
+                    min-w-0
+                    flex-1
                     items-center
                     justify-center
                     overflow-hidden
@@ -491,22 +363,21 @@ export default function SpecialOffer({
                       isAdded
                         ? `
                           scale-[1.025]
-                          border-emerald-700
-                          bg-emerald-700
-                          shadow-[0_5px_18px_rgba(4,120,87,0.22)]
+                          border-blue-800
+                          bg-blue-800
+                          shadow-[0_5px_18px_rgba(30,64,175,0.20)]
                         `
                         : `
-                          border-orange-500
-                          bg-orange-500
+                          border-blue-800
+                          bg-blue-800
 
-                          hover:border-orange-600
-                          hover:bg-orange-600
+                          hover:border-blue-900
+                          hover:bg-blue-900
                           hover:shadow-md
                         `
                     }
                   `}
                 >
-                  {/* CART STATE */}
 
                   <span
                     className={`
@@ -553,8 +424,6 @@ export default function SpecialOffer({
                     Shto në shportë
                   </span>
 
-                  {/* SUCCESS STATE */}
-
                   <span
                     className={`
                       absolute
@@ -591,57 +460,61 @@ export default function SpecialOffer({
                   </span>
                 </button>
 
-                {/* ===============================================
-                    WISHLIST BUTTON
-                ================================================ */}
 
                 <button
                   type="button"
                   onClick={() =>
                     toggleWishlist(active)
                   }
-                  className={`
+                  className="
                     inline-flex
+                    h-12
+                    w-12
+                    shrink-0
                     items-center
                     justify-center
                     rounded-full
-                    px-6
-                    py-3
-                    text-sm
-                    font-semibold
+                    bg-white
+                    shadow-sm
+                    ring-1
+                    ring-slate-200
                     transition-all
                     duration-200
-                    active:scale-[0.97]
 
-                    ${
-                      wish
-                        ? `
-                          bg-emerald-900
-                          text-white
-
-                          hover:bg-emerald-950
-                        `
-                        : `
-                          bg-orange-500
-                          text-white
-
-                          hover:bg-orange-600
-                        `
-                    }
-                  `}
+                    hover:bg-blue-50
+                    active:scale-90
+                  "
+                  aria-label={
+                    wish
+                      ? "Largo nga lista e dëshirave"
+                      : "Shto në listën e dëshirave"
+                  }
+                  title={
+                    wish
+                      ? "Largo nga lista e dëshirave"
+                      : "Shto në listën e dëshirave"
+                  }
                 >
-                  {wish
-                    ? "Në listën e dëshirave"
-                    : "Lista e dëshirave"}
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-6 w-6 overflow-visible"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
+                      fill={wish ? "#1e3a8a" : "#ffffff"}
+                      stroke="#1e3a8a"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="transition-all duration-200"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
           </div>
         </div>
-
-        {/* ===================================================
-            OFFER LIST
-        ==================================================== */}
 
         <div
           className="
@@ -691,11 +564,11 @@ export default function SpecialOffer({
                       transition
                     `,
                     isActive
-                      ? "bg-emerald-50"
+                      ? "bg-blue-50"
                       : "bg-white hover:bg-slate-50"
                   )}
                 >
-                  {/* IMAGE */}
+                 
 
                   <div
                     className="
@@ -715,7 +588,7 @@ export default function SpecialOffer({
                     />
                   </div>
 
-                  {/* INFO */}
+               
 
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-slate-900">
@@ -740,12 +613,15 @@ export default function SpecialOffer({
                           <span
                             className="
                               rounded-md
-                              bg-orange-50
+                              bg-white
                               px-2
                               py-0.5
                               text-[11px]
                               font-bold
-                              text-orange-600
+                              text-blue-800
+                              shadow-sm
+                              ring-1
+                              ring-slate-200
                             "
                           >
                             -{pct2}%
@@ -758,7 +634,7 @@ export default function SpecialOffer({
                   {/* ACTIVE */}
 
                   {isActive && (
-                    <span className="h-2 w-2 shrink-0 rounded-full bg-orange-500" />
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-blue-800" />
                   )}
                 </button>
               );
@@ -766,10 +642,6 @@ export default function SpecialOffer({
           </div>
         </div>
       </div>
-
-      {/* =====================================================
-          CSS ANIMATIONS
-      ====================================================== */}
 
       <style>
         {`
