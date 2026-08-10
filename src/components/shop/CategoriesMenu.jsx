@@ -1,17 +1,22 @@
-import { NavLink, useLocation } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import {
+  NavLink,
+  useLocation,
+} from "react-router-dom";
 
-/* =========================================================
-   SEARCH PATH
-========================================================= */
+import {
+  useEffect,
+  useState,
+} from "react";
 
-export function shopSearchPath(query) {
-  return `/shop?q=${encodeURIComponent(query)}`;
+import logo from "../../assets/logo.png";
+
+export function shopSearchPath(
+  query
+) {
+  return `/shop?q=${encodeURIComponent(
+    query
+  )}`;
 }
-
-/* =========================================================
-   CATEGORY DATA
-========================================================= */
 
 export const categoryGroups = [
   {
@@ -22,32 +27,46 @@ export const categoryGroups = [
         title: "Gaming PC",
         items: [
           {
-            label: "Të gjithë Gaming PC",
-            query: "Gaming PCs",
+            label:
+              "Të gjithë Gaming PC",
+            query:
+              "Gaming PCs",
           },
           {
-            label: "RTX 4060",
-            query: "RTX 4060",
+            label:
+              "RTX 4060",
+            query:
+              "RTX 4060",
           },
           {
-            label: "RTX 4070",
-            query: "RTX 4070",
+            label:
+              "RTX 4070",
+            query:
+              "RTX 4070",
           },
           {
-            label: "RTX 4080",
-            query: "RTX 4080",
+            label:
+              "RTX 4080",
+            query:
+              "RTX 4080",
           },
           {
-            label: "RTX 4090",
-            query: "RTX 4090",
+            label:
+              "RTX 4090",
+            query:
+              "RTX 4090",
           },
           {
-            label: "Ryzen Gaming PC",
-            query: "Ryzen Gaming PC",
+            label:
+              "Ryzen Gaming PC",
+            query:
+              "Ryzen Gaming PC",
           },
           {
-            label: "Intel Gaming PC",
-            query: "Intel Gaming PC",
+            label:
+              "Intel Gaming PC",
+            query:
+              "Intel Gaming PC",
           },
         ],
       },
@@ -56,242 +75,144 @@ export const categoryGroups = [
         title: "Konsola",
         items: [
           {
-            label: "PlayStation 5",
-            query: "PlayStation 5",
+            label:
+              "PlayStation 5",
+            query:
+              "PlayStation 5",
           },
           {
-            label: "PS5 Slim",
-            query: "PlayStation 5 Slim",
+            label:
+              "PS5 Slim",
+            query:
+              "PlayStation 5 Slim",
           },
           {
-            label: "DualSense",
-            query: "DualSense",
+            label:
+              "DualSense",
+            query:
+              "DualSense",
           },
           {
-            label: "Xbox Series",
-            query: "Xbox Series",
+            label:
+              "Xbox Series",
+            query:
+              "Xbox Series",
           },
           {
-            label: "Nintendo Switch",
-            query: "Nintendo Switch",
+            label:
+              "Nintendo Switch",
+            query:
+              "Nintendo Switch",
           },
           {
-            label: "Controllers",
-            query: "Controller",
+            label:
+              "Controllers",
+            query:
+              "Controller",
           },
           {
-            label: "Console Accessories",
-            query: "Console Accessories",
-          },
-        ],
-      },
-
-      {
-        title: "Gaming Gear",
-        items: [
-          {
-            label: "Gaming Mouse",
-            query: "Gaming Mouse",
-          },
-          {
-            label: "Mechanical Keyboard",
-            query: "Mechanical Keyboard",
-          },
-          {
-            label: "Gaming Kufje",
-            query: "Gaming Headset",
-          },
-          {
-            label: "Wireless Mouse",
-            query: "Wireless Mouse",
-          },
-          {
-            label: "Mouse Pad",
-            query: "Mouse Pad",
-          },
-          {
-            label: "Streaming Gear",
-            query: "Streaming Gear",
-          },
-          {
-            label: "Racing Wheel",
-            query: "Racing Wheel",
+            label:
+              "Console Accessories",
+            query:
+              "Console Accessories",
           },
         ],
       },
 
       {
-        title: "Komponentë",
+        title:
+          "Gaming Gear",
         items: [
           {
-            label: "Kartela Grafike",
-            query: "NVIDIA GeForce",
+            label:
+              "Gaming Mouse",
+            query:
+              "Gaming Mouse",
           },
           {
-            label: "AMD Ryzen",
-            query: "AMD Ryzen",
+            label:
+              "Mechanical Keyboard",
+            query:
+              "Mechanical Keyboard",
           },
           {
-            label: "Intel Core",
-            query: "Intel Core",
+            label:
+              "Gaming Kufje",
+            query:
+              "Gaming Headset",
           },
           {
-            label: "DDR5 RAM",
-            query: "DDR5 RAM",
+            label:
+              "Wireless Mouse",
+            query:
+              "Wireless Mouse",
           },
           {
-            label: "NVMe SSD",
-            query: "NVMe SSD",
+            label:
+              "Mouse Pad",
+            query:
+              "Mouse Pad",
           },
           {
-            label: "Power Supply",
-            query: "Power Supply",
+            label:
+              "Streaming Gear",
+            query:
+              "Streaming Gear",
           },
           {
-            label: "CPU Cooling",
-            query: "CPU Cooler",
-          },
-        ],
-      },
-    ],
-  },
-
-  {
-    label: "Laptopë & Telefona",
-    to: "/laptops-phones",
-    sections: [
-      {
-        title: "Telefona",
-        items: [
-          {
-            label: "Të gjithë telefonat",
-            query: "Phones",
-          },
-          {
-            label: "iPhone",
-            query: "iPhone",
-          },
-          {
-            label: "Samsung Galaxy",
-            query: "Samsung Galaxy",
-          },
-          {
-            label: "Xiaomi",
-            query: "Xiaomi",
-          },
-          {
-            label: "Google Pixel",
-            query: "Google Pixel",
-          },
-          {
-            label: "OnePlus",
-            query: "OnePlus",
-          },
-          {
-            label: "Telefona 5G",
-            query: "5G Phone",
+            label:
+              "Racing Wheel",
+            query:
+              "Racing Wheel",
           },
         ],
       },
 
       {
-        title: "Laptopë",
+        title:
+          "Komponentë",
         items: [
           {
-            label: "Të gjithë laptopët",
-            query: "Laptops",
+            label:
+              "Kartela Grafike",
+            query:
+              "NVIDIA GeForce",
           },
           {
-            label: "Gaming Laptopë",
-            query: "Gaming Laptop",
+            label:
+              "AMD Ryzen",
+            query:
+              "AMD Ryzen",
           },
           {
-            label: "MacBook",
-            query: "MacBook",
+            label:
+              "Intel Core",
+            query:
+              "Intel Core",
           },
           {
-            label: "ASUS TUF",
-            query: "ASUS TUF",
+            label:
+              "DDR5 RAM",
+            query:
+              "DDR5 RAM",
           },
           {
-            label: "Lenovo Legion",
-            query: "Lenovo Legion",
+            label:
+              "NVMe SSD",
+            query:
+              "NVMe SSD",
           },
           {
-            label: "Dell Laptop",
-            query: "Dell Laptop",
+            label:
+              "Power Supply",
+            query:
+              "Power Supply",
           },
           {
-            label: "HP Laptop",
-            query: "HP Laptop",
-          },
-        ],
-      },
-
-      {
-        title: "Marka Telefona",
-        items: [
-          {
-            label: "Apple",
-            query: "Apple iPhone",
-          },
-          {
-            label: "Samsung",
-            query: "Samsung Galaxy",
-          },
-          {
-            label: "Xiaomi",
-            query: "Xiaomi Phone",
-          },
-          {
-            label: "OnePlus",
-            query: "OnePlus",
-          },
-          {
-            label: "Google",
-            query: "Google Pixel",
-          },
-          {
-            label: "Android",
-            query: "Android Phone",
-          },
-          {
-            label: "Premium Phones",
-            query: "Premium Phone",
-          },
-        ],
-      },
-
-      {
-        title: "Marka Laptopë",
-        items: [
-          {
-            label: "Apple MacBook",
-            query: "MacBook",
-          },
-          {
-            label: "ASUS",
-            query: "ASUS Laptop",
-          },
-          {
-            label: "Lenovo",
-            query: "Lenovo Laptop",
-          },
-          {
-            label: "Dell",
-            query: "Dell Laptop",
-          },
-          {
-            label: "HP",
-            query: "HP Laptop",
-          },
-          {
-            label: "MSI",
-            query: "MSI Laptop",
-          },
-          {
-            label: "Acer",
-            query: "Acer Laptop",
+            label:
+              "CPU Cooling",
+            query:
+              "CPU Cooler",
           },
         ],
       },
@@ -299,141 +220,208 @@ export const categoryGroups = [
   },
 
   {
-    label: "Komponentë PC",
-    to: shopSearchPath("PC Components"),
+    label:
+      "Laptopë & Telefona",
+    to:
+      "/laptops-phones",
+
     sections: [
       {
-        title: "Kartela Grafike",
+        title:
+          "Telefona",
+
         items: [
           {
-            label: "Të gjitha GPU",
-            query: "NVIDIA GeForce",
+            label:
+              "Të gjithë telefonat",
+            query:
+              "Phones",
           },
           {
-            label: "RTX 5090",
-            query: "RTX 5090",
+            label:
+              "iPhone",
+            query:
+              "iPhone",
           },
           {
-            label: "RTX 4080 SUPER",
-            query: "RTX 4080 SUPER",
+            label:
+              "Samsung Galaxy",
+            query:
+              "Samsung Galaxy",
           },
           {
-            label: "RTX 4070",
-            query: "RTX 4070",
+            label:
+              "Xiaomi",
+            query:
+              "Xiaomi",
           },
           {
-            label: "RTX 4060",
-            query: "RTX 4060",
+            label:
+              "Google Pixel",
+            query:
+              "Google Pixel",
           },
           {
-            label: "NVIDIA",
-            query: "NVIDIA",
+            label:
+              "OnePlus",
+            query:
+              "OnePlus",
           },
           {
-            label: "GeForce RTX",
-            query: "GeForce RTX",
+            label:
+              "Telefona 5G",
+            query:
+              "5G Phone",
           },
         ],
       },
 
       {
-        title: "CPU & Motherboard",
+        title:
+          "Laptopë",
+
         items: [
           {
-            label: "AMD Ryzen",
-            query: "AMD Ryzen",
+            label:
+              "Të gjithë laptopët",
+            query:
+              "Laptops",
           },
           {
-            label: "Ryzen 7",
-            query: "Ryzen 7",
+            label:
+              "Gaming Laptopë",
+            query:
+              "Gaming Laptop",
           },
           {
-            label: "Intel Core",
-            query: "Intel Core",
+            label:
+              "MacBook",
+            query:
+              "MacBook",
           },
           {
-            label: "Motherboard",
-            query: "Motherboard",
+            label:
+              "ASUS TUF",
+            query:
+              "ASUS TUF",
           },
           {
-            label: "B650",
-            query: "B650",
+            label:
+              "Lenovo Legion",
+            query:
+              "Lenovo Legion",
           },
           {
-            label: "AM5",
-            query: "AM5",
+            label:
+              "Dell Laptop",
+            query:
+              "Dell Laptop",
           },
           {
-            label: "Gaming Motherboard",
-            query: "Gaming Motherboard",
+            label:
+              "HP Laptop",
+            query:
+              "HP Laptop",
           },
         ],
       },
 
       {
-        title: "RAM & Storage",
+        title:
+          "Marka Telefona",
+
         items: [
           {
-            label: "DDR5 RAM",
-            query: "DDR5 RAM",
+            label:
+              "Apple",
+            query:
+              "Apple iPhone",
           },
           {
-            label: "32GB RAM",
-            query: "32GB RAM",
+            label:
+              "Samsung",
+            query:
+              "Samsung Galaxy",
           },
           {
-            label: "64GB RAM",
-            query: "64GB RAM",
+            label:
+              "Xiaomi",
+            query:
+              "Xiaomi Phone",
           },
           {
-            label: "NVMe SSD",
-            query: "NVMe SSD",
+            label:
+              "OnePlus",
+            query:
+              "OnePlus",
           },
           {
-            label: "1TB SSD",
-            query: "1TB SSD",
+            label:
+              "Google",
+            query:
+              "Google Pixel",
           },
           {
-            label: "2TB SSD",
-            query: "2TB SSD",
+            label:
+              "Android",
+            query:
+              "Android Phone",
           },
           {
-            label: "Storage",
-            query: "SSD",
+            label:
+              "Premium Phones",
+            query:
+              "Premium Phone",
           },
         ],
       },
 
       {
-        title: "Power & Cooling",
+        title:
+          "Marka Laptopë",
+
         items: [
           {
-            label: "Power Supply",
-            query: "Power Supply",
+            label:
+              "Apple MacBook",
+            query:
+              "MacBook",
           },
           {
-            label: "750W PSU",
-            query: "750W Power Supply",
+            label:
+              "ASUS",
+            query:
+              "ASUS Laptop",
           },
           {
-            label: "850W PSU",
-            query: "850W Power Supply",
+            label:
+              "Lenovo",
+            query:
+              "Lenovo Laptop",
           },
           {
-            label: "CPU Cooler",
-            query: "CPU Cooler",
+            label:
+              "Dell",
+            query:
+              "Dell Laptop",
           },
           {
-            label: "AIO Liquid",
-            query: "AIO Liquid",
+            label:
+              "HP",
+            query:
+              "HP Laptop",
           },
           {
-            label: "240mm AIO",
-            query: "240mm AIO",
+            label:
+              "MSI",
+            query:
+              "MSI Laptop",
           },
           {
-            label: "PC Fans",
-            query: "PC Fan",
+            label:
+              "Acer",
+            query:
+              "Acer Laptop",
           },
         ],
       },
@@ -441,141 +429,211 @@ export const categoryGroups = [
   },
 
   {
-    label: "Aksesorë",
-    to: "/Accessories",
+    label:
+      "Komponentë PC",
+
+    to:
+      shopSearchPath(
+        "PC Components"
+      ),
+
     sections: [
       {
-        title: "Mouse & Tastiera",
+        title:
+          "Kartela Grafike",
+
         items: [
           {
-            label: "Të gjitha",
-            query: "Keyboards & Mice",
+            label:
+              "Të gjitha GPU",
+            query:
+              "NVIDIA GeForce",
           },
           {
-            label: "Gaming Mouse",
-            query: "Gaming Mouse",
+            label:
+              "RTX 5090",
+            query:
+              "RTX 5090",
           },
           {
-            label: "Wireless Mouse",
-            query: "Wireless Mouse",
+            label:
+              "RTX 4080 SUPER",
+            query:
+              "RTX 4080 SUPER",
           },
           {
-            label: "Mechanical Keyboard",
-            query: "Mechanical Keyboard",
+            label:
+              "RTX 4070",
+            query:
+              "RTX 4070",
           },
           {
-            label: "Wireless Keyboard",
-            query: "Wireless Keyboard",
+            label:
+              "RTX 4060",
+            query:
+              "RTX 4060",
           },
           {
-            label: "Logitech",
-            query: "Logitech",
+            label:
+              "NVIDIA",
+            query:
+              "NVIDIA",
           },
           {
-            label: "Keychron",
-            query: "Keychron",
+            label:
+              "GeForce RTX",
+            query:
+              "GeForce RTX",
           },
         ],
       },
 
       {
-        title: "Audio",
+        title:
+          "CPU & Motherboard",
+
         items: [
           {
-            label: "Kufje",
-            query: "Headset",
+            label:
+              "AMD Ryzen",
+            query:
+              "AMD Ryzen",
           },
           {
-            label: "Gaming Kufje",
-            query: "Gaming Headset",
+            label:
+              "Ryzen 7",
+            query:
+              "Ryzen 7",
           },
           {
-            label: "Wireless Headset",
-            query: "Wireless Headset",
+            label:
+              "Intel Core",
+            query:
+              "Intel Core",
           },
           {
-            label: "AirPods",
-            query: "AirPods",
+            label:
+              "Motherboard",
+            query:
+              "Motherboard",
           },
           {
-            label: "SteelSeries",
-            query: "SteelSeries",
+            label:
+              "B650",
+            query:
+              "B650",
           },
           {
-            label: "Sony INZONE",
-            query: "Sony INZONE",
+            label:
+              "AM5",
+            query:
+              "AM5",
           },
           {
-            label: "Bluetooth Audio",
-            query: "Bluetooth Audio",
+            label:
+              "Gaming Motherboard",
+            query:
+              "Gaming Motherboard",
           },
         ],
       },
 
       {
-        title: "Karikim & Lidhje",
+        title:
+          "RAM & Storage",
+
         items: [
           {
-            label: "Karikues",
-            query: "Charger",
+            label:
+              "DDR5 RAM",
+            query:
+              "DDR5 RAM",
           },
           {
-            label: "USB-C Charger",
-            query: "USB-C Charger",
+            label:
+              "32GB RAM",
+            query:
+              "32GB RAM",
           },
           {
-            label: "Power Bank",
-            query: "Power Bank",
+            label:
+              "64GB RAM",
+            query:
+              "64GB RAM",
           },
           {
-            label: "USB-C Cable",
-            query: "USB-C Cable",
+            label:
+              "NVMe SSD",
+            query:
+              "NVMe SSD",
           },
           {
-            label: "HDMI",
-            query: "HDMI Cable",
+            label:
+              "1TB SSD",
+            query:
+              "1TB SSD",
           },
           {
-            label: "Anker",
-            query: "Anker",
+            label:
+              "2TB SSD",
+            query:
+              "2TB SSD",
           },
           {
-            label: "Baseus",
-            query: "Baseus",
+            label:
+              "Storage",
+            query:
+              "SSD",
           },
         ],
       },
 
       {
-        title: "Të tjera",
+        title:
+          "Power & Cooling",
+
         items: [
           {
-            label: "Mouse Pad",
-            query: "Mouse Pad",
+            label:
+              "Power Supply",
+            query:
+              "Power Supply",
           },
           {
-            label: "Webcam",
-            query: "Webcam",
+            label:
+              "750W PSU",
+            query:
+              "750W Power Supply",
           },
           {
-            label: "USB Hub",
-            query: "USB Hub",
+            label:
+              "850W PSU",
+            query:
+              "850W Power Supply",
           },
           {
-            label: "Docking Station",
-            query: "Docking Station",
+            label:
+              "CPU Cooler",
+            query:
+              "CPU Cooler",
           },
           {
-            label: "Laptop Stand",
-            query: "Laptop Stand",
+            label:
+              "AIO Liquid",
+            query:
+              "AIO Liquid",
           },
           {
-            label: "Phone Accessories",
-            query: "Phone Accessories",
+            label:
+              "240mm AIO",
+            query:
+              "240mm AIO",
           },
           {
-            label: "Smart Accessories",
-            query: "Smart Accessories",
+            label:
+              "PC Fans",
+            query:
+              "PC Fan",
           },
         ],
       },
@@ -583,141 +641,209 @@ export const categoryGroups = [
   },
 
   {
-    label: "Monitorë",
-    to: "/Monitors",
+    label:
+      "Aksesorë",
+
+    to:
+      "/Accessories",
+
     sections: [
       {
-        title: "Gaming",
+        title:
+          "Mouse & Tastiera",
+
         items: [
           {
-            label: "Të gjithë monitorët",
-            query: "Monitors",
+            label:
+              "Të gjitha",
+            query:
+              "Keyboards & Mice",
           },
           {
-            label: "120Hz",
-            query: "120Hz Monitor",
+            label:
+              "Gaming Mouse",
+            query:
+              "Gaming Mouse",
           },
           {
-            label: "144Hz",
-            query: "144Hz",
+            label:
+              "Wireless Mouse",
+            query:
+              "Wireless Mouse",
           },
           {
-            label: "165Hz",
-            query: "165Hz",
+            label:
+              "Mechanical Keyboard",
+            query:
+              "Mechanical Keyboard",
           },
           {
-            label: "180Hz",
-            query: "180Hz Monitor",
+            label:
+              "Wireless Keyboard",
+            query:
+              "Wireless Keyboard",
           },
           {
-            label: "240Hz",
-            query: "240Hz",
+            label:
+              "Logitech",
+            query:
+              "Logitech",
           },
           {
-            label: "1ms",
-            query: "1ms Monitor",
+            label:
+              "Keychron",
+            query:
+              "Keychron",
           },
         ],
       },
 
       {
-        title: "Rezolucioni",
+        title:
+          "Audio",
+
         items: [
           {
-            label: "Full HD",
-            query: "Full HD Monitor",
+            label:
+              "Kufje",
+            query:
+              "Headset",
           },
           {
-            label: "QHD",
-            query: "QHD Monitor",
+            label:
+              "Gaming Kufje",
+            query:
+              "Gaming Headset",
           },
           {
-            label: "WQHD",
-            query: "WQHD",
+            label:
+              "Wireless Headset",
+            query:
+              "Wireless Headset",
           },
           {
-            label: "4K",
-            query: "4K Monitor",
+            label:
+              "AirPods",
+            query:
+              "AirPods",
           },
           {
-            label: "UltraWide",
-            query: "UltraWide",
+            label:
+              "SteelSeries",
+            query:
+              "SteelSeries",
           },
           {
-            label: "DQHD",
-            query: "DQHD",
+            label:
+              "Sony INZONE",
+            query:
+              "Sony INZONE",
           },
           {
-            label: "Super UltraWide",
-            query: "Super UltraWide",
+            label:
+              "Bluetooth Audio",
+            query:
+              "Bluetooth Audio",
           },
         ],
       },
 
       {
-        title: "Madhësia",
+        title:
+          "Karikim & Lidhje",
+
         items: [
           {
-            label: '24"',
-            query: '24" Monitor',
+            label:
+              "Karikues",
+            query:
+              "Charger",
           },
           {
-            label: '27"',
-            query: '27" Monitor',
+            label:
+              "USB-C Charger",
+            query:
+              "USB-C Charger",
           },
           {
-            label: '32"',
-            query: '32" Monitor',
+            label:
+              "Power Bank",
+            query:
+              "Power Bank",
           },
           {
-            label: '34"',
-            query: '34" Monitor',
+            label:
+              "USB-C Cable",
+            query:
+              "USB-C Cable",
           },
           {
-            label: '38"',
-            query: '38" Monitor',
+            label:
+              "HDMI",
+            query:
+              "HDMI Cable",
           },
           {
-            label: '49"',
-            query: '49" Monitor',
+            label:
+              "Anker",
+            query:
+              "Anker",
           },
           {
-            label: "Curved",
-            query: "Curved Monitor",
+            label:
+              "Baseus",
+            query:
+              "Baseus",
           },
         ],
       },
 
       {
-        title: "Marka",
+        title:
+          "Të tjera",
+
         items: [
           {
-            label: "MSI",
-            query: "MSI Monitor",
+            label:
+              "Mouse Pad",
+            query:
+              "Mouse Pad",
           },
           {
-            label: "Samsung",
-            query: "Samsung Monitor",
+            label:
+              "Webcam",
+            query:
+              "Webcam",
           },
           {
-            label: "ASUS",
-            query: "ASUS Monitor",
+            label:
+              "USB Hub",
+            query:
+              "USB Hub",
           },
           {
-            label: "AOC",
-            query: "AOC Monitor",
+            label:
+              "Docking Station",
+            query:
+              "Docking Station",
           },
           {
-            label: "LG",
-            query: "LG Monitor",
+            label:
+              "Laptop Stand",
+            query:
+              "Laptop Stand",
           },
           {
-            label: "Dell",
-            query: "Dell Monitor",
+            label:
+              "Phone Accessories",
+            query:
+              "Phone Accessories",
           },
           {
-            label: "Gaming Monitor",
-            query: "Gaming Monitor",
+            label:
+              "Smart Accessories",
+            query:
+              "Smart Accessories",
           },
         ],
       },
@@ -725,141 +851,209 @@ export const categoryGroups = [
   },
 
   {
-    label: "Smart Pajisje",
-    to: shopSearchPath("Smart Accessories"),
+    label:
+      "Monitorë",
+
+    to:
+      "/Monitors",
+
     sections: [
       {
-        title: "Smartwatch",
+        title:
+          "Gaming",
+
         items: [
           {
-            label: "Të gjitha",
-            query: "Smart Accessories",
+            label:
+              "Të gjithë monitorët",
+            query:
+              "Monitors",
           },
           {
-            label: "Apple Watch",
-            query: "Apple Watch",
+            label:
+              "120Hz",
+            query:
+              "120Hz Monitor",
           },
           {
-            label: "Galaxy Watch",
-            query: "Galaxy Watch",
+            label:
+              "144Hz",
+            query:
+              "144Hz",
           },
           {
-            label: "Samsung Watch",
-            query: "Samsung Galaxy Watch",
+            label:
+              "165Hz",
+            query:
+              "165Hz",
           },
           {
-            label: "Wearables",
-            query: "Wearables",
+            label:
+              "180Hz",
+            query:
+              "180Hz Monitor",
           },
           {
-            label: "Smart Bands",
-            query: "Smart Band",
+            label:
+              "240Hz",
+            query:
+              "240Hz",
           },
           {
-            label: "Watch Accessories",
-            query: "Watch Accessories",
+            label:
+              "1ms",
+            query:
+              "1ms Monitor",
           },
         ],
       },
 
       {
-        title: "Audio Smart",
+        title:
+          "Rezolucioni",
+
         items: [
           {
-            label: "AirPods Pro",
-            query: "AirPods Pro",
+            label:
+              "Full HD",
+            query:
+              "Full HD Monitor",
           },
           {
-            label: "Wireless Headset",
-            query: "Wireless Headset",
+            label:
+              "QHD",
+            query:
+              "QHD Monitor",
           },
           {
-            label: "Bluetooth Earbuds",
-            query: "Bluetooth Earbuds",
+            label:
+              "WQHD",
+            query:
+              "WQHD",
           },
           {
-            label: "Sony INZONE",
-            query: "Sony INZONE",
+            label:
+              "4K",
+            query:
+              "4K Monitor",
           },
           {
-            label: "SteelSeries",
-            query: "SteelSeries",
+            label:
+              "UltraWide",
+            query:
+              "UltraWide",
           },
           {
-            label: "Logitech",
-            query: "Logitech Headset",
+            label:
+              "DQHD",
+            query:
+              "DQHD",
           },
           {
-            label: "Wireless Audio",
-            query: "Wireless Audio",
+            label:
+              "Super UltraWide",
+            query:
+              "Super UltraWide",
           },
         ],
       },
 
       {
-        title: "Energjia",
+        title:
+          "Madhësia",
+
         items: [
           {
-            label: "USB-C Charger",
-            query: "USB-C Charger",
+            label:
+              '24"',
+            query:
+              '24" Monitor',
           },
           {
-            label: "Fast Charger",
-            query: "Fast Charger",
+            label:
+              '27"',
+            query:
+              '27" Monitor',
           },
           {
-            label: "Wireless Charger",
-            query: "Wireless Charger",
+            label:
+              '32"',
+            query:
+              '32" Monitor',
           },
           {
-            label: "Power Bank",
-            query: "Power Bank",
+            label:
+              '34"',
+            query:
+              '34" Monitor',
           },
           {
-            label: "Anker",
-            query: "Anker",
+            label:
+              '38"',
+            query:
+              '38" Monitor',
           },
           {
-            label: "Baseus",
-            query: "Baseus",
+            label:
+              '49"',
+            query:
+              '49" Monitor',
           },
           {
-            label: "Charging Accessories",
-            query: "Charging Accessories",
+            label:
+              "Curved",
+            query:
+              "Curved Monitor",
           },
         ],
       },
 
       {
-        title: "Marka & Pajisje",
+        title:
+          "Marka",
+
         items: [
           {
-            label: "Apple",
-            query: "Apple Accessories",
+            label:
+              "MSI",
+            query:
+              "MSI Monitor",
           },
           {
-            label: "Samsung",
-            query: "Samsung Accessories",
+            label:
+              "Samsung",
+            query:
+              "Samsung Monitor",
           },
           {
-            label: "Sony",
-            query: "Sony Accessories",
+            label:
+              "ASUS",
+            query:
+              "ASUS Monitor",
           },
           {
-            label: "Logitech",
-            query: "Logitech",
+            label:
+              "AOC",
+            query:
+              "AOC Monitor",
           },
           {
-            label: "Anker",
-            query: "Anker",
+            label:
+              "LG",
+            query:
+              "LG Monitor",
           },
           {
-            label: "Bluetooth",
-            query: "Bluetooth",
+            label:
+              "Dell",
+            query:
+              "Dell Monitor",
           },
           {
-            label: "Smart Accessories",
-            query: "Smart Accessories",
+            label:
+              "Gaming Monitor",
+            query:
+              "Gaming Monitor",
           },
         ],
       },
@@ -867,141 +1061,211 @@ export const categoryGroups = [
   },
 
   {
-    label: "Rrjet & Internet",
-    to: shopSearchPath("Networking"),
+    label:
+      "Smart Pajisje",
+
+    to:
+      shopSearchPath(
+        "Smart Accessories"
+      ),
+
     sections: [
       {
-        title: "Router & Wi-Fi",
+        title:
+          "Smartwatch",
+
         items: [
           {
-            label: "Router",
-            query: "Router",
+            label:
+              "Të gjitha",
+            query:
+              "Smart Accessories",
           },
           {
-            label: "Wi-Fi Router",
-            query: "WiFi Router",
+            label:
+              "Apple Watch",
+            query:
+              "Apple Watch",
           },
           {
-            label: "Gaming Router",
-            query: "Gaming Router",
+            label:
+              "Galaxy Watch",
+            query:
+              "Galaxy Watch",
           },
           {
-            label: "Mesh Wi-Fi",
-            query: "Mesh WiFi",
+            label:
+              "Samsung Watch",
+            query:
+              "Samsung Galaxy Watch",
           },
           {
-            label: "Access Point",
-            query: "Access Point",
+            label:
+              "Wearables",
+            query:
+              "Wearables",
           },
           {
-            label: "Wi-Fi Extender",
-            query: "WiFi Extender",
+            label:
+              "Smart Bands",
+            query:
+              "Smart Band",
           },
           {
-            label: "Network Switch",
-            query: "Network Switch",
+            label:
+              "Watch Accessories",
+            query:
+              "Watch Accessories",
           },
         ],
       },
 
       {
-        title: "Kabllo & Adapterë",
+        title:
+          "Audio Smart",
+
         items: [
           {
-            label: "Ethernet",
-            query: "Ethernet Cable",
+            label:
+              "AirPods Pro",
+            query:
+              "AirPods Pro",
           },
           {
-            label: "Cat 6",
-            query: "Cat 6",
+            label:
+              "Wireless Headset",
+            query:
+              "Wireless Headset",
           },
           {
-            label: "Cat 7",
-            query: "Cat 7",
+            label:
+              "Bluetooth Earbuds",
+            query:
+              "Bluetooth Earbuds",
           },
           {
-            label: "USB Network Adapter",
-            query: "Network Adapter",
+            label:
+              "Sony INZONE",
+            query:
+              "Sony INZONE",
           },
           {
-            label: "Wi-Fi Adapter",
-            query: "WiFi Adapter",
+            label:
+              "SteelSeries",
+            query:
+              "SteelSeries",
           },
           {
-            label: "LAN",
-            query: "LAN",
+            label:
+              "Logitech",
+            query:
+              "Logitech Headset",
           },
           {
-            label: "Networking Accessories",
-            query: "Networking Accessories",
+            label:
+              "Wireless Audio",
+            query:
+              "Wireless Audio",
           },
         ],
       },
 
       {
-        title: "Marka",
+        title:
+          "Energjia",
+
         items: [
           {
-            label: "TP-Link",
-            query: "TP-Link",
+            label:
+              "USB-C Charger",
+            query:
+              "USB-C Charger",
           },
           {
-            label: "ASUS",
-            query: "ASUS Router",
+            label:
+              "Fast Charger",
+            query:
+              "Fast Charger",
           },
           {
-            label: "Ubiquiti",
-            query: "Ubiquiti",
+            label:
+              "Wireless Charger",
+            query:
+              "Wireless Charger",
           },
           {
-            label: "D-Link",
-            query: "D-Link",
+            label:
+              "Power Bank",
+            query:
+              "Power Bank",
           },
           {
-            label: "Tenda",
-            query: "Tenda",
+            label:
+              "Anker",
+            query:
+              "Anker",
           },
           {
-            label: "Netgear",
-            query: "Netgear",
+            label:
+              "Baseus",
+            query:
+              "Baseus",
           },
           {
-            label: "Networking",
-            query: "Networking",
+            label:
+              "Charging Accessories",
+            query:
+              "Charging Accessories",
           },
         ],
       },
 
       {
-        title: "Sipas përdorimit",
+        title:
+          "Marka & Pajisje",
+
         items: [
           {
-            label: "Gaming",
-            query: "Gaming Network",
+            label:
+              "Apple",
+            query:
+              "Apple Accessories",
           },
           {
-            label: "Shtëpi",
-            query: "Home WiFi",
+            label:
+              "Samsung",
+            query:
+              "Samsung Accessories",
           },
           {
-            label: "Zyrë",
-            query: "Office Network",
+            label:
+              "Sony",
+            query:
+              "Sony Accessories",
           },
           {
-            label: "Smart Home",
-            query: "Smart Home Network",
+            label:
+              "Logitech",
+            query:
+              "Logitech",
           },
           {
-            label: "Streaming",
-            query: "Streaming Network",
+            label:
+              "Anker",
+            query:
+              "Anker",
           },
           {
-            label: "High Speed",
-            query: "High Speed Router",
+            label:
+              "Bluetooth",
+            query:
+              "Bluetooth",
           },
           {
-            label: "Network Security",
-            query: "Network Security",
+            label:
+              "Smart Accessories",
+            query:
+              "Smart Accessories",
           },
         ],
       },
@@ -1009,141 +1273,211 @@ export const categoryGroups = [
   },
 
   {
-    label: "TV & Smart Home",
-    to: shopSearchPath("TV Smart Home"),
+    label:
+      "Rrjet & Internet",
+
+    to:
+      shopSearchPath(
+        "Networking"
+      ),
+
     sections: [
       {
-        title: "Televizorë",
+        title:
+          "Router & Wi-Fi",
+
         items: [
           {
-            label: "Të gjithë TV",
-            query: "Television",
+            label:
+              "Router",
+            query:
+              "Router",
           },
           {
-            label: "Smart TV",
-            query: "Smart TV",
+            label:
+              "Wi-Fi Router",
+            query:
+              "WiFi Router",
           },
           {
-            label: "4K TV",
-            query: "4K TV",
+            label:
+              "Gaming Router",
+            query:
+              "Gaming Router",
           },
           {
-            label: "OLED",
-            query: "OLED TV",
+            label:
+              "Mesh Wi-Fi",
+            query:
+              "Mesh WiFi",
           },
           {
-            label: "QLED",
-            query: "QLED TV",
+            label:
+              "Access Point",
+            query:
+              "Access Point",
           },
           {
-            label: "Samsung TV",
-            query: "Samsung TV",
+            label:
+              "Wi-Fi Extender",
+            query:
+              "WiFi Extender",
           },
           {
-            label: "LG TV",
-            query: "LG TV",
+            label:
+              "Network Switch",
+            query:
+              "Network Switch",
           },
         ],
       },
 
       {
-        title: "Smart Home",
+        title:
+          "Kabllo & Adapterë",
+
         items: [
           {
-            label: "Smart Home",
-            query: "Smart Home",
+            label:
+              "Ethernet",
+            query:
+              "Ethernet Cable",
           },
           {
-            label: "Smart Lighting",
-            query: "Smart Lighting",
+            label:
+              "Cat 6",
+            query:
+              "Cat 6",
           },
           {
-            label: "Smart Plug",
-            query: "Smart Plug",
+            label:
+              "Cat 7",
+            query:
+              "Cat 7",
           },
           {
-            label: "Smart Camera",
-            query: "Smart Camera",
+            label:
+              "USB Network Adapter",
+            query:
+              "Network Adapter",
           },
           {
-            label: "Doorbell",
-            query: "Smart Doorbell",
+            label:
+              "Wi-Fi Adapter",
+            query:
+              "WiFi Adapter",
           },
           {
-            label: "Sensors",
-            query: "Smart Sensor",
+            label:
+              "LAN",
+            query:
+              "LAN",
           },
           {
-            label: "Automation",
-            query: "Home Automation",
+            label:
+              "Networking Accessories",
+            query:
+              "Networking Accessories",
           },
         ],
       },
 
       {
-        title: "Entertainment",
+        title:
+          "Marka",
+
         items: [
           {
-            label: "Streaming",
-            query: "Streaming Device",
+            label:
+              "TP-Link",
+            query:
+              "TP-Link",
           },
           {
-            label: "Android TV",
-            query: "Android TV",
+            label:
+              "ASUS",
+            query:
+              "ASUS Router",
           },
           {
-            label: "Apple TV",
-            query: "Apple TV",
+            label:
+              "Ubiquiti",
+            query:
+              "Ubiquiti",
           },
           {
-            label: "Chromecast",
-            query: "Chromecast",
+            label:
+              "D-Link",
+            query:
+              "D-Link",
           },
           {
-            label: "Soundbar",
-            query: "Soundbar",
+            label:
+              "Tenda",
+            query:
+              "Tenda",
           },
           {
-            label: "Speakers",
-            query: "Speakers",
+            label:
+              "Netgear",
+            query:
+              "Netgear",
           },
           {
-            label: "Home Cinema",
-            query: "Home Cinema",
+            label:
+              "Networking",
+            query:
+              "Networking",
           },
         ],
       },
 
       {
-        title: "Marka",
+        title:
+          "Sipas përdorimit",
+
         items: [
           {
-            label: "Samsung",
-            query: "Samsung Smart TV",
+            label:
+              "Gaming",
+            query:
+              "Gaming Network",
           },
           {
-            label: "LG",
-            query: "LG Smart TV",
+            label:
+              "Shtëpi",
+            query:
+              "Home WiFi",
           },
           {
-            label: "Sony",
-            query: "Sony TV",
+            label:
+              "Zyrë",
+            query:
+              "Office Network",
           },
           {
-            label: "Xiaomi",
-            query: "Xiaomi Smart Home",
+            label:
+              "Smart Home",
+            query:
+              "Smart Home Network",
           },
           {
-            label: "Philips",
-            query: "Philips TV",
+            label:
+              "Streaming",
+            query:
+              "Streaming Network",
           },
           {
-            label: "Google",
-            query: "Google Home",
+            label:
+              "High Speed",
+            query:
+              "High Speed Router",
           },
           {
-            label: "Apple",
-            query: "Apple Home",
+            label:
+              "Network Security",
+            query:
+              "Network Security",
           },
         ],
       },
@@ -1151,141 +1485,423 @@ export const categoryGroups = [
   },
 
   {
-    label: "Printerë & Zyrë",
-    to: shopSearchPath("Printers Office"),
+    label:
+      "TV & Smart Home",
+
+    to:
+      shopSearchPath(
+        "TV Smart Home"
+      ),
+
     sections: [
       {
-        title: "Printerë",
+        title:
+          "Televizorë",
+
         items: [
           {
-            label: "Të gjithë printerët",
-            query: "Printer",
+            label:
+              "Të gjithë TV",
+            query:
+              "Television",
           },
           {
-            label: "Laser Printer",
-            query: "Laser Printer",
+            label:
+              "Smart TV",
+            query:
+              "Smart TV",
           },
           {
-            label: "Inkjet Printer",
-            query: "Inkjet Printer",
+            label:
+              "4K TV",
+            query:
+              "4K TV",
           },
           {
-            label: "Multifunction",
-            query: "Multifunction Printer",
+            label:
+              "OLED",
+            query:
+              "OLED TV",
           },
           {
-            label: "Color Printer",
-            query: "Color Printer",
+            label:
+              "QLED",
+            query:
+              "QLED TV",
           },
           {
-            label: "Wi-Fi Printer",
-            query: "WiFi Printer",
+            label:
+              "Samsung TV",
+            query:
+              "Samsung TV",
           },
           {
-            label: "Photo Printer",
-            query: "Photo Printer",
+            label:
+              "LG TV",
+            query:
+              "LG TV",
           },
         ],
       },
 
       {
-        title: "Zyrë",
+        title:
+          "Smart Home",
+
         items: [
           {
-            label: "Office Equipment",
-            query: "Office Equipment",
+            label:
+              "Smart Home",
+            query:
+              "Smart Home",
           },
           {
-            label: "Scanner",
-            query: "Scanner",
+            label:
+              "Smart Lighting",
+            query:
+              "Smart Lighting",
           },
           {
-            label: "Shredder",
-            query: "Paper Shredder",
+            label:
+              "Smart Plug",
+            query:
+              "Smart Plug",
           },
           {
-            label: "Calculator",
-            query: "Calculator",
+            label:
+              "Smart Camera",
+            query:
+              "Smart Camera",
           },
           {
-            label: "Label Printer",
-            query: "Label Printer",
+            label:
+              "Doorbell",
+            query:
+              "Smart Doorbell",
           },
           {
-            label: "Projector",
-            query: "Projector",
+            label:
+              "Sensors",
+            query:
+              "Smart Sensor",
           },
           {
-            label: "Presentation",
-            query: "Presentation Equipment",
+            label:
+              "Automation",
+            query:
+              "Home Automation",
           },
         ],
       },
 
       {
-        title: "Materiale",
+        title:
+          "Entertainment",
+
         items: [
           {
-            label: "Toner",
-            query: "Printer Toner",
+            label:
+              "Streaming",
+            query:
+              "Streaming Device",
           },
           {
-            label: "Ink",
-            query: "Printer Ink",
+            label:
+              "Android TV",
+            query:
+              "Android TV",
           },
           {
-            label: "Paper",
-            query: "Printer Paper",
+            label:
+              "Apple TV",
+            query:
+              "Apple TV",
           },
           {
-            label: "Labels",
-            query: "Printer Labels",
+            label:
+              "Chromecast",
+            query:
+              "Chromecast",
           },
           {
-            label: "Photo Paper",
-            query: "Photo Paper",
+            label:
+              "Soundbar",
+            query:
+              "Soundbar",
           },
           {
-            label: "Cartridge",
-            query: "Printer Cartridge",
+            label:
+              "Speakers",
+            query:
+              "Speakers",
           },
           {
-            label: "Office Supplies",
-            query: "Office Supplies",
+            label:
+              "Home Cinema",
+            query:
+              "Home Cinema",
           },
         ],
       },
 
       {
-        title: "Marka",
+        title:
+          "Marka",
+
         items: [
           {
-            label: "HP",
-            query: "HP Printer",
+            label:
+              "Samsung",
+            query:
+              "Samsung Smart TV",
           },
           {
-            label: "Canon",
-            query: "Canon Printer",
+            label:
+              "LG",
+            query:
+              "LG Smart TV",
           },
           {
-            label: "Epson",
-            query: "Epson Printer",
+            label:
+              "Sony",
+            query:
+              "Sony TV",
           },
           {
-            label: "Brother",
-            query: "Brother Printer",
+            label:
+              "Xiaomi",
+            query:
+              "Xiaomi Smart Home",
           },
           {
-            label: "Xerox",
-            query: "Xerox Printer",
+            label:
+              "Philips",
+            query:
+              "Philips TV",
           },
           {
-            label: "Samsung",
-            query: "Samsung Printer",
+            label:
+              "Google",
+            query:
+              "Google Home",
           },
           {
-            label: "Lexmark",
-            query: "Lexmark Printer",
+            label:
+              "Apple",
+            query:
+              "Apple Home",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    label:
+      "Printerë & Zyrë",
+
+    to:
+      shopSearchPath(
+        "Printers Office"
+      ),
+
+    sections: [
+      {
+        title:
+          "Printerë",
+
+        items: [
+          {
+            label:
+              "Të gjithë printerët",
+            query:
+              "Printer",
+          },
+          {
+            label:
+              "Laser Printer",
+            query:
+              "Laser Printer",
+          },
+          {
+            label:
+              "Inkjet Printer",
+            query:
+              "Inkjet Printer",
+          },
+          {
+            label:
+              "Multifunction",
+            query:
+              "Multifunction Printer",
+          },
+          {
+            label:
+              "Color Printer",
+            query:
+              "Color Printer",
+          },
+          {
+            label:
+              "Wi-Fi Printer",
+            query:
+              "WiFi Printer",
+          },
+          {
+            label:
+              "Photo Printer",
+            query:
+              "Photo Printer",
+          },
+        ],
+      },
+
+      {
+        title:
+          "Zyrë",
+
+        items: [
+          {
+            label:
+              "Office Equipment",
+            query:
+              "Office Equipment",
+          },
+          {
+            label:
+              "Scanner",
+            query:
+              "Scanner",
+          },
+          {
+            label:
+              "Shredder",
+            query:
+              "Paper Shredder",
+          },
+          {
+            label:
+              "Calculator",
+            query:
+              "Calculator",
+          },
+          {
+            label:
+              "Label Printer",
+            query:
+              "Label Printer",
+          },
+          {
+            label:
+              "Projector",
+            query:
+              "Projector",
+          },
+          {
+            label:
+              "Presentation",
+            query:
+              "Presentation Equipment",
+          },
+        ],
+      },
+
+      {
+        title:
+          "Materiale",
+
+        items: [
+          {
+            label:
+              "Toner",
+            query:
+              "Printer Toner",
+          },
+          {
+            label:
+              "Ink",
+            query:
+              "Printer Ink",
+          },
+          {
+            label:
+              "Paper",
+            query:
+              "Printer Paper",
+          },
+          {
+            label:
+              "Labels",
+            query:
+              "Printer Labels",
+          },
+          {
+            label:
+              "Photo Paper",
+            query:
+              "Photo Paper",
+          },
+          {
+            label:
+              "Cartridge",
+            query:
+              "Printer Cartridge",
+          },
+          {
+            label:
+              "Office Supplies",
+            query:
+              "Office Supplies",
+          },
+        ],
+      },
+
+      {
+        title:
+          "Marka",
+
+        items: [
+          {
+            label:
+              "HP",
+            query:
+              "HP Printer",
+          },
+          {
+            label:
+              "Canon",
+            query:
+              "Canon Printer",
+          },
+          {
+            label:
+              "Epson",
+            query:
+              "Epson Printer",
+          },
+          {
+            label:
+              "Brother",
+            query:
+              "Brother Printer",
+          },
+          {
+            label:
+              "Xerox",
+            query:
+              "Xerox Printer",
+          },
+          {
+            label:
+              "Samsung",
+            query:
+              "Samsung Printer",
+          },
+          {
+            label:
+              "Lexmark",
+            query:
+              "Lexmark Printer",
           },
         ],
       },
@@ -1293,11 +1909,38 @@ export const categoryGroups = [
   },
 ];
 
-/* =========================================================
-   ARROW ICON
-========================================================= */
+function HomeIcon({
+  className = "",
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M3.5 11.2 12 4l8.5 7.2"
+        stroke="currentColor"
+        strokeWidth="1.55"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
 
-function ArrowIcon({ className = "" }) {
+      <path
+        d="M5.5 10v9h5v-5h3v5h5v-9"
+        stroke="currentColor"
+        strokeWidth="1.55"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ArrowIcon({
+  className = "",
+}) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -1308,7 +1951,7 @@ function ArrowIcon({ className = "" }) {
       <path
         d="m9 5 7 7-7 7"
         stroke="currentColor"
-        strokeWidth="1.7"
+        strokeWidth="1.65"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -1316,30 +1959,32 @@ function ArrowIcon({ className = "" }) {
   );
 }
 
-/* =========================================================
-   CATEGORY ICONS
-========================================================= */
-
 function CategoryIcon({
   index,
   className = "",
 }) {
   const common = {
-    viewBox: "0 0 24 24",
-    fill: "none",
+    viewBox:
+      "0 0 24 24",
+    fill:
+      "none",
     className,
-    "aria-hidden": "true",
+    "aria-hidden":
+      "true",
   };
 
   const s = {
-    stroke: "currentColor",
-    strokeWidth: 1.6,
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
+    stroke:
+      "currentColor",
+    strokeWidth:
+      1.55,
+    strokeLinecap:
+      "round",
+    strokeLinejoin:
+      "round",
   };
 
   const icons = [
-    /* GAMING */
     <>
       <path
         d="M8.5 8h7a4.5 4.5 0 0 1 4.32 3.24l1.08 3.72a2.8 2.8 0 0 1-4.57 2.85l-1.74-1.56H9.41l-1.74 1.56a2.8 2.8 0 0 1-4.57-2.85l1.08-3.72A4.5 4.5 0 0 1 8.5 8Z"
@@ -1352,7 +1997,6 @@ function CategoryIcon({
       />
     </>,
 
-    /* LAPTOP & PHONE */
     <>
       <rect
         x="5"
@@ -1369,7 +2013,6 @@ function CategoryIcon({
       />
     </>,
 
-    /* COMPONENTS */
     <>
       <rect
         x="7"
@@ -1386,7 +2029,6 @@ function CategoryIcon({
       />
     </>,
 
-    /* ACCESSORIES */
     <>
       <path
         d="M5 14v-2a7 7 0 1 1 14 0v2"
@@ -1399,7 +2041,6 @@ function CategoryIcon({
       />
     </>,
 
-    /* MONITOR */
     <>
       <rect
         x="3"
@@ -1416,7 +2057,6 @@ function CategoryIcon({
       />
     </>,
 
-    /* SMART */
     <>
       <rect
         x="8"
@@ -1433,7 +2073,6 @@ function CategoryIcon({
       />
     </>,
 
-    /* NETWORK */
     <>
       <path
         d="M4 10a11 11 0 0 1 16 0M7 13a7 7 0 0 1 10 0M10 16a3 3 0 0 1 4 0"
@@ -1448,7 +2087,6 @@ function CategoryIcon({
       />
     </>,
 
-    /* TV */
     <>
       <rect
         x="3"
@@ -1472,7 +2110,6 @@ function CategoryIcon({
       />
     </>,
 
-    /* PRINTER */
     <>
       <path
         d="M7 8V3h10v5M6 17H4a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2"
@@ -1499,14 +2136,11 @@ function CategoryIcon({
 
   return (
     <svg {...common}>
-      {icons[index] || icons[0]}
+      {icons[index] ||
+        icons[0]}
     </svg>
   );
 }
-
-/* =========================================================
-   CATEGORY MEGA PANEL
-========================================================= */
 
 export function CategoryMegaPanel({
   category,
@@ -1520,22 +2154,28 @@ export function CategoryMegaPanel({
   return (
     <div
       className={`
+        flex
+        h-full
+        flex-col
         overflow-hidden
         bg-white
+
         ${className}
       `}
     >
-      {/* HEADER */}
-
       <div
         className="
           flex
-          h-[48px]
+          h-[50px]
+          shrink-0
           items-center
           justify-between
+
           border-b
           border-slate-200
+
           bg-white
+
           px-5
         "
       >
@@ -1549,13 +2189,17 @@ export function CategoryMegaPanel({
         >
           <h3
             className="
-              truncate
-              text-[14px]
+              whitespace-nowrap
+
+              text-[14.5px]
               font-semibold
-              text-slate-800
+              leading-[1.3]
+              text-slate-700
             "
           >
-            {category.label}
+            {
+              category.label
+            }
           </h3>
 
           <span
@@ -1570,29 +2214,42 @@ export function CategoryMegaPanel({
           <span
             className="
               hidden
-              text-[11px]
-              text-slate-500
+
+              text-[11.5px]
+              font-normal
+              text-slate-400
+
               xl:inline
             "
           >
-            Eksploro kategorinë
+            Eksploro
+            kategorinë
           </span>
         </div>
 
         <NavLink
-          to={category.to}
-          onClick={onNavigate}
+          to={
+            category.to
+          }
+          onClick={
+            onNavigate
+          }
           className="
             group
+
             ml-4
+
             flex
             shrink-0
             items-center
-            gap-1.5
-            text-[11.5px]
+            gap-2
+
+            text-[12px]
             font-medium
             text-emerald-800
+
             transition-colors
+
             hover:text-emerald-950
           "
         >
@@ -1601,6 +2258,7 @@ export function CategoryMegaPanel({
           <span
             className="
               transition-transform
+
               group-hover:translate-x-0.5
             "
           >
@@ -1609,43 +2267,57 @@ export function CategoryMegaPanel({
         </NavLink>
       </div>
 
-      {/* CONTENT */}
-
       <div
-        key={category.label}
+        key={
+          category.label
+        }
         className="
           grid
-          h-[326px]
+          min-h-0
+          flex-1
           grid-cols-4
+
           divide-x
           divide-slate-100
-          animate-[megaFade_.14s_ease-out]
         "
       >
         {category.sections.map(
-          (section) => (
+          (
+            section
+          ) => (
             <div
               key={`${category.label}-${section.title}`}
               className="
                 min-w-0
+
                 px-5
                 py-4
               "
             >
               <h4
                 className="
-                  mb-2.5
-                  text-[12.5px]
+                  mb-2
+
+                  text-[13.5px]
                   font-semibold
-                  text-slate-800
+                  leading-[1.3]
+                  text-slate-700
                 "
               >
-                {section.title}
+                {
+                  section.title
+                }
               </h4>
 
-              <div className="space-y-0.5">
+              <div
+                className="
+                  space-y-0
+                "
+              >
                 {section.items.map(
-                  (item) => (
+                  (
+                    item
+                  ) => (
                     <NavLink
                       key={`${category.label}-${section.title}-${item.label}`}
                       to={shopSearchPath(
@@ -1656,14 +2328,19 @@ export function CategoryMegaPanel({
                       }
                       className="
                         group
+
                         flex
-                        min-h-[29px]
+                        min-h-[31px]
                         items-center
                         gap-2
-                        text-[12px]
+
+                        text-[13px]
                         font-normal
-                        text-slate-600
+                        leading-[1.35]
+                        text-slate-500
+
                         transition-colors
+
                         hover:text-emerald-800
                       "
                     >
@@ -1672,14 +2349,21 @@ export function CategoryMegaPanel({
                           h-[3px]
                           w-[3px]
                           shrink-0
+
+                          rounded-full
+
                           bg-slate-300
+
                           transition-colors
+
                           group-hover:bg-emerald-600
                         "
                       />
 
-                      <span className="truncate">
-                        {item.label}
+                      <span>
+                        {
+                          item.label
+                        }
                       </span>
                     </NavLink>
                   )
@@ -1689,129 +2373,158 @@ export function CategoryMegaPanel({
           )
         )}
       </div>
-
-      <style>
-        {`
-          @keyframes megaFade {
-            from {
-              opacity: 0;
-              transform: translateX(-5px);
-            }
-
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-        `}
-      </style>
     </div>
   );
 }
 
-/* =========================================================
-   SETTINGS
-========================================================= */
+const HIDDEN_CATEGORY_PATHS = [
+  "/login",
+  "/signin",
+  "/sign-in",
+];
 
-const SIDEBAR_TOP = 145;
-const SIDEBAR_WIDTH = 270;
+function BurgerIcon({
+  className = "",
+}) {
+  return (
+    <svg
+      viewBox="0 0 40 32"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M3 5H37"
+        stroke="currentColor"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+      />
 
-/* =========================================================
-   MAIN CATEGORIES MENU
-========================================================= */
+      <path
+        d="M3 16H37"
+        stroke="currentColor"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M3 27H37"
+        stroke="currentColor"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function CloseIcon({
+  className = "",
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M6 6l12 12M18 6 6 18"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function ChevronDownIcon({
+  className = "",
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="m6.5 9 5.5 5.5L17.5 9"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 export default function CategoriesMenu() {
-  const location = useLocation();
+  const location =
+    useLocation();
 
-  const [activeIndex, setActiveIndex] =
-    useState(null);
-
-  /*
-    True whenever footer enters the viewport.
-  */
   const [
-    footerIsVisible,
-    setFooterIsVisible,
+    menuOpen,
+    setMenuOpen,
   ] = useState(false);
 
-  const closeTimerRef =
-    useRef(null);
+  const [
+    expandedCategory,
+    setExpandedCategory,
+  ] = useState(null);
 
-  const frameRef =
-    useRef(null);
+  const normalizedPath =
+    location.pathname
+      .toLowerCase()
+      .replace(
+        /\/+$/,
+        ""
+      ) || "/";
 
-  const activeCategory =
-    activeIndex === null
-      ? null
-      : categoryGroups[activeIndex];
+  const isLoginPage =
+    HIDDEN_CATEGORY_PATHS.includes(
+      normalizedPath
+    );
 
-  /* =======================================================
-     HOVER
-  ======================================================= */
+  const homeActive =
+    normalizedPath ===
+    "/";
 
-  function cancelClose() {
-    if (closeTimerRef.current) {
-      clearTimeout(
-        closeTimerRef.current
-      );
+  function closeMenu() {
+    setMenuOpen(
+      false
+    );
 
-      closeTimerRef.current =
-        null;
-    }
+    setExpandedCategory(
+      null
+    );
   }
-
-  function openCategory(index) {
-    /*
-      Do not open mega-menu while the category
-      sidebar is being hidden at the footer.
-    */
-    if (footerIsVisible) {
-      return;
-    }
-
-    cancelClose();
-
-    setActiveIndex(index);
-  }
-
-  function closeLater() {
-    cancelClose();
-
-    closeTimerRef.current =
-      setTimeout(() => {
-        setActiveIndex(null);
-      }, 180);
-  }
-
-  function closeNow() {
-    cancelClose();
-
-    setActiveIndex(null);
-  }
-
-  /* =======================================================
-     ACTIVE ROUTE
-  ======================================================= */
 
   function isRouteCategoryActive(
     category
   ) {
-    if (!category?.to) {
+    if (
+      !category?.to
+    ) {
       return false;
     }
 
     if (
-      category.to.startsWith("/shop?")
+      category.to.startsWith(
+        "/shop?"
+      )
     ) {
       if (
-        location.pathname !== "/shop"
+        location.pathname !==
+        "/shop"
       ) {
         return false;
       }
 
       const categorySearch =
         category.to.slice(
-          category.to.indexOf("?")
+          category.to.indexOf(
+            "?"
+          )
         );
 
       return (
@@ -1826,501 +2539,1137 @@ export default function CategoriesMenu() {
     );
   }
 
-  /* =======================================================
-     FOOTER BEHAVIOUR
+  function toggleCategory(
+    index
+  ) {
+    setExpandedCategory(
+      (current) =>
+        current ===
+        index
+          ? null
+          : index
+    );
+  }
 
-     NEW LOGIC:
-
-     The categories NEVER move upward.
-
-     They remain at the exact same fixed position.
-
-     As soon as the footer becomes visible in the
-     viewport:
-
-     - categories fade out
-     - mega-menu closes
-     - pointer events are disabled
-
-     When scrolling back up:
-     - categories smoothly return
-
-     Result:
-     - cannot overlap navbar
-     - cannot overlap footer
-     - no clipping
-     - no jumping
-     - no delayed disappearing
-  ======================================================= */
-
+  /*
+    Close menu when
+    route changes.
+  */
   useEffect(() => {
-    function updateFooterState() {
-      if (frameRef.current) {
-        cancelAnimationFrame(
-          frameRef.current
-        );
-      }
+    setMenuOpen(
+      false
+    );
 
-      frameRef.current =
-        requestAnimationFrame(() => {
-          const footer =
-            document.querySelector(
-              "footer, #footer, .site-footer, .footer"
-            );
+    setExpandedCategory(
+      null
+    );
+  }, [
+    location.pathname,
+    location.search,
+  ]);
 
-          if (!footer) {
-            setFooterIsVisible(false);
-            return;
-          }
+  /*
+    ==============================================
+    ORIENTATION LOGIC
+    ==============================================
 
-          const rect =
-            footer.getBoundingClientRect();
+    landscape:
+    width > height
+    -> hamburger visible
 
-          /*
-            Footer counts as visible the moment
-            its top enters the browser viewport.
-          */
-          const visible =
-            rect.top <
-              window.innerHeight - 2 &&
-            rect.bottom > 0;
+    portrait:
+    height >= width
+    -> hamburger hidden
+    -> Navbar bottom Categories is used
+  */
+  useEffect(() => {
+    const landscapeMedia =
+      window.matchMedia(
+        "(orientation: landscape)"
+      );
 
-          setFooterIsVisible(
-            (current) =>
-              current === visible
-                ? current
-                : visible
+    const handleOrientationChange =
+      (event) => {
+        /*
+          When switching to
+          portrait, immediately
+          close this drawer.
+        */
+        if (
+          !event.matches
+        ) {
+          setMenuOpen(
+            false
           );
 
-          if (visible) {
-            setActiveIndex(null);
-          }
-        });
+          setExpandedCategory(
+            null
+          );
+        }
+      };
+
+    /*
+      Initial state.
+    */
+    if (
+      !landscapeMedia.matches
+    ) {
+      setMenuOpen(
+        false
+      );
+
+      setExpandedCategory(
+        null
+      );
     }
 
-    updateFooterState();
+    if (
+      landscapeMedia
+        .addEventListener
+    ) {
+      landscapeMedia
+        .addEventListener(
+          "change",
+          handleOrientationChange
+        );
 
-    window.addEventListener(
-      "scroll",
-      updateFooterState,
-      {
-        passive: true,
-      }
-    );
+      return () => {
+        landscapeMedia
+          .removeEventListener(
+            "change",
+            handleOrientationChange
+          );
+      };
+    }
 
-    window.addEventListener(
-      "resize",
-      updateFooterState
+    /*
+      Older Safari /
+      older iPadOS.
+    */
+    landscapeMedia.addListener(
+      handleOrientationChange
     );
 
     return () => {
-      if (frameRef.current) {
-        cancelAnimationFrame(
-          frameRef.current
-        );
-      }
-
-      window.removeEventListener(
-        "scroll",
-        updateFooterState
-      );
-
-      window.removeEventListener(
-        "resize",
-        updateFooterState
+      landscapeMedia.removeListener(
+        handleOrientationChange
       );
     };
   }, []);
 
-  /* =======================================================
-     CLEANUP
-  ======================================================= */
-
+  /*
+    Lock body scrolling
+    while drawer is open.
+  */
   useEffect(() => {
-    return () => {
+    if (!menuOpen) {
+      return undefined;
+    }
+
+    const previousBodyOverflow =
+      document.body
+        .style
+        .overflow;
+
+    document.body.style.overflow =
+      "hidden";
+
+    function handleKeyDown(
+      event
+    ) {
       if (
-        closeTimerRef.current
+        event.key ===
+        "Escape"
       ) {
-        clearTimeout(
-          closeTimerRef.current
+        setMenuOpen(
+          false
+        );
+
+        setExpandedCategory(
+          null
         );
       }
-    };
-  }, []);
+    }
 
-  /* =======================================================
-     RENDER
-  ======================================================= */
+    window.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
+
+    return () => {
+      document.body
+        .style
+        .overflow =
+        previousBodyOverflow;
+
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+    };
+  }, [menuOpen]);
+
+  if (isLoginPage) {
+    return null;
+  }
 
   return (
-    <aside
-      className="
-        fixed
-        hidden
-        min-[1450px]:block
-      "
-      style={{
-        width:
-          `${SIDEBAR_WIDTH}px`,
+    <>
+      {/* ============================================
+          LANDSCAPE TOP-LEFT HAMBURGER
+          ============================================ */}
 
-        left:
-          "clamp(28px, 3vw, 52px)",
+      <button
+        type="button"
+        onClick={() =>
+          setMenuOpen(
+            true
+          )
+        }
+        aria-label="Hap kategoritë"
+        aria-expanded={
+          menuOpen
+        }
+        className={`
+          orientation-categories-trigger
 
-        top:
-          `${SIDEBAR_TOP}px`,
+          fixed
+          left-[16px]
+          top-[85px]
+          z-[160]
 
-        /*
-          It NEVER moves vertically now.
-        */
-        transform:
-          footerIsVisible
-            ? "translate3d(0, -8px, 0)"
-            : "translate3d(0, 0, 0)",
+          h-[56px]
+          w-[64px]
 
-        /*
-          Smooth footer disappearance.
-        */
-        opacity:
-          footerIsVisible
-            ? 0
-            : 1,
-
-        visibility:
-          footerIsVisible
-            ? "hidden"
-            : "visible",
-
-        pointerEvents:
-          footerIsVisible
-            ? "none"
-            : "auto",
-
-        /*
-          Enough for mega menu to appear above Hero.
-
-          Since sidebar no longer rises upward,
-          it can never enter navbar space.
-        */
-        zIndex: 20,
-
-        transition:
-          "opacity 150ms ease, transform 150ms ease, visibility 150ms ease",
-
-        willChange:
-          "opacity, transform",
-      }}
-      onMouseEnter={cancelClose}
-      onMouseLeave={closeLater}
-      aria-label="Kategoritë e produkteve"
-    >
-      {/* ===================================================
-          CATEGORY HEADER
-      =================================================== */}
-
-      <div
-        className="
-          relative
-          flex
-          h-[42px]
           items-center
-        "
-      >
-        <span
-          className="
-            pl-[4px]
-            text-[17px]
-            font-medium
-            uppercase
-            tracking-[-0.015em]
-            text-slate-800
-          "
-        >
-          Kategoritë
-        </span>
+          justify-center
 
-        {/* HEADER DIVIDER */}
+          bg-transparent
 
-        <span
-          className="
-            pointer-events-none
-            absolute
-            bottom-0
-            left-1/2
-            h-px
-            w-[82%]
-            -translate-x-1/2
-          "
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(71,85,105,0) 0%, rgba(71,85,105,0.18) 18%, rgba(71,85,105,0.68) 50%, rgba(71,85,105,0.18) 82%, rgba(71,85,105,0) 100%)",
-
-            boxShadow:
-              "0 1px 4px rgba(15,23,42,0.09)",
-          }}
-        />
-      </div>
-
-      {/* ===================================================
-          CATEGORY LIST
-      =================================================== */}
-
-      <nav
-        className="
-          m-0
-          w-full
-          bg-white
           p-0
-        "
-      >
-        {categoryGroups.map(
-          (category, index) => {
-            const hovered =
-              activeIndex === index;
 
-            const routeActive =
-              activeIndex === null &&
-              isRouteCategoryActive(
-                category
-              );
+          text-[#07533f]
 
-            return (
-              <div
-                key={
-                  category.label
-                }
-                onMouseEnter={() =>
-                  openCategory(index)
-                }
-                className="
-                  relative
-                  m-0
-                  p-0
-                "
-              >
-                <NavLink
-                  to={category.to}
-                  onClick={closeNow}
-                  className="
-                    group
-                    relative
-                    flex
-                    h-[53px]
-                    w-full
-                    items-center
-                    bg-white
-                    transition-colors
-                    duration-150
-                    hover:bg-slate-50/70
-                  "
-                >
-                  {/* =======================================
-                      ICON
-                  ======================================= */}
+          transition-all
+          duration-200
 
-                  <span
-                    className={`
-                      absolute
-                      left-[5px]
-                      top-1/2
-                      flex
-                      h-[27px]
-                      w-[27px]
-                      -translate-y-1/2
-                      items-center
-                      justify-center
-                      transition-colors
-                      duration-150
+          hover:scale-[1.05]
+          active:scale-[0.96]
 
-                      ${
-                        hovered
-                          ? "text-emerald-700"
-                          : "text-slate-500 group-hover:text-emerald-700"
-                      }
-                    `}
-                  >
-                    <CategoryIcon
-                      index={index}
-                      className="
-                        h-[20px]
-                        w-[20px]
-                      "
-                    />
-                  </span>
+          sm:left-[20px]
+          md:left-[24px]
+          lg:left-[26px]
+          xl:left-[30px]
+          2xl:left-[36px]
 
-                  {/* =======================================
-                      CATEGORY TEXT
-
-                      Bigger than before.
-
-                      NOT bold.
-                      NOT black.
-                      Same weight on hover.
-                  ======================================= */}
-
-                  <span
-                    className="
-                      block
-                      min-w-0
-                      flex-1
-                      truncate
-                      pl-[51px]
-                      pr-[38px]
-                      text-[17px]
-                      font-normal
-                      leading-none
-                      tracking-[-0.018em]
-                      text-slate-700
-                      transition-colors
-                      duration-150
-                      group-hover:text-slate-900
-                    "
-                  >
-                    {category.label}
-                  </span>
-
-                  {/* =======================================
-                      ARROW
-
-                      ONLY ON HOVER
-                  ======================================= */}
-
-                  <ArrowIcon
-                    className="
-                      absolute
-                      right-[21px]
-                      top-1/2
-                      h-[15px]
-                      w-[15px]
-                      -translate-y-1/2
-                      translate-x-0
-                      text-emerald-700
-                      opacity-0
-                      transition-all
-                      duration-150
-                      group-hover:translate-x-[3px]
-                      group-hover:opacity-100
-                    "
-                  />
-
-                  {/* =======================================
-                      ACTIVE ROUTE INDICATOR
-                  ======================================= */}
-
-                  <span
-                    className={`
-                      absolute
-                      left-[1px]
-                      top-1/2
-                      h-[22px]
-                      w-[2px]
-                      -translate-y-1/2
-                      rounded-full
-                      bg-emerald-700
-                      transition-opacity
-                      duration-150
-
-                      ${
-                        routeActive
-                          ? "opacity-100"
-                          : "opacity-0"
-                      }
-                    `}
-                  />
-
-                  {/* =======================================
-                      CENTER-HEAVY DIVIDER
-                  ======================================= */}
-
-                  <span
-                    className="
-                      pointer-events-none
-                      absolute
-                      bottom-0
-                      left-1/2
-                      h-px
-                      w-[76%]
-                      -translate-x-1/2
-                    "
-                    style={{
-                      background:
-                        "linear-gradient(90deg, rgba(148,163,184,0) 0%, rgba(148,163,184,0.20) 17%, rgba(100,116,139,0.50) 50%, rgba(148,163,184,0.20) 83%, rgba(148,163,184,0) 100%)",
-
-                      boxShadow:
-                        "0 1px 3px rgba(15,23,42,0.07)",
-                    }}
-                  />
-                </NavLink>
-              </div>
-            );
+          ${
+            menuOpen
+              ? `
+                  pointer-events-none
+                  opacity-0
+                `
+              : `
+                  pointer-events-auto
+                  opacity-100
+                `
           }
-        )}
-      </nav>
+        `}
+      >
+        <BurgerIcon
+          className="
+            h-[29px]
+            w-[39px]
 
-      {/* ===================================================
-          MEGA MENU
-      =================================================== */}
+            translate-y-[9px]
+
+            xl:h-[30px]
+            xl:w-[40px]
+          "
+        />
+      </button>
+
+      {/* FULL PAGE OVERLAY */}
 
       <div
         className={`
-          absolute
-          left-[calc(100%+14px)]
-          top-[42px]
-          h-[374px]
-          origin-left
-          transition-all
-          duration-150
-          ease-out
+          fixed
+          inset-0
+          z-[500]
+
+          transition-[visibility]
+          duration-300
 
           ${
-            activeCategory
+            menuOpen
               ? `
-                visible
-                pointer-events-auto
-                translate-x-0
-                opacity-100
-              `
+                  visible
+                  pointer-events-auto
+                `
               : `
-                invisible
-                pointer-events-none
-                -translate-x-[5px]
-                opacity-0
-              `
+                  invisible
+                  pointer-events-none
+                `
           }
         `}
-        style={{
-          width:
-            "min(860px, calc(100vw - 415px))",
-
-          zIndex: 80,
-        }}
-        onMouseEnter={cancelClose}
-        onMouseLeave={closeLater}
+        aria-hidden={
+          !menuOpen
+        }
       >
-        {/* HOVER BRIDGE */}
+        {/* BACKDROP */}
 
-        <span
-          className="
+        <button
+          type="button"
+          onClick={
+            closeMenu
+          }
+          aria-label="Mbyll menunë"
+          className={`
             absolute
-            -left-[14px]
-            top-0
+            inset-0
+
             h-full
-            w-[14px]
-          "
-          aria-hidden="true"
+            w-full
+
+            bg-slate-950/60
+
+            backdrop-blur-[1px]
+
+            transition-opacity
+            duration-300
+
+            md:duration-[360ms]
+            md:ease-[cubic-bezier(0.22,1,0.36,1)]
+
+            ${
+              menuOpen
+                ? "opacity-100"
+                : "opacity-0"
+            }
+          `}
         />
 
-        <CategoryMegaPanel
-          category={activeCategory}
-          onNavigate={closeNow}
-          className="
-            h-full
-            rounded-[2px]
-            border
+        {/* DRAWER */}
+
+        <aside
+          className={`
+            absolute
+            left-0
+            top-0
+
+            flex
+
+            h-[100dvh]
+            w-[min(91vw,390px)]
+
+            flex-col
+
+            overflow-hidden
+
+            border-r
             border-slate-200
-            shadow-[0_18px_42px_rgba(15,23,42,0.16)]
-          "
-        />
+
+            bg-white
+
+            shadow-[24px_0_70px_rgba(15,23,42,0.24)]
+
+            transition-transform
+            duration-300
+            ease-out
+
+            sm:w-[390px]
+
+            md:transition-[transform,opacity]
+            md:duration-[420ms]
+            md:ease-[cubic-bezier(0.22,1,0.36,1)]
+
+            ${
+              menuOpen
+                ? `
+                    translate-x-0
+
+                    md:opacity-100
+                  `
+                : `
+                    -translate-x-full
+
+                    md:opacity-0
+                  `
+            }
+          `}
+          aria-label="Kategoritë"
+        >
+          {/* HEADER */}
+
+          <div
+            className="
+              shrink-0
+
+              bg-white
+
+              px-5
+              pt-4
+            "
+          >
+            <div
+              className="
+                flex
+                h-[70px]
+                items-center
+                justify-between
+                gap-4
+              "
+            >
+              <NavLink
+                to="/"
+                onClick={
+                  closeMenu
+                }
+                className="
+                  flex
+                  min-w-0
+                  items-center
+                "
+              >
+                <img
+                  src={logo}
+                  alt="Verse Tech"
+                  className="
+                    block
+
+                    h-auto
+                    max-h-[48px]
+
+                    w-auto
+                    max-w-[190px]
+
+                    object-contain
+                    object-left
+                  "
+                />
+              </NavLink>
+
+              <button
+                type="button"
+                onClick={
+                  closeMenu
+                }
+                aria-label="Mbyll kategoritë"
+                className="
+                  flex
+                  h-[42px]
+                  w-[42px]
+                  shrink-0
+                  items-center
+                  justify-center
+
+                  rounded-xl
+
+                  text-slate-500
+
+                  transition
+
+                  hover:bg-slate-100
+                  hover:text-slate-950
+
+                  active:scale-95
+                "
+              >
+                <CloseIcon
+                  className="
+                    h-[22px]
+                    w-[22px]
+                  "
+                />
+              </button>
+            </div>
+
+            <div
+              className="
+                h-px
+                w-full
+                bg-slate-200
+              "
+            />
+          </div>
+
+          {/* CATEGORIES */}
+
+          <nav
+            className="
+              category-drawer-scroll
+
+              min-h-0
+              flex-1
+
+              overflow-y-auto
+              overscroll-contain
+
+              px-2.5
+              pb-6
+              pt-3
+
+              sm:px-3
+            "
+          >
+            {/* HOME */}
+
+            <NavLink
+              to="/"
+              onClick={
+                closeMenu
+              }
+              className={`
+                group
+
+                flex
+                min-h-[54px]
+                items-center
+                gap-3
+
+                rounded-xl
+
+                px-3
+
+                transition-colors
+                duration-150
+
+                ${
+                  homeActive
+                    ? `
+                        bg-emerald-50
+                        text-emerald-950
+                      `
+                    : `
+                        text-slate-700
+
+                        hover:bg-slate-50
+                        hover:text-slate-950
+                      `
+                }
+              `}
+            >
+              <span
+                className={`
+                  flex
+                  h-[34px]
+                  w-[34px]
+                  shrink-0
+                  items-center
+                  justify-center
+
+                  rounded-[9px]
+
+                  transition
+
+                  ${
+                    homeActive
+                      ? `
+                          bg-white
+                          text-emerald-700
+
+                          shadow-sm
+
+                          ring-1
+                          ring-emerald-100
+                        `
+                      : `
+                          bg-slate-50
+                          text-slate-500
+
+                          group-hover:bg-white
+                          group-hover:text-emerald-700
+                          group-hover:shadow-sm
+                        `
+                  }
+                `}
+              >
+                <HomeIcon
+                  className="
+                    h-[18px]
+                    w-[18px]
+                  "
+                />
+              </span>
+
+              <span
+                className="
+                  min-w-0
+                  flex-1
+
+                  truncate
+
+                  text-[14px]
+                  font-semibold
+                "
+              >
+                Home
+              </span>
+
+              <ArrowIcon
+                className="
+                  h-[14px]
+                  w-[14px]
+
+                  text-slate-400
+
+                  transition-transform
+
+                  group-hover:translate-x-0.5
+                "
+              />
+            </NavLink>
+
+            <div
+              className="
+                mx-3
+                my-2
+
+                h-px
+
+                bg-slate-100
+              "
+            />
+
+            {/* CATEGORY ROWS */}
+
+            {categoryGroups.map(
+              (
+                category,
+                index
+              ) => {
+                const expanded =
+                  expandedCategory ===
+                  index;
+
+                const routeActive =
+                  isRouteCategoryActive(
+                    category
+                  );
+
+                const highlighted =
+                  expanded ||
+                  routeActive;
+
+                return (
+                  <div
+                    key={
+                      category.label
+                    }
+                    className="
+                      mb-[2px]
+                    "
+                  >
+                    <div
+                      className={`
+                        group
+
+                        flex
+                        min-h-[54px]
+                        items-center
+
+                        rounded-xl
+
+                        transition-colors
+                        duration-150
+
+                        ${
+                          highlighted
+                            ? "bg-emerald-50"
+                            : "hover:bg-slate-50"
+                        }
+                      `}
+                    >
+                      <NavLink
+                        to={
+                          category.to
+                        }
+                        onClick={
+                          closeMenu
+                        }
+                        className="
+                          flex
+                          min-w-0
+                          flex-1
+                          items-center
+                          gap-3
+
+                          px-3
+                          py-2
+                        "
+                      >
+                        <span
+                          className={`
+                            flex
+                            h-[34px]
+                            w-[34px]
+                            shrink-0
+                            items-center
+                            justify-center
+
+                            rounded-[9px]
+
+                            transition
+
+                            ${
+                              highlighted
+                                ? `
+                                    bg-white
+                                    text-emerald-700
+
+                                    shadow-sm
+
+                                    ring-1
+                                    ring-emerald-100
+                                  `
+                                : `
+                                    bg-slate-50
+                                    text-slate-500
+
+                                    group-hover:bg-white
+                                    group-hover:text-emerald-700
+                                    group-hover:shadow-sm
+                                  `
+                            }
+                          `}
+                        >
+                          <CategoryIcon
+                            index={
+                              index
+                            }
+                            className="
+                              h-[18px]
+                              w-[18px]
+                            "
+                          />
+                        </span>
+
+                        <span
+                          className={`
+                            min-w-0
+                            flex-1
+
+                            truncate
+
+                            text-[14px]
+                            font-semibold
+                            tracking-[-0.01em]
+
+                            ${
+                              highlighted
+                                ? "text-emerald-950"
+                                : "text-slate-700"
+                            }
+                          `}
+                        >
+                          {
+                            category.label
+                          }
+                        </span>
+                      </NavLink>
+
+                      {/* EXPAND BUTTON */}
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          toggleCategory(
+                            index
+                          )
+                        }
+                        aria-label={`${
+                          expanded
+                            ? "Mbyll"
+                            : "Hap"
+                        } ${
+                          category.label
+                        }`}
+                        aria-expanded={
+                          expanded
+                        }
+                        className="
+                          mr-2
+
+                          flex
+                          h-[40px]
+                          w-[40px]
+                          shrink-0
+                          items-center
+                          justify-center
+
+                          rounded-lg
+
+                          text-slate-400
+
+                          transition
+
+                          hover:bg-white
+                          hover:text-emerald-700
+                        "
+                      >
+                        <ChevronDownIcon
+                          className={`
+                            h-[16px]
+                            w-[16px]
+
+                            transition-transform
+                            duration-200
+
+                            ${
+                              expanded
+                                ? `
+                                    rotate-180
+                                    text-emerald-700
+                                  `
+                                : "rotate-0"
+                            }
+                          `}
+                        />
+                      </button>
+                    </div>
+
+                    {/* SUBCATEGORIES */}
+
+                    <div
+                      className={`
+                        grid
+
+                        transition-[grid-template-rows,opacity]
+                        duration-250
+                        ease-out
+
+                        ${
+                          expanded
+                            ? `
+                                grid-rows-[1fr]
+                                opacity-100
+                              `
+                            : `
+                                grid-rows-[0fr]
+                                opacity-0
+                              `
+                        }
+                      `}
+                    >
+                      <div
+                        className="
+                          min-h-0
+                          overflow-hidden
+                        "
+                      >
+                        <div
+                          className="
+                            mb-3
+                            ml-[23px]
+                            mr-1
+                            mt-1
+
+                            border-l
+                            border-emerald-100
+
+                            pl-[24px]
+                          "
+                        >
+                          {category.sections.map(
+                            (
+                              section
+                            ) => (
+                              <div
+                                key={`${category.label}-${section.title}`}
+                                className="
+                                  pb-3
+                                  pt-2
+                                "
+                              >
+                                <div
+                                  className="
+                                    mb-1.5
+
+                                    text-[10px]
+                                    font-bold
+                                    uppercase
+                                    tracking-[0.075em]
+                                    text-slate-400
+                                  "
+                                >
+                                  {
+                                    section.title
+                                  }
+                                </div>
+
+                                <div
+                                  className="
+                                    space-y-[1px]
+                                  "
+                                >
+                                  {section.items.map(
+                                    (
+                                      item
+                                    ) => (
+                                      <NavLink
+                                        key={`${category.label}-${section.title}-${item.label}`}
+                                        to={shopSearchPath(
+                                          item.query
+                                        )}
+                                        onClick={
+                                          closeMenu
+                                        }
+                                        className="
+                                          group/item
+
+                                          flex
+                                          min-h-[34px]
+                                          items-center
+                                          gap-2
+
+                                          rounded-lg
+
+                                          px-2
+
+                                          text-[12.5px]
+                                          font-medium
+                                          text-slate-500
+
+                                          transition
+
+                                          hover:bg-emerald-50
+                                          hover:text-emerald-800
+                                        "
+                                      >
+                                        <span
+                                          className="
+                                            h-[4px]
+                                            w-[4px]
+                                            shrink-0
+
+                                            rounded-full
+
+                                            bg-slate-300
+
+                                            transition-colors
+
+                                            group-hover/item:bg-emerald-600
+                                          "
+                                        />
+
+                                        <span>
+                                          {
+                                            item.label
+                                          }
+                                        </span>
+                                      </NavLink>
+                                    )
+                                  )}
+                                </div>
+                              </div>
+                            )
+                          )}
+
+                          <NavLink
+                            to={
+                              category.to
+                            }
+                            onClick={
+                              closeMenu
+                            }
+                            className="
+                              mb-2
+                              mt-1
+
+                              inline-flex
+                              items-center
+                              gap-1.5
+
+                              rounded-lg
+
+                              bg-[#07533f]
+
+                              px-3
+                              py-2
+
+                              text-[11px]
+                              font-bold
+                              text-white
+
+                              transition
+
+                              hover:bg-[#064734]
+                            "
+                          >
+                            Shiko të gjitha
+
+                            <ArrowIcon
+                              className="
+                                h-3
+                                w-3
+                              "
+                            />
+                          </NavLink>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            )}
+          </nav>
+
+          {/* SUPPORT */}
+
+          <div
+            className="
+              shrink-0
+
+              border-t
+              border-slate-200
+
+              bg-slate-50
+
+              px-4
+              py-4
+
+              sm:px-5
+            "
+          >
+            <div
+              className="
+                flex
+                items-center
+                justify-between
+                gap-4
+              "
+            >
+              <div>
+                <p
+                  className="
+                    text-[11px]
+                    font-bold
+                    text-slate-700
+                  "
+                >
+                  Ke nevojë për
+                  ndihmë?
+                </p>
+
+                <p
+                  className="
+                    mt-0.5
+
+                    text-[10px]
+                    text-slate-400
+                  "
+                >
+                  Mbështetje 24/7
+                </p>
+              </div>
+
+              <NavLink
+                to="/support"
+                onClick={
+                  closeMenu
+                }
+                className="
+                  rounded-lg
+
+                  border
+                  border-slate-200
+
+                  bg-white
+
+                  px-3
+                  py-2
+
+                  text-[11px]
+                  font-semibold
+                  text-slate-700
+
+                  shadow-sm
+
+                  transition
+
+                  hover:border-emerald-200
+                  hover:text-emerald-800
+                "
+              >
+                Support
+              </NavLink>
+            </div>
+          </div>
+        </aside>
       </div>
-    </aside>
+
+      {/* ORIENTATION + SCROLLBAR CSS */}
+
+      <style>
+        {`
+          /*
+            EXACT RULE:
+
+            width > height
+            = landscape
+            = top-left hamburger
+
+            height >= width
+            = portrait
+            = top-left hamburger hidden
+
+            The Navbar component shows
+            the bottom categories bar
+            during portrait.
+          */
+
+          .orientation-categories-trigger {
+            display: none;
+          }
+
+          @media (orientation: landscape) {
+            .orientation-categories-trigger {
+              display: flex;
+            }
+          }
+
+          @media (orientation: portrait) {
+            .orientation-categories-trigger {
+              display: none !important;
+            }
+          }
+
+          .category-drawer-scroll {
+            scrollbar-width: thin;
+
+            scrollbar-color:
+              rgba(100, 116, 139, 0.28)
+              transparent;
+          }
+
+          .category-drawer-scroll::-webkit-scrollbar {
+            width: 6px;
+          }
+
+          .category-drawer-scroll::-webkit-scrollbar-track {
+            background:
+              transparent;
+          }
+
+          .category-drawer-scroll::-webkit-scrollbar-thumb {
+            background:
+              rgba(100, 116, 139, 0.26);
+
+            border-radius:
+              999px;
+          }
+
+          .category-drawer-scroll::-webkit-scrollbar-thumb:hover {
+            background:
+              rgba(71, 85, 105, 0.42);
+          }
+
+          @media (max-width: 640px) {
+            .category-drawer-scroll::-webkit-scrollbar {
+              width: 4px;
+            }
+          }
+        `}
+      </style>
+    </>
   );
 }
