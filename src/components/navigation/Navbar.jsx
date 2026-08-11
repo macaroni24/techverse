@@ -139,12 +139,14 @@ function CartIcon({ className = "" }) {
         strokeWidth="2"
         strokeLinejoin="round"
       />
+
       <path
         d="M6.5 6 5.7 3.8A2 2 0 0 0 3.8 2.5H2.5"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
       />
+
       <path
         d="M9 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM18 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
         stroke="currentColor"
@@ -204,6 +206,7 @@ function HomeIcon({ className = "" }) {
         strokeWidth="2"
         strokeLinejoin="round"
       />
+
       <path
         d="M9.5 21V14h5v7"
         stroke="currentColor"
@@ -227,6 +230,7 @@ function UserIcon({ className = "" }) {
         stroke="currentColor"
         strokeWidth="2"
       />
+
       <path
         d="M4.5 21a7.5 7.5 0 0 1 15 0"
         stroke="currentColor"
@@ -244,11 +248,13 @@ export default function Navbar() {
   const [suggestOpen, setSuggestOpen] = useState(false);
   const [mobileCatsOpen, setMobileCatsOpen] = useState(false);
   const [desktopCatsOpen, setDesktopCatsOpen] = useState(false);
+
   const [mobileSearchSticky, setMobileSearchSticky] = useState(false);
   const [mobileHeaderExpanded, setMobileHeaderExpanded] = useState(false);
 
   const mobileSearchRef = useRef(null);
   const lastScrollYRef = useRef(0);
+
   const navigate = useNavigate();
 
   const canSearch = useMemo(() => {
@@ -269,6 +275,10 @@ export default function Navbar() {
       .slice(0, 6);
   }, [query]);
 
+  /* =========================================================
+     CLOSE SEARCH WHEN CLICKING OUTSIDE
+     ========================================================= */
+
   useEffect(() => {
     const handleMouseDown = (event) => {
       const insideSearch = event.target.closest?.(
@@ -287,6 +297,10 @@ export default function Navbar() {
     };
   }, []);
 
+  /* =========================================================
+     ESCAPE KEY
+     ========================================================= */
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key !== "Escape") return;
@@ -303,58 +317,143 @@ export default function Navbar() {
     };
   }, []);
 
+  /* =========================================================
+     PORTRAIT-ONLY MOBILE NAVBAR SCROLL BEHAVIOR
+
+     IMPORTANT:
+     The disappearing / expanding navbar ONLY runs when:
+     screen HEIGHT > screen WIDTH.
+
+     Laptop / desktop / landscape screens remain normal.
+     ========================================================= */
+
   useEffect(() => {
     lastScrollYRef.current = window.scrollY;
 
+    const isPortraitScreen = () => {
+      return window.innerHeight > window.innerWidth;
+    };
+
+    const resetMobileStickyState = () => {
+      setMobileSearchSticky(false);
+      setMobileHeaderExpanded(false);
+
+      lastScrollYRef.current = window.scrollY;
+    };
+
     const handleMobileScroll = () => {
-      if (window.innerWidth >= 768) {
-        setMobileSearchSticky(false);
-        setMobileHeaderExpanded(false);
-        lastScrollYRef.current = window.scrollY;
+      /* LANDSCAPE / LAPTOP / DESKTOP */
+
+      if (!isPortraitScreen()) {
+        resetMobileStickyState();
         return;
       }
 
+      /* PORTRAIT SCREEN */
+
       const currentScrollY = window.scrollY;
       const previousScrollY = lastScrollYRef.current;
-      const difference = currentScrollY - previousScrollY;
+
+      const difference =
+        currentScrollY - previousScrollY;
+
+      /* TOP OF PAGE */
 
       if (currentScrollY <= 4) {
         setMobileSearchSticky(false);
         setMobileHeaderExpanded(false);
+
         lastScrollYRef.current = currentScrollY;
+
         return;
       }
 
+      /*
+       * Once scrolling starts in portrait mode,
+       * keep the search navbar fixed.
+       */
+
       setMobileSearchSticky(true);
+
+      /*
+       * Scrolling DOWN:
+       * hide logo / icons / upper information.
+       */
 
       if (difference > 4) {
         setMobileHeaderExpanded(false);
-      } else if (difference < -4) {
+      }
+
+      /*
+       * Scrolling UP:
+       * show them again.
+       */
+
+      else if (difference < -4) {
         setMobileHeaderExpanded(true);
       }
 
       lastScrollYRef.current = currentScrollY;
     };
 
-    const handleMobileResize = () => {
-      if (window.innerWidth >= 768) {
-        setMobileSearchSticky(false);
-        setMobileHeaderExpanded(false);
+    const handleViewportChange = () => {
+      /*
+       * If screen changes to landscape,
+       * immediately disable mobile sticky behavior.
+       */
+
+      if (!isPortraitScreen()) {
+        resetMobileStickyState();
+        return;
       }
+
+      /*
+       * If still portrait, simply reset
+       * the previous scroll reference.
+       */
 
       lastScrollYRef.current = window.scrollY;
     };
 
-    window.addEventListener("scroll", handleMobileScroll, {
-      passive: true,
-    });
-    window.addEventListener("resize", handleMobileResize);
+    window.addEventListener(
+      "scroll",
+      handleMobileScroll,
+      {
+        passive: true,
+      }
+    );
+
+    window.addEventListener(
+      "resize",
+      handleViewportChange
+    );
+
+    window.addEventListener(
+      "orientationchange",
+      handleViewportChange
+    );
 
     return () => {
-      window.removeEventListener("scroll", handleMobileScroll);
-      window.removeEventListener("resize", handleMobileResize);
+      window.removeEventListener(
+        "scroll",
+        handleMobileScroll
+      );
+
+      window.removeEventListener(
+        "resize",
+        handleViewportChange
+      );
+
+      window.removeEventListener(
+        "orientationchange",
+        handleViewportChange
+      );
     };
   }, []);
+
+  /* =========================================================
+     ORIENTATION MENU MANAGEMENT
+     ========================================================= */
 
   useEffect(() => {
     const landscapeMedia = window.matchMedia(
@@ -392,12 +491,17 @@ export default function Navbar() {
     };
   }, []);
 
+  /* =========================================================
+     SEARCH
+     ========================================================= */
+
   const goToShopSearch = (value) => {
     const search = String(value || "").trim();
 
     if (!search) return;
 
     navigate(shopSearchPath(search));
+
     setQuery(search);
     setSuggestOpen(false);
     setMobileCatsOpen(false);
@@ -406,8 +510,13 @@ export default function Navbar() {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
+
     goToShopSearch(query);
   };
+
+  /* =========================================================
+     SEARCH SUGGESTIONS
+     ========================================================= */
 
   function SuggestionsDropdown({ className = "" }) {
     if (!suggestOpen) return null;
@@ -445,7 +554,9 @@ export default function Navbar() {
             <button
               key={product.id}
               type="button"
-              onClick={() => goToShopSearch(product.title)}
+              onClick={() =>
+                goToShopSearch(product.title)
+              }
               className="flex w-full items-center gap-3 px-4 py-3 text-left transition-all duration-200 ease-out hover:bg-slate-50"
             >
               <div className="h-11 w-11 shrink-0 bg-slate-50 p-1">
@@ -493,6 +604,10 @@ export default function Navbar() {
 
   return (
     <header className="verse-navbar relative z-50 w-full md:sticky md:top-0">
+      {/* =====================================================
+          TOP INFO BAR
+          ===================================================== */}
+
       <div className="bg-emerald-950 text-white">
         <div className="flex w-full items-center justify-between px-4 py-1.5 sm:px-6">
           <p className="text-[11px] text-white/80 sm:text-xs">
@@ -511,8 +626,16 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* =====================================================
+          MAIN NAVBAR
+          ===================================================== */}
+
       <div className="relative z-[80] bg-emerald-900 text-white shadow-sm">
         <div className="relative w-full px-4 py-2 sm:px-6 md:py-4">
+          {/* =================================================
+              MOBILE
+              ================================================= */}
+
           <div className="md:hidden">
             <div className="flex items-center justify-between gap-3">
               <NavLink
@@ -552,7 +675,9 @@ export default function Navbar() {
 
                   {cartCount > 0 && (
                     <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[9px] font-bold text-white">
-                      {cartCount > 99 ? "99+" : cartCount}
+                      {cartCount > 99
+                        ? "99+"
+                        : cartCount}
                     </span>
                   )}
                 </NavLink>
@@ -567,7 +692,10 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div ref={mobileSearchRef} className="mt-2.5">
+            <div
+              ref={mobileSearchRef}
+              className="mt-2.5"
+            >
               <div
                 data-searchbox="true"
                 className="relative"
@@ -577,9 +705,11 @@ export default function Navbar() {
                     <input
                       value={query}
                       onChange={(event) => {
-                        const value = event.target.value;
+                        const value =
+                          event.target.value;
 
                         setQuery(value);
+
                         setSuggestOpen(
                           value.trim().length > 0
                         );
@@ -614,6 +744,10 @@ export default function Navbar() {
             </div>
           </div>
 
+          {/* =================================================
+              DESKTOP
+              ================================================= */}
+
           <div className="relative hidden h-10 md:block">
             <NavLink
               to="/"
@@ -636,9 +770,11 @@ export default function Navbar() {
                     <input
                       value={query}
                       onChange={(event) => {
-                        const value = event.target.value;
+                        const value =
+                          event.target.value;
 
                         setQuery(value);
+
                         setSuggestOpen(
                           value.trim().length > 0
                         );
@@ -698,7 +834,9 @@ export default function Navbar() {
 
                 {cartCount > 0 && (
                   <span className="absolute right-0 top-0 inline-flex h-5 min-w-5 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-bold text-white">
-                    {cartCount > 99 ? "99+" : cartCount}
+                    {cartCount > 99
+                      ? "99+"
+                      : cartCount}
                   </span>
                 )}
               </NavLink>
@@ -714,6 +852,10 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* =====================================================
+          PORTRAIT STICKY SEARCH NAVBAR
+          ===================================================== */}
 
       {mobileSearchSticky && (
         <div className="fixed left-0 right-0 top-0 z-[150] bg-[#0b1015] shadow-sm md:hidden">
@@ -778,7 +920,9 @@ export default function Navbar() {
 
                   {cartCount > 0 && (
                     <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-[#348ef4] px-1 text-[9px] font-bold text-white">
-                      {cartCount > 99 ? "99+" : cartCount}
+                      {cartCount > 99
+                        ? "99+"
+                        : cartCount}
                     </span>
                   )}
                 </NavLink>
@@ -804,9 +948,11 @@ export default function Navbar() {
                   <input
                     value={query}
                     onChange={(event) => {
-                      const value = event.target.value;
+                      const value =
+                        event.target.value;
 
                       setQuery(value);
+
                       setSuggestOpen(
                         value.trim().length > 0
                       );
@@ -842,12 +988,20 @@ export default function Navbar() {
         </div>
       )}
 
+      {/* =====================================================
+          DESKTOP CATEGORY NAVIGATION
+          ===================================================== */}
+
       <div className="relative z-[40] hidden border-b border-slate-200 bg-white md:block">
         <div className="relative flex h-12 w-full items-center px-4 sm:px-6">
           <div
             className="relative flex h-full items-center"
-            onMouseEnter={() => setDesktopCatsOpen(true)}
-            onMouseLeave={() => setDesktopCatsOpen(false)}
+            onMouseEnter={() =>
+              setDesktopCatsOpen(true)
+            }
+            onMouseLeave={() =>
+              setDesktopCatsOpen(false)
+            }
           >
             <div
               className={cx(
@@ -856,7 +1010,9 @@ export default function Navbar() {
                   ? "visible translate-y-0 scale-100 opacity-100"
                   : "invisible -translate-y-1 scale-[0.995] opacity-0"
               )}
-              style={{ borderRadius: "2px" }}
+              style={{
+                borderRadius: "2px",
+              }}
             >
               <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
                 <div>
@@ -886,7 +1042,10 @@ export default function Navbar() {
 
               <div className="grid grid-cols-2 xl:grid-cols-4">
                 {megaMenuCategories.map(
-                  (section, sectionIndex) => (
+                  (
+                    section,
+                    sectionIndex
+                  ) => (
                     <div
                       key={section.title}
                       className={cx(
@@ -919,27 +1078,32 @@ export default function Navbar() {
                       </NavLink>
 
                       <div className="space-y-0.5">
-                        {section.items.map((item) => (
-                          <NavLink
-                            key={`${section.title}-${item.label}`}
-                            to={shopSearchPath(
-                              item.query
-                            )}
-                            onClick={() =>
-                              setDesktopCatsOpen(false)
-                            }
-                            className="group/item relative flex min-h-9 items-center px-2 text-[13px] font-medium text-slate-600 transition-all duration-200 ease-out hover:translate-x-1 hover:bg-emerald-50/70 hover:text-emerald-900"
-                            style={{
-                              borderRadius: "2px",
-                            }}
-                          >
-                            <span className="mr-0 h-4 w-0 overflow-hidden bg-emerald-700 opacity-0 transition-all duration-200 ease-out group-hover/item:mr-2 group-hover/item:w-[2px] group-hover/item:opacity-100" />
+                        {section.items.map(
+                          (item) => (
+                            <NavLink
+                              key={`${section.title}-${item.label}`}
+                              to={shopSearchPath(
+                                item.query
+                              )}
+                              onClick={() =>
+                                setDesktopCatsOpen(
+                                  false
+                                )
+                              }
+                              className="group/item relative flex min-h-9 items-center px-2 text-[13px] font-medium text-slate-600 transition-all duration-200 ease-out hover:translate-x-1 hover:bg-emerald-50/70 hover:text-emerald-900"
+                              style={{
+                                borderRadius:
+                                  "2px",
+                              }}
+                            >
+                              <span className="mr-0 h-4 w-0 overflow-hidden bg-emerald-700 opacity-0 transition-all duration-200 ease-out group-hover/item:mr-2 group-hover/item:w-[2px] group-hover/item:opacity-100" />
 
-                            <span>
-                              {item.label}
-                            </span>
-                          </NavLink>
-                        ))}
+                              <span>
+                                {item.label}
+                              </span>
+                            </NavLink>
+                          )
+                        )}
                       </div>
                     </div>
                   )
@@ -970,6 +1134,8 @@ export default function Navbar() {
               </div>
             </div>
           </div>
+
+          {/* CENTER LINKS */}
 
           <div className="absolute left-1/2 top-0 flex h-full -translate-x-1/2 items-center gap-7 lg:gap-9">
             <NavLink
@@ -1015,6 +1181,8 @@ export default function Navbar() {
             </NavLink>
           </div>
 
+          {/* RIGHT LINKS */}
+
           <div className="absolute right-4 top-0 flex h-full items-center gap-7 sm:right-6 lg:gap-9">
             <NavLink
               to="/support"
@@ -1046,6 +1214,10 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* =====================================================
+          PORTRAIT BOTTOM NAVIGATION
+          ===================================================== */}
 
       <div className="portrait-category-navigation">
         <nav className="fixed bottom-0 left-0 right-0 z-[90] border-t border-slate-200 bg-white">
@@ -1099,9 +1271,11 @@ export default function Navbar() {
               <span>Shporta</span>
 
               {cartCount > 0 && (
-               <span className="absolute right-3 top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#2d8fd5] px-1 text-[11px] font-bold text-white shadow-sm">
-  {cartCount > 99 ? "99+" : cartCount}
-</span>
+                <span className="absolute right-3 top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#2d8fd5] px-1 text-[11px] font-bold text-white shadow-sm">
+                  {cartCount > 99
+                    ? "99+"
+                    : cartCount}
+                </span>
               )}
             </NavLink>
 
@@ -1137,6 +1311,10 @@ export default function Navbar() {
           </div>
         </nav>
 
+        {/* ===================================================
+            MOBILE CATEGORY MODAL
+            =================================================== */}
+
         {mobileCatsOpen && (
           <div className="fixed inset-0 z-[95]">
             <button
@@ -1151,7 +1329,8 @@ export default function Navbar() {
             <div
               className="absolute bottom-0 left-0 right-0 bg-white shadow-2xl"
               style={{
-                borderRadius: "2px 2px 0 0",
+                borderRadius:
+                  "2px 2px 0 0",
               }}
             >
               <div className="mx-auto max-w-7xl px-4 py-4">
@@ -1189,21 +1368,26 @@ export default function Navbar() {
                     Dyqani
                   </NavLink>
 
-                  {categories.map((category) => (
-                    <NavLink
-                      key={category.to}
-                      to={category.to}
-                      onClick={() =>
-                        setMobileCatsOpen(false)
-                      }
-                      className="border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-900"
-                      style={{
-                        borderRadius: "2px",
-                      }}
-                    >
-                      {category.label}
-                    </NavLink>
-                  ))}
+                  {categories.map(
+                    (category) => (
+                      <NavLink
+                        key={category.to}
+                        to={category.to}
+                        onClick={() =>
+                          setMobileCatsOpen(
+                            false
+                          )
+                        }
+                        className="border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-900"
+                        style={{
+                          borderRadius:
+                            "2px",
+                        }}
+                      >
+                        {category.label}
+                      </NavLink>
+                    )
+                  )}
 
                   <NavLink
                     to="/outlet"
@@ -1250,6 +1434,10 @@ export default function Navbar() {
         )}
       </div>
 
+      {/* =====================================================
+          STYLES
+          ===================================================== */}
+
       <style>
         {`
           .portrait-category-navigation {
@@ -1289,7 +1477,9 @@ export default function Navbar() {
                 #10151a 52%,
                 #0b1015 100%
               ) !important;
+
             border-bottom: 1px solid #252b31;
+
             box-shadow: none !important;
           }
 
@@ -1299,8 +1489,11 @@ export default function Navbar() {
           form
           > div {
             background: #ffffff !important;
+
             border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+
+            box-shadow:
+              0 1px 2px rgba(0, 0, 0, 0.08) !important;
           }
 
           .verse-navbar
@@ -1329,7 +1522,14 @@ export default function Navbar() {
           > div:nth-of-type(2)
           [data-searchbox="true"]
           form button:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.06) !important;
+            background:
+              rgba(
+                255,
+                255,
+                255,
+                0.06
+              ) !important;
+
             color: #ffffff !important;
           }
 
@@ -1342,11 +1542,23 @@ export default function Navbar() {
           .verse-navbar
           > div:nth-of-type(2)
           a[href="/login"] {
-            background: #1a2026 !important;
-            border: 1px solid #252c33;
-            color: #f7f8f9 !important;
+            background:
+              #1a2026 !important;
+
+            border:
+              1px solid #252c33;
+
+            color:
+              #f7f8f9 !important;
+
             box-shadow:
-              inset 0 1px 0 rgba(255, 255, 255, 0.025);
+              inset 0 1px 0
+              rgba(
+                255,
+                255,
+                255,
+                0.025
+              );
           }
 
           .verse-navbar
@@ -1358,8 +1570,11 @@ export default function Navbar() {
           .verse-navbar
           > div:nth-of-type(2)
           a[href="/login"]:hover {
-            background: #242b32 !important;
-            border-color: #303840;
+            background:
+              #242b32 !important;
+
+            border-color:
+              #303840;
           }
 
           .verse-navbar
@@ -1370,10 +1585,12 @@ export default function Navbar() {
           > div:nth-of-type(2)
           a[href="/cart"]
           > span {
-            background: #348ef4 !important;
+            background:
+              #348ef4 !important;
           }
 
-          .verse-navbar > div:nth-of-type(3) {
+          .verse-navbar
+          > div:nth-of-type(3) {
             background:
               linear-gradient(
                 90deg,
@@ -1381,7 +1598,9 @@ export default function Navbar() {
                 #0d1217 55%,
                 #0b1015 100%
               ) !important;
-            border-bottom-color: #0568ca00 !important;
+
+            border-bottom-color:
+              #0568ca00 !important;
           }
 
           .verse-navbar
@@ -1389,8 +1608,11 @@ export default function Navbar() {
           > div
           > div
           > a {
-            color: #f4f5f6 !important;
-            border-bottom-color: transparent !important;
+            color:
+              #f4f5f6 !important;
+
+            border-bottom-color:
+              transparent !important;
           }
 
           .verse-navbar
@@ -1403,8 +1625,11 @@ export default function Navbar() {
           > div
           > div
           > a[aria-current="page"] {
-            color: #4aa3ff !important;
-            border-bottom-color: #4aa3ff !important;
+            color:
+              #4aa3ff !important;
+
+            border-bottom-color:
+              #4aa3ff !important;
           }
         `}
       </style>

@@ -9,6 +9,10 @@ import HeroSlider from "../components/home/HeroSlider";
 
 import { products } from "../data/products";
 
+/* =========================================================
+   ICONS
+   ========================================================= */
+
 function DeliveryIcon() {
   return (
     <svg
@@ -162,6 +166,10 @@ function PriceIcon() {
   );
 }
 
+/* =========================================================
+   SHOPPING BENEFITS DATA
+   ========================================================= */
+
 const shoppingBenefits = [
   {
     id: 1,
@@ -188,6 +196,10 @@ const shoppingBenefits = [
     Icon: PriceIcon,
   },
 ];
+
+/* =========================================================
+   SAFE SHOPPING
+   ========================================================= */
 
 function SafeShopping() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -245,6 +257,8 @@ function SafeShopping() {
       behavior,
     });
   }
+
+  /* Auto slide on phone / tablet */
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -307,6 +321,53 @@ function SafeShopping() {
     }, 300);
   }
 
+  /* Keep correct position after resize */
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        return;
+      }
+
+      requestAnimationFrame(() => {
+        const slider = sliderRef.current;
+
+        if (!slider) {
+          return;
+        }
+
+        const step = getBenefitStep();
+
+        if (!step) {
+          return;
+        }
+
+        slider.scrollTo({
+          left: activeIndexRef.current * step,
+          behavior: "auto",
+        });
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener(
+      "orientationchange",
+      handleResize
+    );
+
+    return () => {
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
+
+      window.removeEventListener(
+        "orientationchange",
+        handleResize
+      );
+    };
+  }, []);
+
   useEffect(() => {
     return () => {
       if (scrollEndTimerRef.current) {
@@ -316,13 +377,17 @@ function SafeShopping() {
   }, []);
 
   return (
-    <section className="w-full bg-white">
+    <section className="w-full min-w-0 bg-white">
+      {/* =====================================================
+          MOBILE / TABLET
+          ===================================================== */}
+
       <div className="w-full pb-3 pt-4 lg:hidden">
         <h2 className="mb-2 text-[14px] font-medium text-slate-700">
           Blerje të sigurta
         </h2>
 
-        <div className="overflow-hidden rounded-[7px] border border-slate-100 bg-slate-50/60">
+        <div className="w-full overflow-hidden rounded-[7px] border border-slate-100 bg-slate-50/60">
           <div
             ref={sliderRef}
             onScroll={handleBenefitScroll}
@@ -335,7 +400,22 @@ function SafeShopping() {
               ({ id, title, description, Icon }) => (
                 <div
                   key={id}
-                  className="flex min-h-[60px] w-[68%] shrink-0 snap-start items-center gap-2.5 border-r border-slate-200/70 px-3 py-2.5 sm:w-[48%] md:w-[36%]"
+                  className="
+                    flex
+                    min-h-[60px]
+                    w-[72%]
+                    shrink-0
+                    snap-start
+                    items-center
+                    gap-2.5
+                    border-r
+                    border-slate-200/70
+                    px-3
+                    py-2.5
+                    min-[400px]:w-[65%]
+                    sm:w-[48%]
+                    md:w-[36%]
+                  "
                   style={{
                     scrollSnapStop: "always",
                   }}
@@ -360,33 +440,56 @@ function SafeShopping() {
         </div>
 
         <div className="mt-1.5 flex items-center justify-center gap-1">
-          {shoppingBenefits.map((benefit, index) => (
+          {shoppingBenefits.map((benefit, benefitIndex) => (
             <button
               key={benefit.id}
               type="button"
-              onClick={() => goToBenefit(index)}
+              onClick={() => goToBenefit(benefitIndex)}
               aria-label={`Shfaq ${benefit.title}`}
-              className={`h-[4px] rounded-full transition-all duration-300 ${
-                activeIndex === index
-                  ? "w-3.5 bg-blue-800"
-                  : "w-[4px] bg-slate-200"
-              }`}
+              className={`
+                h-[4px]
+                rounded-full
+                transition-all
+                duration-300
+                ${
+                  activeIndex === benefitIndex
+                    ? "w-3.5 bg-blue-800"
+                    : "w-[4px] bg-slate-200"
+                }
+              `}
             />
           ))}
         </div>
       </div>
+
+      {/* =====================================================
+          DESKTOP
+          ===================================================== */}
 
       <div className="hidden w-full py-6 lg:block">
         <h2 className="mb-4 text-[18px] font-semibold text-slate-950">
           Blerje të sigurta
         </h2>
 
-        <div className="grid grid-cols-4 overflow-hidden rounded-[7px] bg-slate-50 shadow-[0_2px_10px_rgba(15,23,42,0.035)]">
+        <div className="grid w-full grid-cols-4 overflow-hidden rounded-[7px] bg-slate-50 shadow-[0_2px_10px_rgba(15,23,42,0.035)]">
           {shoppingBenefits.map(
             ({ id, title, description, Icon }) => (
               <div
                 key={id}
-                className="flex min-h-[82px] items-center gap-3 border-r border-slate-200 px-5 py-4 last:border-r-0 xl:px-7"
+                className="
+                  flex
+                  min-w-0
+                  min-h-[82px]
+                  items-center
+                  gap-3
+                  border-r
+                  border-slate-200
+                  px-4
+                  py-4
+                  last:border-r-0
+                  xl:px-5
+                  2xl:px-7
+                "
               >
                 <div className="shrink-0 text-blue-800">
                   <div className="scale-125">
@@ -395,11 +498,11 @@ function SafeShopping() {
                 </div>
 
                 <div className="min-w-0">
-                  <h3 className="text-[13px] font-semibold text-slate-900">
+                  <h3 className="truncate text-[13px] font-semibold text-slate-900">
                     {title}
                   </h3>
 
-                  <p className="mt-0.5 text-[11px] text-slate-500">
+                  <p className="mt-0.5 truncate text-[11px] text-slate-500">
                     {description}
                   </p>
                 </div>
@@ -416,7 +519,7 @@ function SafeShopping() {
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior-x: contain;
-            touch-action: auto;
+            touch-action: pan-x pan-y;
           }
 
           .safe-shopping-carousel::-webkit-scrollbar {
@@ -427,6 +530,10 @@ function SafeShopping() {
     </section>
   );
 }
+
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
 
 export default function Home() {
   const [visibleMoreProducts, setVisibleMoreProducts] =
@@ -447,14 +554,30 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-white">
+    <div className="min-h-screen w-full overflow-x-hidden bg-white">
       <Navbar />
 
+      {/* =====================================================
+          HERO AREA
+          ===================================================== */}
+
       <div className="w-full bg-white">
-        <div className="mx-auto w-full max-w-[1460px] px-4 pt-3 sm:px-6 min-[1500px]:ml-[230px] min-[1500px]:mr-6 min-[1500px]:w-[calc(100%-254px)] min-[1900px]:mx-auto min-[1900px]:w-full">
-          <div className="mb-2 mt-2 flex items-center justify-between rounded-[6px] border border-slate-100 bg-slate-100/70 px-3 py-[7px] md:hidden">
+        <div
+          className="
+            mx-auto
+            w-full
+            max-w-[1460px]
+            px-4
+            pt-3
+            sm:px-6
+            2xl:px-5
+          "
+        >
+          {/* Mobile top info */}
+
+          <div className="mb-2 mt-2 flex w-full min-w-0 items-center justify-between rounded-[6px] border border-slate-100 bg-slate-100/70 px-3 py-[7px] md:hidden">
             <div className="min-w-0">
-              <p className="text-[10px] font-medium leading-[14px] text-slate-600">
+              <p className="truncate text-[10px] font-medium leading-[14px] text-slate-600">
                 Dërgesa të shpejta • 100% të sigurta
               </p>
 
@@ -480,55 +603,130 @@ export default function Home() {
         </div>
       </div>
 
-      <main className="mx-auto w-full max-w-[1460px] px-4 py-10 sm:px-6 min-[1500px]:ml-[230px] min-[1500px]:mr-6 min-[1500px]:w-[calc(100%-254px)] min-[1900px]:mx-auto min-[1900px]:w-full">
-        <section>
-          <h1 className="text-2xl font-bold text-slate-900">
+      {/* =====================================================
+          MAIN CONTENT
+          ===================================================== */}
+
+      <main
+        className="
+          mx-auto
+          w-full
+          max-w-[1460px]
+          min-w-0
+          px-4
+          py-8
+          sm:px-6
+          sm:py-10
+          2xl:px-5
+        "
+      >
+        {/* ===================================================
+            FEATURED PRODUCTS
+            =================================================== */}
+
+        <section className="w-full min-w-0">
+          <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">
             Produktet e Veçuara
           </h1>
 
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-[13px] text-slate-600 sm:text-sm">
             Zgjedhjet më të mira të përzgjedhura për ju.
           </p>
 
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-4 lg:gap-6">
+          <div
+            className="
+              mt-6
+              grid
+              w-full
+              min-w-0
+              grid-cols-2
+              gap-3
+              sm:mt-8
+              sm:gap-5
+              md:grid-cols-4
+              lg:gap-6
+            "
+          >
             {products.slice(0, 4).map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
+              <div key={product.id} className="min-w-0">
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
         </section>
 
-        <SpecialOffer
-          items={products}
-          intervalMs={3000}
-        />
+        {/* ===================================================
+            SPECIAL OFFER
+            =================================================== */}
 
-        <section className="mt-14">
-          <h2 className="text-xl font-bold text-slate-900">
+        <div className="w-full min-w-0 overflow-hidden">
+          <SpecialOffer
+            items={products}
+            intervalMs={3000}
+          />
+        </div>
+
+        {/* ===================================================
+            MORE PRODUCTS
+            =================================================== */}
+
+        <section className="mt-10 w-full min-w-0 sm:mt-14">
+          <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
             Më Shumë Produkte
           </h2>
 
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-[13px] text-slate-600 sm:text-sm">
             Shikoni më shumë oferta dhe artikuj të njohur.
           </p>
 
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 lg:grid-cols-5 lg:gap-6">
+          <div
+            className="
+              mt-5
+              grid
+              w-full
+              min-w-0
+              grid-cols-2
+              gap-3
+              sm:mt-6
+              sm:grid-cols-3
+              sm:gap-5
+              md:grid-cols-4
+              lg:grid-cols-5
+              lg:gap-6
+            "
+          >
             {moreProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
+              <div key={product.id} className="min-w-0">
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
 
           {hasMoreProducts && (
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex w-full justify-center">
               <button
                 type="button"
                 onClick={handleShowMore}
-                className="min-w-[210px] rounded-md border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition-all duration-200 hover:border-slate-500 hover:bg-slate-50 active:scale-[0.98]"
+                className="
+                  w-full
+                  max-w-[260px]
+                  rounded-md
+                  border
+                  border-slate-300
+                  bg-white
+                  px-5
+                  py-3
+                  text-[12px]
+                  font-semibold
+                  text-slate-950
+                  transition-all
+                  duration-200
+                  hover:border-slate-500
+                  hover:bg-slate-50
+                  active:scale-[0.98]
+                  sm:min-w-[210px]
+                  sm:text-sm
+                "
               >
                 SHFAQ MË SHUMË PRODUKTE
               </button>
