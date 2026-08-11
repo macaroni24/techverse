@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useStore } from "../../store/StoreProvider";
 import { products } from "../../data/products";
 import logo from "../../assets/WhiteLogo.PNG";
@@ -244,7 +244,11 @@ export default function Navbar() {
   const [suggestOpen, setSuggestOpen] = useState(false);
   const [mobileCatsOpen, setMobileCatsOpen] = useState(false);
   const [desktopCatsOpen, setDesktopCatsOpen] = useState(false);
+  const [mobileSearchSticky, setMobileSearchSticky] = useState(false);
+  const [mobileHeaderExpanded, setMobileHeaderExpanded] = useState(false);
 
+  const mobileSearchRef = useRef(null);
+  const lastScrollYRef = useRef(0);
   const navigate = useNavigate();
 
   const canSearch = useMemo(() => {
@@ -296,6 +300,59 @@ export default function Navbar() {
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    lastScrollYRef.current = window.scrollY;
+
+    const handleMobileScroll = () => {
+      if (window.innerWidth >= 768) {
+        setMobileSearchSticky(false);
+        setMobileHeaderExpanded(false);
+        lastScrollYRef.current = window.scrollY;
+        return;
+      }
+
+      const currentScrollY = window.scrollY;
+      const previousScrollY = lastScrollYRef.current;
+      const difference = currentScrollY - previousScrollY;
+
+      if (currentScrollY <= 4) {
+        setMobileSearchSticky(false);
+        setMobileHeaderExpanded(false);
+        lastScrollYRef.current = currentScrollY;
+        return;
+      }
+
+      setMobileSearchSticky(true);
+
+      if (difference > 4) {
+        setMobileHeaderExpanded(false);
+      } else if (difference < -4) {
+        setMobileHeaderExpanded(true);
+      }
+
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    const handleMobileResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileSearchSticky(false);
+        setMobileHeaderExpanded(false);
+      }
+
+      lastScrollYRef.current = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleMobileScroll, {
+      passive: true,
+    });
+    window.addEventListener("resize", handleMobileResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleMobileScroll);
+      window.removeEventListener("resize", handleMobileResize);
     };
   }, []);
 
@@ -435,7 +492,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className="verse-navbar sticky top-0 z-50 w-full">
+    <header className="verse-navbar relative z-50 w-full md:sticky md:top-0">
       <div className="bg-emerald-950 text-white">
         <div className="flex w-full items-center justify-between px-4 py-1.5 sm:px-6">
           <p className="text-[11px] text-white/80 sm:text-xs">
@@ -510,7 +567,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="mt-2.5">
+            <div ref={mobileSearchRef} className="mt-2.5">
               <div
                 data-searchbox="true"
                 className="relative"
@@ -657,6 +714,133 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      {mobileSearchSticky && (
+        <div className="fixed left-0 right-0 top-0 z-[150] bg-[#0b1015] shadow-sm md:hidden">
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-out ${
+              mobileHeaderExpanded
+                ? "max-h-[88px] translate-y-0 opacity-100"
+                : "max-h-0 -translate-y-3 opacity-0"
+            }`}
+          >
+            <div className="flex items-center justify-between border-b border-[#171c21] bg-[#05080b] px-4 py-1.5">
+              <p className="text-[11px] text-white/80">
+                Dërgesë falas mbi{" "}
+                <span className="font-semibold text-[#4aa3ff]">
+                  €100
+                </span>
+              </p>
+
+              <p className="text-[11px] text-white/80">
+                Mbështetje:{" "}
+                <span className="font-semibold text-[#4aa3ff]">
+                  24/7
+                </span>
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 px-4 py-2">
+              <NavLink
+                to="/"
+                className="flex min-w-0 shrink-0 items-center"
+              >
+                <img
+                  src={logo}
+                  alt="TechVerse"
+                  className="h-10 w-auto object-contain"
+                />
+              </NavLink>
+
+              <div className="flex items-center gap-1">
+                <NavLink
+                  to="/wishlist"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#252c33] bg-[#1a2026] text-white transition hover:bg-[#242b32]"
+                  aria-label="Lista e dëshirave"
+                >
+                  <HeartIcon className="h-5 w-5" />
+
+                  {wishlistCount > 0 && (
+                    <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-[#348ef4] px-1 text-[9px] font-bold text-white">
+                      {wishlistCount > 99
+                        ? "99+"
+                        : wishlistCount}
+                    </span>
+                  )}
+                </NavLink>
+
+                <NavLink
+                  to="/cart"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#252c33] bg-[#1a2026] text-white transition hover:bg-[#242b32]"
+                  aria-label="Shporta"
+                >
+                  <CartIcon className="h-5 w-5" />
+
+                  {cartCount > 0 && (
+                    <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-[#348ef4] px-1 text-[9px] font-bold text-white">
+                      {cartCount > 99 ? "99+" : cartCount}
+                    </span>
+                  )}
+                </NavLink>
+
+                <NavLink
+                  to="/login"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#252c33] bg-[#1a2026] text-white transition hover:bg-[#242b32]"
+                  aria-label="Kyçu"
+                >
+                  <UserIcon className="h-5 w-5" />
+                </NavLink>
+              </div>
+            </div>
+          </div>
+
+          <div className="px-4 py-2">
+            <div
+              data-searchbox="true"
+              className="relative"
+            >
+              <form onSubmit={handleSearchSubmit}>
+                <div className="flex h-9 items-center rounded-full border border-slate-200 bg-white px-4 shadow-sm">
+                  <input
+                    value={query}
+                    onChange={(event) => {
+                      const value = event.target.value;
+
+                      setQuery(value);
+                      setSuggestOpen(
+                        value.trim().length > 0
+                      );
+                    }}
+                    onFocus={() => {
+                      if (query.trim()) {
+                        setSuggestOpen(true);
+                      }
+                    }}
+                    placeholder="Kërko produkte..."
+                    className="w-full bg-transparent text-[14px] text-slate-900 placeholder:text-slate-500 focus:outline-none"
+                  />
+
+                  <button
+                    type="submit"
+                    disabled={!canSearch}
+                    className={cx(
+                      "ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200",
+                      canSearch
+                        ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                        : "cursor-not-allowed text-slate-300"
+                    )}
+                    aria-label="Kërko"
+                  >
+                    <SearchIcon className="h-5 w-5" />
+                  </button>
+                </div>
+              </form>
+
+              <SuggestionsDropdown />
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="relative z-[40] hidden border-b border-slate-200 bg-white md:block">
         <div className="relative flex h-12 w-full items-center px-4 sm:px-6">
