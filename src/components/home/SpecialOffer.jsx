@@ -46,7 +46,7 @@ export default function SpecialOffer({
     const discounted = items.filter(
       (x) =>
         typeof x.oldPrice === "number" &&
-        x.oldPrice > x.price
+        x.oldPrice > x.price 
     );
 
     const list = discounted.length
