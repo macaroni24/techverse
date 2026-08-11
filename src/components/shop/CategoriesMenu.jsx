@@ -1635,7 +1635,7 @@ export default function CategoriesMenu() {
 
           p-0
 
-          text-white
+         text-[#0f172a]
 
           transition-all
           duration-200

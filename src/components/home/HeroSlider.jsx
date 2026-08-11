@@ -450,7 +450,7 @@ export default function HeroSlider() {
       {/* TABLET / DESKTOP HERO */}
       {/* ========================= */}
 
-      <div className="relative hidden w-full min-w-0 overflow-hidden rounded-[7px] bg-slate-950 md:block md:h-[245px] lg:h-[275px] xl:h-[340px]">
+      <div className="desktop-hero relative hidden w-full min-w-0 overflow-hidden rounded-[7px] bg-slate-950 md:block md:h-[245px] lg:h-[275px] xl:h-[340px]">
         {slides.map(
           (slide, slideIndex) => (
             <NavLink
@@ -478,7 +478,7 @@ export default function HeroSlider() {
           type="button"
           onClick={previousHero}
           aria-label="Slajdi paraprak"
-          className="absolute left-3 top-1/2 z-20 flex h-10 w-8 -translate-y-1/2 items-center justify-center rounded-[5px] bg-black/20 text-3xl font-light text-white backdrop-blur-[2px] transition-all duration-200 hover:bg-black/40"
+          className="hero-arrow absolute left-3 top-1/2 z-20 flex h-10 w-8 -translate-y-1/2 items-center justify-center rounded-[5px] bg-black/20 text-3xl font-light text-white backdrop-blur-[2px] transition-all duration-200 hover:bg-black/40"
         >
           ‹
         </button>
@@ -487,12 +487,12 @@ export default function HeroSlider() {
           type="button"
           onClick={nextHero}
           aria-label="Slajdi tjetër"
-          className="absolute right-3 top-1/2 z-20 flex h-10 w-8 -translate-y-1/2 items-center justify-center rounded-[5px] bg-black/20 text-3xl font-light text-white backdrop-blur-[2px] transition-all duration-200 hover:bg-black/40"
+          className="hero-arrow absolute right-3 top-1/2 z-20 flex h-10 w-8 -translate-y-1/2 items-center justify-center rounded-[5px] bg-black/20 text-3xl font-light text-white backdrop-blur-[2px] transition-all duration-200 hover:bg-black/40"
         >
           ›
         </button>
 
-        <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5">
+        <div className="hero-dots absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5">
           {slides.map(
             (slide, slideIndex) => (
               <button
@@ -555,6 +555,38 @@ export default function HeroSlider() {
 
       <style>
         {`
+          /*
+            LAPTOP ONLY
+
+            Examples:
+            1366 x 768  -> smaller hero
+            1536 x 864  -> smaller hero
+
+            Large monitor:
+            1920 x 1080 -> original hero size
+          */
+
+          @media
+            (min-width: 1024px)
+            and (max-width: 1600px)
+            and (max-height: 900px) {
+
+            .desktop-hero {
+              height: 245px !important;
+            }
+
+            .desktop-hero .hero-arrow {
+              width: 28px !important;
+              height: 36px !important;
+              font-size: 26px !important;
+            }
+
+            .desktop-hero .hero-dots {
+              bottom: 9px !important;
+              gap: 5px !important;
+            }
+          }
+
           .mobile-hero-carousel {
             scrollbar-width: none;
             -ms-overflow-style: none;

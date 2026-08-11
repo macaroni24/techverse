@@ -907,8 +907,8 @@ export default function Navbar() {
                 cx(
                   "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
-                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
+                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
                 )
               }
             >
@@ -921,8 +921,8 @@ export default function Navbar() {
                 cx(
                   "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
-                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
+                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
                 )
               }
             >
@@ -935,8 +935,8 @@ export default function Navbar() {
                 cx(
                   "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
-                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
+                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
                 )
               }
             >
@@ -953,8 +953,8 @@ export default function Navbar() {
                 cx(
                   "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
-                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
+                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
                 )
               }
             >
@@ -967,8 +967,8 @@ export default function Navbar() {
                 cx(
                   "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
-                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
+                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
                 )
               }
             >
@@ -1153,12 +1153,9 @@ export default function Navbar() {
           }
 
           .navbar-secondary {
-            background: linear-gradient(
-              90deg,
-              #0b1015 0%,
-              #0d1217 55%,
-              #0b1015 100%
-            );
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
           }
 
           .navbar-search {
