@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import whiteLogo from "../../assets/WhiteLogo.png";
+import whiteLogo from "../../assets/WhiteLogo.PNG";
 
 const brands = [
   {
