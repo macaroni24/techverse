@@ -6,7 +6,7 @@ import h2 from "../../assets/h2.png";
 import h3 from "../../assets/h3.png";
 import h4 from "../../assets/h4.png";
 
-import h1Phone from "../../assets/h1Phone.png";
+import h1Phone from "../../assets/h1Phone.PNG";
 import h2Phone from "../../assets/h2Phone.png";
 import h3Phone from "../../assets/h3Phone.png";
 import h4Phone from "../../assets/h4Phone.png";
