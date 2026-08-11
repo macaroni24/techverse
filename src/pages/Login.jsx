@@ -199,13 +199,13 @@ export default function Login() {
               className={cx(
                 "relative pb-2 text-sm font-semibold transition",
                 mode === "login"
-                  ? "text-emerald-900"
+                  ? "text-blue-800"
                   : "text-slate-500 hover:text-slate-800"
               )}
             >
               Kyçu
               {mode === "login" && (
-                <span className="absolute inset-x-0 -bottom-[13px] h-0.5 rounded-full bg-emerald-900" />
+                <span className="absolute inset-x-0 -bottom-[13px] h-0.5 rounded-full bg-blue-800" />
               )}
             </button>
 
@@ -215,13 +215,13 @@ export default function Login() {
               className={cx(
                 "relative pb-2 text-sm font-semibold transition",
                 mode === "signup"
-                  ? "text-emerald-900"
+                  ? "text-blue-800"
                   : "text-slate-500 hover:text-slate-800"
               )}
             >
               Regjistrohu
               {mode === "signup" && (
-                <span className="absolute inset-x-0 -bottom-[13px] h-0.5 rounded-full bg-emerald-900" />
+                <span className="absolute inset-x-0 -bottom-[13px] h-0.5 rounded-full bg-blue-800" />
               )}
             </button>
           </div>
@@ -242,7 +242,7 @@ export default function Login() {
                   value={form.name}
                   onChange={onChange}
                   placeholder="Shkruani emrin tuaj të plotë"
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-200"
                 />
               </div>
             )}
@@ -256,13 +256,13 @@ export default function Login() {
                 type="email"
                 autoComplete="email"
                 placeholder="ju@shembull.com"
-                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-200"
+                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-200"
               />
             </div>
 
             <div>
               <label className="text-sm font-semibold text-slate-900">Fjalëkalimi</label>
-              <div className="mt-2 flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 focus-within:ring-2 focus-within:ring-orange-200">
+              <div className="mt-2 flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 focus-within:ring-2 focus-within:ring-blue-200">
                 <input
                   name="password"
                   value={form.password}
@@ -302,7 +302,7 @@ export default function Login() {
 
               <button
                 type="button"
-                className="text-sm font-semibold text-emerald-900 hover:text-emerald-950"
+                className="text-sm font-semibold text-blue-800 hover:text-blue-900"
               >
                 Keni harruar fjalëkalimin?
               </button>
@@ -314,8 +314,8 @@ export default function Login() {
               className={cx(
                 "w-full rounded-2xl px-5 py-3.5 text-sm font-semibold text-white transition",
                 loading
-                  ? "cursor-not-allowed bg-orange-300"
-                  : "bg-orange-500 hover:bg-orange-600"
+                  ? "cursor-not-allowed bg-blue-300"
+                  : "bg-blue-800 hover:bg-blue-900"
               )}
             >
               {loading ? "Ju lutem prisni..." : mode === "login" ? "Kyçu" : "Krijo llogari"}
@@ -328,7 +328,7 @@ export default function Login() {
                   <button
                     type="button"
                     onClick={() => switchMode("signup")}
-                    className="font-semibold text-emerald-900 hover:text-emerald-950"
+                    className="font-semibold text-blue-800 hover:text-blue-900"
                   >
                     Regjistrohu
                   </button>
@@ -339,7 +339,7 @@ export default function Login() {
                   <button
                     type="button"
                     onClick={() => switchMode("login")}
-                    className="font-semibold text-emerald-900 hover:text-emerald-950"
+                    className="font-semibold text-blue-800 hover:text-blue-900"
                   >
                     Kyçu
                   </button>

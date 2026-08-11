@@ -1,5 +1,5 @@
-import { useMemo, useState, useEffect } from "react";
-import { useLocation, NavLink } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
@@ -8,11 +8,16 @@ import { products } from "../data/products";
 
 function useQuery() {
   const { search } = useLocation();
-  return useMemo(() => new URLSearchParams(search), [search]);
+
+  return useMemo(() => {
+    return new URLSearchParams(search);
+  }, [search]);
 }
 
 function normalize(value) {
-  return String(value || "").toLowerCase().trim();
+  return String(value || "")
+    .toLowerCase()
+    .trim();
 }
 
 export default function Shop() {
@@ -33,94 +38,174 @@ export default function Shop() {
 
     if (categoryParam !== "All") {
       if (categoryParam === "laptops-phones") {
-        list = list.filter((p) => p.category === "Laptops" || p.category === "Phones");
+        list = list.filter(
+          (product) =>
+            product.category === "Laptops" ||
+            product.category === "Phones"
+        );
       } else {
-        list = list.filter((p) => p.category === categoryParam);
+        list = list.filter(
+          (product) => product.category === categoryParam
+        );
       }
     }
 
-    const q = normalize(searchParam);
-    if (q) {
-      list = list.filter((p) =>
-        normalize(`${p.title} ${p.brand} ${p.category}`).includes(q)
-      );
+    const searchValue = normalize(searchParam);
+
+    if (searchValue) {
+      list = list.filter((product) => {
+        const searchableText = normalize(
+          `${product.title} ${product.brand} ${product.category}`
+        );
+
+        return searchableText.includes(searchValue);
+      });
     }
 
     if (sort === "price-asc") {
-      list.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
-    } else if (sort === "price-desc") {
-      list.sort((a, b) => Number(b.price || 0) - Number(a.price || 0));
-    } else if (sort === "discount") {
+      list.sort(
+        (a, b) =>
+          Number(a.price || 0) - Number(b.price || 0)
+      );
+    }
+
+    if (sort === "price-desc") {
+      list.sort(
+        (a, b) =>
+          Number(b.price || 0) - Number(a.price || 0)
+      );
+    }
+
+    if (sort === "discount") {
       list.sort((a, b) => {
-        const da =
+        const discountA =
           a.oldPrice && a.oldPrice > a.price
             ? (a.oldPrice - a.price) / a.oldPrice
             : 0;
-        const db =
+
+        const discountB =
           b.oldPrice && b.oldPrice > b.price
             ? (b.oldPrice - b.price) / b.oldPrice
             : 0;
-        return db - da;
+
+        return discountB - discountA;
       });
     }
 
     return list;
   }, [categoryParam, searchParam, sort]);
 
+  const pageTitle =
+    categoryParam !== "All"
+      ? categoryParam
+      : "Dyqani";
+
+  const productCountLabel =
+    filteredProducts.length === 1
+      ? "produkt"
+      : "produkte";
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <main className="mx-auto w-full max-w-[1460px] px-4 py-8 sm:px-6 sm:py-10">
+        <div className="flex flex-col gap-5 border-b border-slate-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              {categoryParam !== "All" ? categoryParam : "Dyqani"}
+            <h1 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+              {pageTitle}
             </h1>
-            <p className="mt-1 text-sm text-slate-600">
-              {filteredProducts.length} produkt{filteredProducts.length !== 1 ? "e" : ""}
-              {searchParam ? ` për “${searchParam}”` : ""}
+
+            <p className="mt-1.5 text-sm text-slate-500">
+              {filteredProducts.length} {productCountLabel}
+
+              {searchParam && (
+                <span>
+                  {" "}
+                  për{" "}
+                  <span className="font-medium text-slate-700">
+                    “{searchParam}”
+                  </span>
+                </span>
+              )}
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <label className="text-sm font-medium text-slate-700">Rendit sipas</label>
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-sm font-medium text-slate-600">
+              Rendit sipas
+            </span>
 
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-200"
+              className="h-10 min-w-[180px] rounded-md border border-slate-200 bg-white px-3 text-sm font-medium text-slate-800 outline-none transition hover:border-slate-300 focus:border-blue-700 focus:ring-2 focus:ring-blue-100"
             >
-              <option value="relevance">Relevanca</option>
-              <option value="price-asc">Çmimi: Ulët → Lartë</option>
-              <option value="price-desc">Çmimi: Lartë → Ulët</option>
-              <option value="discount">Zbritja më e madhe</option>
+              <option value="relevance">
+                Relevanca
+              </option>
+
+              <option value="price-asc">
+                Çmimi: Ulët → Lartë
+              </option>
+
+              <option value="price-desc">
+                Çmimi: Lartë → Ulët
+              </option>
+
+              <option value="discount">
+                Zbritja më e madhe
+              </option>
             </select>
 
             <NavLink
               to="/shop"
-              className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition"
+              className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950"
             >
               Pastro
             </NavLink>
           </div>
         </div>
 
-        <div className="mt-8 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {filteredProducts.length > 0 ? (
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-5">
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="mx-auto mt-20 flex max-w-lg flex-col items-center text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-50">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-7 w-7 text-slate-400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path
+                  d="m20 20-4-4"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
 
-        {filteredProducts.length === 0 && (
-          <div className="mt-12 rounded-xl border border-slate-200 bg-white p-10 text-center">
-            <p className="text-lg font-semibold text-slate-900">Nuk u gjet asnjë produkt</p>
-            <p className="mt-2 text-sm text-slate-600">
-              Provoni një kategori tjetër ose pastroni filtrat.
+            <h2 className="mt-5 text-xl font-bold text-slate-950">
+              Nuk u gjet asnjë produkt
+            </h2>
+
+            <p className="mt-2 max-w-sm text-sm leading-6 text-slate-500">
+              Provoni një kërkim tjetër, ndryshoni kategorinë ose pastroni filtrat.
             </p>
+
             <NavLink
               to="/shop"
-              className="mt-5 inline-flex rounded-md bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 transition"
+              className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-800 px-6 text-sm font-semibold text-white transition hover:bg-blue-900 active:scale-[0.98]"
             >
               Kthehu te Dyqani
             </NavLink>

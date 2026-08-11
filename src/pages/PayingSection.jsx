@@ -164,7 +164,7 @@ export default function PayingSection() {
                   className={`mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none ${
                     errors.fullName
                       ? "border-red-300"
-                      : "border-slate-200 focus:border-orange-400"
+                      : "border-slate-200 focus:border-blue-800"
                   }`}
                   placeholder="Emri dhe mbiemri"
                 />
@@ -185,7 +185,7 @@ export default function PayingSection() {
                   className={`mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none ${
                     errors.phone
                       ? "border-red-300"
-                      : "border-slate-200 focus:border-orange-400"
+                      : "border-slate-200 focus:border-blue-800"
                   }`}
                   placeholder="+383 44 123 456"
                 />
@@ -206,7 +206,7 @@ export default function PayingSection() {
                   className={`mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none ${
                     errors.address
                       ? "border-red-300"
-                      : "border-slate-200 focus:border-orange-400"
+                      : "border-slate-200 focus:border-blue-800"
                   }`}
                   placeholder="Rruga, hyrja, banesa"
                 />
@@ -227,7 +227,7 @@ export default function PayingSection() {
                   className={`mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none ${
                     errors.city
                       ? "border-red-300"
-                      : "border-slate-200 focus:border-orange-400"
+                      : "border-slate-200 focus:border-blue-800"
                   }`}
                   placeholder="Prishtinë"
                 />
@@ -248,7 +248,7 @@ export default function PayingSection() {
                   className={`mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none ${
                     errors.email
                       ? "border-red-300"
-                      : "border-slate-200 focus:border-orange-400"
+                      : "border-slate-200 focus:border-blue-800"
                   }`}
                   placeholder="email@shembull.com"
                 />
@@ -271,7 +271,7 @@ export default function PayingSection() {
                   onClick={() => setPaymentMethod("cod")}
                   className={`rounded-xl border p-4 text-left transition ${
                     paymentMethod === "cod"
-                      ? "border-orange-400 bg-orange-50"
+                      ? "border-blue-800 bg-blue-50"
                       : "border-slate-200 hover:bg-slate-50"
                   }`}
                 >
@@ -288,7 +288,7 @@ export default function PayingSection() {
                   onClick={() => setPaymentMethod("card")}
                   className={`rounded-xl border p-4 text-left transition ${
                     paymentMethod === "card"
-                      ? "border-orange-400 bg-orange-50"
+                      ? "border-blue-800 bg-blue-50"
                       : "border-slate-200 hover:bg-slate-50"
                   }`}
                 >
@@ -313,7 +313,7 @@ export default function PayingSection() {
                       className={`mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none ${
                         errors.holderName
                           ? "border-red-300"
-                          : "border-slate-200 focus:border-orange-400"
+                          : "border-slate-200 focus:border-blue-800"
                       }`}
                       placeholder="Emri juaj"
                     />
@@ -336,7 +336,7 @@ export default function PayingSection() {
                       className={`mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none ${
                         errors.number
                           ? "border-red-300"
-                          : "border-slate-200 focus:border-orange-400"
+                          : "border-slate-200 focus:border-blue-800"
                       }`}
                       placeholder="1234 5678 9012 3456"
                       inputMode="numeric"
@@ -360,7 +360,7 @@ export default function PayingSection() {
                       className={`mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none ${
                         errors.expiry
                           ? "border-red-300"
-                          : "border-slate-200 focus:border-orange-400"
+                          : "border-slate-200 focus:border-blue-800"
                       }`}
                       placeholder="08/28"
                       inputMode="numeric"
@@ -384,7 +384,7 @@ export default function PayingSection() {
                       className={`mt-1 w-full rounded-xl border px-3 py-2.5 text-sm outline-none ${
                         errors.cvv
                           ? "border-red-300"
-                          : "border-slate-200 focus:border-orange-400"
+                          : "border-slate-200 focus:border-blue-800"
                       }`}
                       placeholder="123"
                       inputMode="numeric"
@@ -453,7 +453,7 @@ export default function PayingSection() {
               onClick={placeOrder}
               disabled={isSubmitting}
               className={`mt-6 w-full rounded-xl px-5 py-3 text-sm font-semibold text-white transition ${
-                isSubmitting ? "bg-orange-400" : "bg-orange-500 hover:bg-orange-600"
+                isSubmitting ? "bg-blue-400" : "bg-blue-800 hover:bg-blue-900"
               }`}
             >
               {isSubmitting ? "Duke u përpunuar..." : "Përfundo porosinë"}
