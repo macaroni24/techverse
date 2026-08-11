@@ -19,7 +19,9 @@ export default function ProductCard({ product }) {
   }, [product.oldPrice, product.price]);
 
   const discountPct = useMemo(() => {
-    if (!hasDiscount) return null;
+    if (!hasDiscount) {
+      return null;
+    }
 
     return Math.round(
       ((product.oldPrice - product.price) / product.oldPrice) * 100
@@ -34,27 +36,27 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <div className="group flex h-full flex-col border border-slate-200 bg-white p-4 transition duration-300 hover:border-slate-300 hover:shadow-md">
+    <div className="group flex h-full flex-col border border-slate-200 bg-white p-3 transition duration-300 hover:border-slate-300 hover:shadow-md sm:p-4">
       <NavLink
         to={`/product/${product.id}`}
         className="flex h-full flex-col"
       >
-        <div className="flex h-[230px] items-center justify-center overflow-hidden bg-white sm:h-[250px]">
+        <div className="flex h-[155px] items-center justify-center overflow-hidden bg-white sm:h-[250px]">
           <img
             src={product.image}
             alt={product.title}
             loading="lazy"
-            className="h-full w-full object-contain p-2 transition duration-300 group-hover:scale-[1.035]"
+            className="h-full w-full object-contain p-1.5 transition duration-300 group-hover:scale-[1.035] sm:p-2"
           />
         </div>
 
-        <h3 className="mt-4 line-clamp-2 min-h-[48px] text-[16px] font-semibold leading-[1.5] text-slate-900">
+        <h3 className="mt-3 line-clamp-2 min-h-[42px] text-[14px] font-semibold leading-[1.45] text-slate-900 sm:mt-4 sm:min-h-[48px] sm:text-[16px] sm:leading-[1.5]">
           {product.title}
         </h3>
 
-        <div className="mt-auto pt-5">
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-[22px] font-bold tracking-tight text-slate-950">
+        <div className="mt-auto pt-4 sm:pt-5">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
+            <span className="text-[19px] font-bold tracking-tight text-slate-950 sm:text-[22px]">
               {formatPriceEUR(product.price)}
             </span>
 
@@ -70,7 +72,7 @@ export default function ProductCard({ product }) {
             >
               <svg
                 viewBox="0 0 24 24"
-                className="h-7 w-7"
+                className="h-6 w-6 sm:h-7 sm:w-7"
                 aria-hidden="true"
               >
                 <path
@@ -86,14 +88,14 @@ export default function ProductCard({ product }) {
             </button>
           </div>
 
-          <div className="mt-1.5 flex min-h-[20px] items-center gap-2">
+          <div className="mt-1 flex min-h-[18px] items-center gap-1.5 sm:mt-1.5 sm:min-h-[20px] sm:gap-2">
             {hasDiscount && (
               <>
-                <span className="text-xs text-slate-400 line-through">
+                <span className="text-[10px] text-slate-400 line-through sm:text-xs">
                   {formatPriceEUR(product.oldPrice)}
                 </span>
 
-                <span className="rounded-full bg-blue-50 px-2 py-[3px] text-[10px] font-bold text-blue-700">
+                <span className="rounded-full bg-blue-50 px-1.5 py-[2px] text-[9px] font-bold text-blue-700 sm:px-2 sm:py-[3px] sm:text-[10px]">
                   -{discountPct}%
                 </span>
               </>
