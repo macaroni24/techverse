@@ -36,382 +36,297 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <>
-      <div
-        className="
-          product-card-shell
+    <div
+      className="
+        group
+        flex
+        h-full
+        min-w-0
+        flex-col
+        border
+        border-slate-200
+        bg-white
+        p-3
 
-          group
-          flex
-          h-full
-          min-w-0
-          flex-col
+        transition
+        duration-300
 
-          border
-          border-slate-200
+        hover:border-slate-300
+        hover:shadow-md
 
-          bg-white
+        md:p-2.5
+        lg:p-2.5
+        xl:p-3
 
-          p-3
-
-          transition
-          duration-300
-
-          hover:border-slate-300
-          hover:shadow-md
-
-          md:p-2.5
-          lg:p-3
-          xl:p-4
-        "
+        2xl:p-4
+      "
+    >
+      <NavLink
+        to={`/product/${product.id}`}
+        className="flex h-full min-w-0 flex-col"
       >
-        <NavLink
-          to={`/product/${product.id}`}
-          className="flex h-full min-w-0 flex-col"
-        >
-          {/* PRODUCT IMAGE */}
+        {/* PRODUCT IMAGE */}
 
+        <div
+          className="
+            flex
+            h-[155px]
+            w-full
+            items-center
+            justify-center
+            overflow-hidden
+            bg-white
+
+            sm:h-[165px]
+
+            md:h-[135px]
+
+            lg:h-[145px]
+
+            xl:h-[160px]
+
+            2xl:h-[220px]
+          "
+        >
+          <img
+            src={product.image}
+            alt={product.title}
+            loading="lazy"
+            className="
+              h-full
+              w-full
+              object-contain
+              p-1.5
+
+              transition
+              duration-300
+
+              group-hover:scale-[1.035]
+
+              md:p-1
+              lg:p-1.5
+              xl:p-1.5
+
+              2xl:p-2
+            "
+          />
+        </div>
+
+        {/* PRODUCT TITLE */}
+
+        <h3
+          className="
+            mt-3
+            line-clamp-2
+            min-h-[40px]
+
+            text-[14px]
+            font-semibold
+            leading-[1.4]
+            text-slate-900
+
+            md:mt-2
+            md:min-h-[34px]
+            md:text-[12px]
+            md:leading-[1.35]
+
+            lg:mt-2.5
+            lg:min-h-[36px]
+            lg:text-[12.5px]
+
+            xl:mt-2.5
+            xl:min-h-[38px]
+            xl:text-[13px]
+            xl:leading-[1.4]
+
+            2xl:mt-4
+            2xl:min-h-[44px]
+            2xl:text-[15px]
+            2xl:leading-[1.45]
+          "
+        >
+          {product.title}
+        </h3>
+
+        {/* PRICE / WISHLIST */}
+
+        <div
+          className="
+            mt-auto
+            pt-3
+
+            md:pt-2
+
+            lg:pt-2.5
+
+            xl:pt-2.5
+
+            2xl:pt-4
+          "
+        >
           <div
             className="
-              product-card-image
-
               flex
-              h-[155px]
-              w-full
               items-center
-              justify-center
+              justify-between
+              gap-2
 
-              overflow-hidden
+              xl:gap-2.5
 
-              bg-white
-
-              sm:h-[165px]
-
-              md:h-[145px]
-
-              lg:h-[155px]
-
-              xl:h-[205px]
-
-              2xl:h-[235px]
+              2xl:gap-4
             "
           >
-            <img
-              src={product.image}
-              alt={product.title}
-              loading="lazy"
+            <span
               className="
-                product-card-img
+                min-w-0
 
-                h-full
-                w-full
+                text-[18px]
+                font-bold
+                tracking-tight
+                text-slate-950
 
-                object-contain
+                md:text-[14.5px]
 
-                p-1.5
+                lg:text-[15px]
+
+                xl:text-[16px]
+
+                2xl:text-[20px]
+              "
+            >
+              {formatPriceEUR(product.price)}
+            </span>
+
+            <button
+              type="button"
+              onClick={handleWishlist}
+              aria-label={
+                wish
+                  ? "Largo nga lista e dëshirave"
+                  : "Shto në listën e dëshirave"
+              }
+              className="
+                inline-flex
+                shrink-0
+                items-center
+                justify-center
 
                 transition
-                duration-300
+                duration-200
 
-                group-hover:scale-[1.035]
-
-                md:p-1.5
-
-                xl:p-2
+                hover:scale-110
+                active:scale-95
               "
-            />
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="
+                  h-6
+                  w-6
+
+                  md:h-[18px]
+                  md:w-[18px]
+
+                  lg:h-5
+                  lg:w-5
+
+                  xl:h-[21px]
+                  xl:w-[21px]
+
+                  2xl:h-7
+                  2xl:w-7
+                "
+                aria-hidden="true"
+              >
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
+                  fill={wish ? "#1e3a8a" : "none"}
+                  stroke="#1e3a8a"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition duration-200"
+                />
+              </svg>
+            </button>
           </div>
 
-          {/* PRODUCT TITLE */}
-
-          <h3
-            className="
-              product-card-title
-
-              mt-3
-
-              line-clamp-2
-
-              min-h-[40px]
-
-              text-[14px]
-              font-semibold
-              leading-[1.4]
-
-              text-slate-900
-
-              md:mt-2.5
-              md:min-h-[36px]
-              md:text-[12.5px]
-              md:leading-[1.4]
-
-              lg:text-[13px]
-
-              xl:mt-4
-              xl:min-h-[44px]
-              xl:text-[15px]
-              xl:leading-[1.45]
-
-              2xl:text-[16px]
-            "
-          >
-            {product.title}
-          </h3>
-
-          {/* PRICE / WISHLIST */}
+          {/* DISCOUNT INFO */}
 
           <div
             className="
-              product-card-bottom
+              mt-1
+              flex
+              min-h-[18px]
+              items-center
+              gap-1.5
 
-              mt-auto
+              md:min-h-[15px]
+              md:gap-1
 
-              pt-3
+              lg:min-h-[16px]
 
-              md:pt-2.5
+              xl:min-h-[17px]
+              xl:gap-1.5
 
-              xl:pt-4
+              2xl:mt-1.5
+              2xl:min-h-[20px]
+              2xl:gap-2
             "
           >
-            <div
-              className="
-                flex
-                items-center
-                justify-between
-
-                gap-2
-
-                xl:gap-4
-              "
-            >
-              <span
-                className="
-                  product-card-price
-
-                  min-w-0
-
-                  text-[18px]
-                  font-bold
-                  tracking-tight
-
-                  text-slate-950
-
-                  md:text-[15px]
-
-                  lg:text-[16px]
-
-                  xl:text-[20px]
-
-                  2xl:text-[22px]
-                "
-              >
-                {formatPriceEUR(product.price)}
-              </span>
-
-              <button
-                type="button"
-                onClick={handleWishlist}
-                aria-label={
-                  wish
-                    ? "Largo nga lista e dëshirave"
-                    : "Shto në listën e dëshirave"
-                }
-                className="
-                  inline-flex
-                  shrink-0
-                  items-center
-                  justify-center
-
-                  transition
-                  duration-200
-
-                  hover:scale-110
-                  active:scale-95
-                "
-              >
-                <svg
-                  viewBox="0 0 24 24"
+            {hasDiscount && (
+              <>
+                <span
                   className="
-                    product-card-heart
+                    text-[10px]
+                    text-slate-400
+                    line-through
 
-                    h-6
-                    w-6
+                    md:text-[8px]
 
-                    md:h-5
-                    md:w-5
+                    lg:text-[8.5px]
 
-                    xl:h-7
-                    xl:w-7
+                    xl:text-[9px]
+
+                    2xl:text-xs
                   "
-                  aria-hidden="true"
                 >
-                  <path
-                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
-                    fill={wish ? "#1e3a8a" : "none"}
-                    stroke="#1e3a8a"
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="transition duration-200"
-                  />
-                </svg>
-              </button>
-            </div>
+                  {formatPriceEUR(product.oldPrice)}
+                </span>
 
-            {/* DISCOUNT INFO */}
+                <span
+                  className="
+                    rounded-full
+                    bg-blue-50
 
-            <div
-              className="
-                product-card-discount-row
+                    px-1.5
+                    py-[2px]
 
-                mt-1
+                    text-[9px]
+                    font-bold
+                    text-blue-700
 
-                flex
-                min-h-[18px]
-                items-center
+                    md:px-1
+                    md:py-[1px]
+                    md:text-[7.5px]
 
-                gap-1.5
+                    lg:text-[8px]
 
-                md:min-h-[16px]
+                    xl:px-1.5
+                    xl:text-[8.5px]
 
-                xl:mt-1.5
-                xl:min-h-[20px]
-                xl:gap-2
-              "
-            >
-              {hasDiscount && (
-                <>
-                  <span
-                    className="
-                      product-card-old-price
-
-                      text-[10px]
-
-                      text-slate-400
-
-                      line-through
-
-                      md:text-[9px]
-
-                      xl:text-xs
-                    "
-                  >
-                    {formatPriceEUR(product.oldPrice)}
-                  </span>
-
-                  <span
-                    className="
-                      product-card-discount
-
-                      rounded-full
-
-                      bg-blue-50
-
-                      px-1.5
-                      py-[2px]
-
-                      text-[9px]
-                      font-bold
-
-                      text-blue-700
-
-                      md:px-1.5
-                      md:py-[1px]
-                      md:text-[8px]
-
-                      xl:px-2
-                      xl:py-[3px]
-                      xl:text-[10px]
-                    "
-                  >
-                    -{discountPct}%
-                  </span>
-                </>
-              )}
-            </div>
+                    2xl:px-2
+                    2xl:py-[3px]
+                    2xl:text-[10px]
+                  "
+                >
+                  -{discountPct}%
+                </span>
+              </>
+            )}
           </div>
-        </NavLink>
-      </div>
-
-      <style>
-        {`
-          /*
-            LAPTOP ONLY
-
-            The normal Tailwind styles above remain untouched.
-
-            This override only activates when:
-            - width is between 1024px and 1600px
-            - height is 900px or smaller
-
-            Example:
-            1366 x 768  -> compact
-            1536 x 864  -> compact
-
-            Large external monitor:
-            1920 x 1080 -> ORIGINAL LARGE VERSION
-          */
-
-          @media
-            (min-width: 1024px)
-            and (max-width: 1600px)
-            and (max-height: 900px) {
-
-            .product-card-shell {
-              padding: 10px !important;
-            }
-
-            .product-card-image {
-              height: 145px !important;
-            }
-
-            .product-card-img {
-              padding: 5px !important;
-            }
-
-            .product-card-title {
-              margin-top: 9px !important;
-
-              min-height: 36px !important;
-
-              font-size: 12.5px !important;
-
-              line-height: 1.4 !important;
-            }
-
-            .product-card-bottom {
-              padding-top: 9px !important;
-            }
-
-            .product-card-price {
-              font-size: 16px !important;
-            }
-
-            .product-card-heart {
-              width: 21px !important;
-              height: 21px !important;
-            }
-
-            .product-card-discount-row {
-              margin-top: 4px !important;
-
-              min-height: 16px !important;
-
-              gap: 5px !important;
-            }
-
-            .product-card-old-price {
-              font-size: 9px !important;
-            }
-
-            .product-card-discount {
-              padding: 1px 6px !important;
-
-              font-size: 8px !important;
-            }
-          }
-        `}
-      </style>
-    </>
+        </div>
+      </NavLink>
+    </div>
   );
 }
