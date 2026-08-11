@@ -24,7 +24,9 @@ export default function ProductCard({ product }) {
     }
 
     return Math.round(
-      ((product.oldPrice - product.price) / product.oldPrice) * 100
+      ((product.oldPrice - product.price) /
+        product.oldPrice) *
+        100
     );
   }, [hasDiscount, product.oldPrice, product.price]);
 
@@ -39,10 +41,16 @@ export default function ProductCard({ product }) {
     <div
       className="
         group
+<<<<<<< HEAD
         mx-auto
         flex
         h-full
         w-[96%]
+=======
+        flex
+        h-full
+        min-w-0
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
         flex-col
         border
         border-slate-200
@@ -52,8 +60,15 @@ export default function ProductCard({ product }) {
         duration-300
         hover:border-slate-300
         hover:shadow-md
+<<<<<<< HEAD
         sm:w-[95%]
         sm:p-4
+=======
+
+        md:p-2.5
+        lg:p-3
+        xl:p-4
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
       "
     >
       <NavLink
@@ -61,7 +76,31 @@ export default function ProductCard({ product }) {
         className="flex h-full min-w-0 flex-col"
       >
         {/* PRODUCT IMAGE */}
+<<<<<<< HEAD
         <div className="flex h-[155px] w-full items-center justify-center overflow-hidden bg-white sm:h-[250px]">
+=======
+        <div
+          className="
+            flex
+            h-[155px]
+            w-full
+            items-center
+            justify-center
+            overflow-hidden
+            bg-white
+
+            sm:h-[165px]
+
+            md:h-[145px]
+
+            lg:h-[155px]
+
+            xl:h-[205px]
+
+            2xl:h-[235px]
+          "
+        >
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
           <img
             src={product.image}
             alt={product.title}
@@ -74,16 +113,27 @@ export default function ProductCard({ product }) {
               transition
               duration-300
               group-hover:scale-[1.035]
+<<<<<<< HEAD
               sm:p-2
+=======
+
+              md:p-1.5
+              xl:p-2
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
             "
           />
         </div>
 
+<<<<<<< HEAD
         {/* TITLE */}
+=======
+        {/* PRODUCT TITLE */}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
         <h3
           className="
             mt-3
             line-clamp-2
+<<<<<<< HEAD
             min-h-[42px]
             text-[14px]
             font-semibold
@@ -93,15 +143,77 @@ export default function ProductCard({ product }) {
             sm:min-h-[48px]
             sm:text-[16px]
             sm:leading-[1.5]
+=======
+            min-h-[40px]
+            text-[14px]
+            font-semibold
+            leading-[1.4]
+            text-slate-900
+
+            md:mt-2.5
+            md:min-h-[36px]
+            md:text-[12.5px]
+            md:leading-[1.4]
+
+            lg:text-[13px]
+
+            xl:mt-4
+            xl:min-h-[44px]
+            xl:text-[15px]
+            xl:leading-[1.45]
+
+            2xl:text-[16px]
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
           "
         >
           {product.title}
         </h3>
 
+<<<<<<< HEAD
         {/* PRICE AREA */}
         <div className="mt-auto pt-4 sm:pt-5">
           <div className="flex items-center justify-between gap-3 sm:gap-4">
             <span className="text-[19px] font-bold tracking-tight text-slate-950 sm:text-[22px]">
+=======
+        {/* PRICE / WISHLIST */}
+        <div
+          className="
+            mt-auto
+            pt-3
+
+            md:pt-2.5
+
+            xl:pt-4
+          "
+        >
+          <div
+            className="
+              flex
+              items-center
+              justify-between
+              gap-2
+
+              xl:gap-4
+            "
+          >
+            <span
+              className="
+                min-w-0
+                text-[18px]
+                font-bold
+                tracking-tight
+                text-slate-950
+
+                md:text-[15px]
+
+                lg:text-[16px]
+
+                xl:text-[20px]
+
+                2xl:text-[22px]
+              "
+            >
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
               {formatPriceEUR(product.price)}
             </span>
 
@@ -127,7 +239,16 @@ export default function ProductCard({ product }) {
             >
               <svg
                 viewBox="0 0 24 24"
-                className="h-6 w-6 sm:h-7 sm:w-7"
+                className="
+                  h-6
+                  w-6
+
+                  md:h-5
+                  md:w-5
+
+                  xl:h-7
+                  xl:w-7
+                "
                 aria-hidden="true"
               >
                 <path
@@ -143,15 +264,62 @@ export default function ProductCard({ product }) {
             </button>
           </div>
 
+<<<<<<< HEAD
           {/* DISCOUNT */}
           <div className="mt-1 flex min-h-[18px] items-center gap-1.5 sm:mt-1.5 sm:min-h-[20px] sm:gap-2">
+=======
+          {/* DISCOUNT INFO */}
+          <div
+            className="
+              mt-1
+              flex
+              min-h-[18px]
+              items-center
+              gap-1.5
+
+              md:min-h-[16px]
+
+              xl:mt-1.5
+              xl:min-h-[20px]
+              xl:gap-2
+            "
+          >
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
             {hasDiscount && (
               <>
-                <span className="text-[10px] text-slate-400 line-through sm:text-xs">
+                <span
+                  className="
+                    text-[10px]
+                    text-slate-400
+                    line-through
+
+                    md:text-[9px]
+
+                    xl:text-xs
+                  "
+                >
                   {formatPriceEUR(product.oldPrice)}
                 </span>
 
-                <span className="rounded-full bg-blue-50 px-1.5 py-[2px] text-[9px] font-bold text-blue-700 sm:px-2 sm:py-[3px] sm:text-[10px]">
+                <span
+                  className="
+                    rounded-full
+                    bg-blue-50
+                    px-1.5
+                    py-[2px]
+                    text-[9px]
+                    font-bold
+                    text-blue-700
+
+                    md:px-1.5
+                    md:py-[1px]
+                    md:text-[8px]
+
+                    xl:px-2
+                    xl:py-[3px]
+                    xl:text-[10px]
+                  "
+                >
                   -{discountPct}%
                 </span>
               </>

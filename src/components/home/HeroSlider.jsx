@@ -382,11 +382,14 @@ export default function HeroSlider() {
         "resize",
         handleResize
       );
+<<<<<<< HEAD
 
       window.removeEventListener(
         "orientationchange",
         handleResize
       );
+=======
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
     };
   }, [promoIndex]);
 
@@ -420,16 +423,24 @@ export default function HeroSlider() {
         10;
 
       const step =
+<<<<<<< HEAD
         firstCard.getBoundingClientRect()
           .width + gap;
+=======
+        firstCard.getBoundingClientRect().width +
+        gap;
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
 
       const maxScroll =
         slider.scrollWidth -
         slider.clientWidth;
 
+<<<<<<< HEAD
       /*
        * Reached end -> go back to beginning.
        */
+=======
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
       if (
         slider.scrollLeft + step >=
         maxScroll - 8
@@ -480,8 +491,13 @@ export default function HeroSlider() {
       10;
 
     const step =
+<<<<<<< HEAD
       firstCard.getBoundingClientRect()
         .width + gap;
+=======
+      firstCard.getBoundingClientRect().width +
+      gap;
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
 
     const currentIndex = Math.round(
       slider.scrollLeft / step
@@ -537,9 +553,13 @@ export default function HeroSlider() {
 
   useEffect(() => {
     return () => {
+<<<<<<< HEAD
       if (
         heroScrollEndTimerRef.current
       ) {
+=======
+      if (heroScrollEndTimerRef.current) {
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
         clearTimeout(
           heroScrollEndTimerRef.current
         );
@@ -548,15 +568,23 @@ export default function HeroSlider() {
   }, []);
 
   return (
+<<<<<<< HEAD
     <section className="relative w-full min-w-0 overflow-hidden bg-[#f5f6f8]">
       {/* =====================================================
           MOBILE HERO
           ===================================================== */}
+=======
+    <section className="relative w-full min-w-0 bg-[#f5f6f8] md:left-1/2 md:w-[min(1460px,calc(100vw-40px))] md:-translate-x-1/2">
+      {/* ========================= */}
+      {/* MOBILE HERO */}
+      {/* ========================= */}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
 
       <div className="w-full md:hidden">
         <div className="w-full overflow-hidden">
           <div
             ref={mobileHeroRef}
+<<<<<<< HEAD
             onScroll={
               handleMobileHeroScroll
             }
@@ -587,12 +615,24 @@ export default function HeroSlider() {
               pb-1
               sm:gap-3
             "
+=======
+            onScroll={handleMobileHeroScroll}
+            onTouchStart={handleHeroTouchStart}
+            onTouchMove={handleHeroTouchMove}
+            onTouchEnd={handleHeroTouchEnd}
+            onTouchCancel={handleHeroTouchEnd}
+            onClickCapture={
+              handleHeroClickCapture
+            }
+            className="mobile-hero-carousel flex w-full snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-1"
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
           >
             {slides.map((slide) => (
               <NavLink
                 key={slide.id}
                 to={slide.to}
                 draggable="false"
+<<<<<<< HEAD
                 className="
                   group
                   relative
@@ -610,11 +650,15 @@ export default function HeroSlider() {
                   min-[390px]:w-[89%]
                   sm:w-[82%]
                 "
+=======
+                className="group relative block h-[clamp(191px,52.5vw,205px)] w-[88%] shrink-0 snap-start select-none overflow-hidden rounded-[8px] bg-slate-950 outline-none"
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                 style={{
                   scrollSnapStop:
                     "always",
                 }}
               >
+<<<<<<< HEAD
                 <picture>
                   <source
                     media="(max-width: 767px)"
@@ -640,6 +684,14 @@ export default function HeroSlider() {
                     "
                   />
                 </picture>
+=======
+                <img
+                  src={slide.phoneImage}
+                  alt=""
+                  draggable="false"
+                  className="pointer-events-none absolute inset-0 block h-full w-full select-none object-cover object-center"
+                />
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
 
                 <div
                   className="
@@ -661,21 +713,30 @@ export default function HeroSlider() {
 
         <div className="mt-1.5 flex items-center justify-center gap-1">
           {slides.map(
+<<<<<<< HEAD
             (
               slide,
               slideIndex
             ) => (
+=======
+            (slide, slideIndex) => (
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
               <button
                 key={slide.id}
                 type="button"
                 onClick={() =>
+<<<<<<< HEAD
                   goToHero(
                     slideIndex
                   )
+=======
+                  goToHero(slideIndex)
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                 }
                 aria-label={`Slajdi ${
                   slideIndex + 1
                 }`}
+<<<<<<< HEAD
                 className={`
                   h-[4px]
                   rounded-full
@@ -688,12 +749,20 @@ export default function HeroSlider() {
                       : "w-[4px] bg-slate-200"
                   }
                 `}
+=======
+                className={`h-[4px] rounded-full transition-all duration-300 ${
+                  slideIndex === index
+                    ? "w-4 bg-slate-600"
+                    : "w-[4px] bg-slate-200"
+                }`}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
               />
             )
           )}
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* =====================================================
           TABLET / DESKTOP HERO
           ===================================================== */}
@@ -743,6 +812,23 @@ export default function HeroSlider() {
                     : "pointer-events-none translate-x-3 opacity-0"
                 }
               `}
+=======
+      {/* ========================= */}
+      {/* TABLET / DESKTOP HERO */}
+      {/* ========================= */}
+
+      <div className="relative hidden w-full min-w-0 overflow-hidden rounded-[7px] bg-slate-950 md:block md:h-[245px] lg:h-[275px] xl:h-[340px]">
+        {slides.map(
+          (slide, slideIndex) => (
+            <NavLink
+              key={slide.id}
+              to={slide.to}
+              className={`absolute inset-0 block h-full w-full outline-none transition-all duration-700 ease-out focus:outline-none focus:ring-0 ${
+                slideIndex === index
+                  ? "pointer-events-auto translate-x-0 opacity-100"
+                  : "pointer-events-none translate-x-3 opacity-0"
+              }`}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
             >
               <img
                 src={slide.image}
@@ -759,6 +845,7 @@ export default function HeroSlider() {
                 "
               />
 
+<<<<<<< HEAD
               <div
                 className="
                   pointer-events-none
@@ -775,6 +862,12 @@ export default function HeroSlider() {
         )}
 
         {/* Previous */}
+=======
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/[0.07] to-transparent" />
+            </NavLink>
+          )
+        )}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
 
         <button
           type="button"
@@ -844,6 +937,7 @@ export default function HeroSlider() {
           ›
         </button>
 
+<<<<<<< HEAD
         {/* Desktop indicators */}
 
         <div
@@ -876,10 +970,24 @@ export default function HeroSlider() {
                   goToHero(
                     slideIndex
                   );
+=======
+        <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5">
+          {slides.map(
+            (slide, slideIndex) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+
+                  goToHero(slideIndex);
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                 }}
                 aria-label={`Slajdi ${
                   slideIndex + 1
                 }`}
+<<<<<<< HEAD
                 className={`
                   h-[5px]
                   rounded-full
@@ -892,12 +1000,20 @@ export default function HeroSlider() {
                       : "w-[5px] bg-white/50"
                   }
                 `}
+=======
+                className={`h-[5px] rounded-full transition-all duration-300 ${
+                  slideIndex === index
+                    ? "w-4 bg-white"
+                    : "w-[5px] bg-white/50"
+                }`}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
               />
             )
           )}
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* =====================================================
           PROMO CAROUSEL - DESKTOP
           ===================================================== */}
@@ -916,6 +1032,13 @@ export default function HeroSlider() {
           2xl:w-full
         "
       >
+=======
+      {/* ========================= */}
+      {/* DESKTOP PROMOS */}
+      {/* ========================= */}
+
+      <div className="mt-3 hidden w-full overflow-hidden bg-[#f5f6f8] lg:block">
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
         <div
           ref={promoRef}
           onScroll={
@@ -934,6 +1057,7 @@ export default function HeroSlider() {
           "
         >
           {promos.map(
+<<<<<<< HEAD
             (
               promo,
               promoItemIndex
@@ -970,12 +1094,24 @@ export default function HeroSlider() {
                     src={
                       promo.image
                     }
+=======
+            (promo, promoItemIndex) => (
+              <NavLink
+                key={promo.id}
+                to={promo.to}
+                className="group relative block w-[30.5%] shrink-0 snap-start overflow-hidden rounded-[0px] bg-slate-100 outline-none focus:outline-none focus:ring-0 xl:w-[28.7%]"
+              >
+                <div className="aspect-[3.2/1] w-full overflow-hidden rounded-[16px]">
+                  <img
+                    src={promo.image}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                     alt={promo.alt}
                     draggable="false"
                     loading="lazy"
                     style={getPromoStyle(
                       promoItemIndex
                     )}
+<<<<<<< HEAD
                     className="
                       h-full
                       w-full
@@ -985,6 +1121,9 @@ export default function HeroSlider() {
                       ease-out
                       group-hover:scale-[1.012]
                     "
+=======
+                    className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.012]"
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                   />
                 </div>
               </NavLink>

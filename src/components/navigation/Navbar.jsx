@@ -252,7 +252,6 @@ export default function Navbar() {
   const [mobileSearchSticky, setMobileSearchSticky] = useState(false);
   const [mobileHeaderExpanded, setMobileHeaderExpanded] = useState(false);
 
-  const mobileSearchRef = useRef(null);
   const lastScrollYRef = useRef(0);
 
   const navigate = useNavigate();
@@ -281,9 +280,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleMouseDown = (event) => {
-      const insideSearch = event.target.closest?.(
-        '[data-searchbox="true"]'
-      );
+      const insideSearch = event.target.closest?.('[data-searchbox="true"]');
 
       if (!insideSearch) {
         setSuggestOpen(false);
@@ -396,6 +393,7 @@ export default function Navbar() {
       lastScrollYRef.current = currentScrollY;
     };
 
+<<<<<<< HEAD
     const handleViewportChange = () => {
       /*
        * If screen changes to landscape,
@@ -405,6 +403,15 @@ export default function Navbar() {
       if (!isPortraitScreen()) {
         resetMobileStickyState();
         return;
+=======
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileSearchSticky(false);
+        setMobileHeaderExpanded(false);
+        setMobileCatsOpen(false);
+      } else {
+        setDesktopCatsOpen(false);
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
       }
 
       /*
@@ -415,6 +422,7 @@ export default function Navbar() {
       lastScrollYRef.current = window.scrollY;
     };
 
+<<<<<<< HEAD
     window.addEventListener(
       "scroll",
       handleMobileScroll,
@@ -488,6 +496,17 @@ export default function Navbar() {
 
     return () => {
       landscapeMedia.removeListener(handleOrientationChange);
+=======
+    window.addEventListener("scroll", handleMobileScroll, {
+      passive: true,
+    });
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleMobileScroll);
+      window.removeEventListener("resize", handleResize);
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
     };
   }, []);
 
@@ -531,9 +550,7 @@ export default function Navbar() {
           style={{ borderRadius: "2px" }}
         >
           Nuk u gjet asgjë. Shtypni{" "}
-          <span className="font-semibold">
-            Kërko
-          </span>{" "}
+          <span className="font-semibold">Kërko</span>{" "}
           për ta parë në Dyqan.
         </div>
       );
@@ -554,10 +571,15 @@ export default function Navbar() {
             <button
               key={product.id}
               type="button"
+<<<<<<< HEAD
               onClick={() =>
                 goToShopSearch(product.title)
               }
               className="flex w-full items-center gap-3 px-4 py-3 text-left transition-all duration-200 ease-out hover:bg-slate-50"
+=======
+              onClick={() => goToShopSearch(product.title)}
+              className="flex w-full items-center gap-3 px-4 py-3 text-left transition-all duration-200 hover:bg-slate-50"
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
             >
               <div className="h-11 w-11 shrink-0 bg-slate-50 p-1">
                 <img
@@ -593,7 +615,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => goToShopSearch(query)}
-            className="text-sm font-semibold text-blue-800 transition-colors duration-200 hover:text-blue-900"
+            className="text-sm font-semibold text-blue-800 hover:text-blue-900"
           >
             Shiko të gjitha
           </button>
@@ -604,6 +626,7 @@ export default function Navbar() {
 
   return (
     <header className="verse-navbar relative z-50 w-full md:sticky md:top-0">
+<<<<<<< HEAD
       {/* =====================================================
           TOP INFO BAR
           ===================================================== */}
@@ -611,21 +634,25 @@ export default function Navbar() {
       <div className="bg-emerald-950 text-white">
         <div className="flex w-full items-center justify-between px-4 py-1.5 sm:px-6">
           <p className="text-[11px] text-white/80 sm:text-xs">
+=======
+      {/* TOP BAR */}
+
+      <div className="navbar-topbar text-white">
+        <div className="flex w-full items-center justify-between px-4 py-1 sm:px-6 md:py-[2px] xl:py-1.5">
+          <p className="text-[11px] text-white/80 md:text-[9px] lg:text-[10px] xl:text-xs">
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
             Dërgesë falas mbi{" "}
-            <span className="font-semibold text-white">
-              €100
-            </span>
+            <span className="font-semibold text-[#4aa3ff]">€100</span>
           </p>
 
-          <p className="text-[11px] text-white/80 sm:text-xs">
+          <p className="text-[11px] text-white/80 md:text-[9px] lg:text-[10px] xl:text-xs">
             Mbështetje:{" "}
-            <span className="font-semibold text-white">
-              24/7
-            </span>
+            <span className="font-semibold text-[#4aa3ff]">24/7</span>
           </p>
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* =====================================================
           MAIN NAVBAR
           ===================================================== */}
@@ -635,6 +662,13 @@ export default function Navbar() {
           {/* =================================================
               MOBILE
               ================================================= */}
+=======
+      {/* MAIN NAVBAR */}
+
+      <div className="navbar-main relative z-[80] text-white">
+        <div className="relative w-full px-4 py-2 sm:px-6 md:py-1.5 xl:py-4">
+          {/* MOBILE */}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
 
           <div className="md:hidden">
             <div className="flex items-center justify-between gap-3">
@@ -652,39 +686,42 @@ export default function Navbar() {
               <div className="flex items-center gap-1">
                 <NavLink
                   to="/wishlist"
-                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-200 hover:bg-white/20"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
                   aria-label="Lista e dëshirave"
                 >
                   <HeartIcon className="h-5 w-5" />
 
                   {wishlistCount > 0 && (
-                    <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[9px] font-bold text-white">
-                      {wishlistCount > 99
-                        ? "99+"
-                        : wishlistCount}
+                    <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-[#348ef4] px-1 text-[9px] font-bold text-white">
+                      {wishlistCount > 99 ? "99+" : wishlistCount}
                     </span>
                   )}
                 </NavLink>
 
                 <NavLink
                   to="/cart"
-                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-200 hover:bg-white/20"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
                   aria-label="Shporta"
                 >
                   <CartIcon className="h-5 w-5" />
 
                   {cartCount > 0 && (
+<<<<<<< HEAD
                     <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[9px] font-bold text-white">
                       {cartCount > 99
                         ? "99+"
                         : cartCount}
+=======
+                    <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-[#348ef4] px-1 text-[9px] font-bold text-white">
+                      {cartCount > 99 ? "99+" : cartCount}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                     </span>
                   )}
                 </NavLink>
 
                 <NavLink
                   to="/login"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-200 hover:bg-white/20"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
                   aria-label="Kyçu"
                 >
                   <UserIcon className="h-5 w-5" />
@@ -692,6 +729,7 @@ export default function Navbar() {
               </div>
             </div>
 
+<<<<<<< HEAD
             <div
               ref={mobileSearchRef}
               className="mt-2.5"
@@ -700,8 +738,12 @@ export default function Navbar() {
                 data-searchbox="true"
                 className="relative"
               >
+=======
+            <div className="mt-2.5">
+              <div data-searchbox="true" className="relative">
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                 <form onSubmit={handleSearchSubmit}>
-                  <div className="flex h-9 items-center rounded-full bg-white px-4 shadow-sm">
+                  <div className="navbar-search flex h-9 items-center rounded-full px-4">
                     <input
                       value={query}
                       onChange={(event) => {
@@ -709,10 +751,14 @@ export default function Navbar() {
                           event.target.value;
 
                         setQuery(value);
+<<<<<<< HEAD
 
                         setSuggestOpen(
                           value.trim().length > 0
                         );
+=======
+                        setSuggestOpen(value.trim().length > 0);
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                       }}
                       onFocus={() => {
                         if (query.trim()) {
@@ -727,9 +773,9 @@ export default function Navbar() {
                       type="submit"
                       disabled={!canSearch}
                       className={cx(
-                        "ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200",
+                        "navbar-search-button ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition",
                         canSearch
-                          ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                          ? "text-slate-600"
                           : "cursor-not-allowed text-slate-300"
                       )}
                       aria-label="Kërko"
@@ -744,11 +790,17 @@ export default function Navbar() {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* =================================================
               DESKTOP
               ================================================= */}
 
           <div className="relative hidden h-10 md:block">
+=======
+          {/* LAPTOP / DESKTOP */}
+
+          <div className="relative hidden h-8 md:block xl:h-10">
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
             <NavLink
               to="/"
               className="absolute left-0 top-1/2 z-10 flex -translate-y-1/2 items-center"
@@ -756,17 +808,16 @@ export default function Navbar() {
               <img
                 src={logo}
                 alt="TechVerse"
-                className="h-11 w-auto max-w-[160px] object-contain object-left lg:h-12 lg:max-w-[180px] xl:h-[50px] xl:max-w-[195px]"
+                className="h-7 w-auto max-w-[115px] object-contain object-left lg:h-8 lg:max-w-[130px] xl:h-[50px] xl:max-w-[195px]"
               />
             </NavLink>
 
-            <div className="absolute left-1/2 top-1/2 z-[120] w-full max-w-[980px] -translate-x-1/2 -translate-y-1/2">
-              <div
-                data-searchbox="true"
-                className="relative"
-              >
+            {/* SEARCH */}
+
+            <div className="absolute left-[130px] right-[110px] top-1/2 z-[120] -translate-y-1/2 lg:left-[150px] lg:right-[120px] xl:left-1/2 xl:right-auto xl:w-[min(62vw,980px)] xl:-translate-x-1/2">
+              <div data-searchbox="true" className="relative">
                 <form onSubmit={handleSearchSubmit}>
-                  <div className="flex h-10 items-center rounded-full bg-white px-4 shadow-sm">
+                  <div className="navbar-search flex h-8 items-center rounded-full px-3 xl:h-10 xl:px-4">
                     <input
                       value={query}
                       onChange={(event) => {
@@ -774,10 +825,14 @@ export default function Navbar() {
                           event.target.value;
 
                         setQuery(value);
+<<<<<<< HEAD
 
                         setSuggestOpen(
                           value.trim().length > 0
                         );
+=======
+                        setSuggestOpen(value.trim().length > 0);
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                       }}
                       onFocus={() => {
                         if (query.trim()) {
@@ -785,21 +840,21 @@ export default function Navbar() {
                         }
                       }}
                       placeholder="Kërko produkte..."
-                      className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none"
+                      className="w-full bg-transparent text-[11px] text-slate-900 placeholder:text-slate-500 focus:outline-none lg:text-[12px] xl:text-sm"
                     />
 
                     <button
                       type="submit"
                       disabled={!canSearch}
                       className={cx(
-                        "ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200",
+                        "navbar-search-button ml-1 inline-flex h-6 w-6 items-center justify-center rounded-full transition xl:h-8 xl:w-8",
                         canSearch
-                          ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                          ? "text-slate-600"
                           : "cursor-not-allowed text-slate-300"
                       )}
                       aria-label="Kërko"
                     >
-                      <SearchIcon className="h-5 w-5" />
+                      <SearchIcon className="h-4 w-4 xl:h-5 xl:w-5" />
                     </button>
                   </div>
                 </form>
@@ -808,54 +863,63 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="absolute right-0 top-1/2 flex shrink-0 -translate-y-1/2 items-center gap-1">
+            {/* ACTIONS */}
+
+            <div className="absolute right-0 top-1/2 z-[130] flex -translate-y-1/2 items-center gap-1">
               <NavLink
                 to="/wishlist"
-                className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-200 ease-out hover:bg-white/20"
+                className="navbar-action relative inline-flex h-8 w-8 items-center justify-center rounded-full text-white transition xl:h-10 xl:w-10"
                 aria-label="Lista e dëshirave"
               >
-                <HeartIcon className="h-5 w-5" />
+                <HeartIcon className="h-4 w-4 xl:h-5 xl:w-5" />
 
                 {wishlistCount > 0 && (
-                  <span className="absolute right-0 top-0 inline-flex h-5 min-w-5 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-bold text-white">
-                    {wishlistCount > 99
-                      ? "99+"
-                      : wishlistCount}
+                  <span className="navbar-count absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full px-1 text-[8px] font-bold text-white xl:h-5 xl:min-w-5 xl:text-[10px]">
+                    {wishlistCount > 99 ? "99+" : wishlistCount}
                   </span>
                 )}
               </NavLink>
 
               <NavLink
                 to="/cart"
-                className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-200 ease-out hover:bg-white/20"
+                className="navbar-action relative inline-flex h-8 w-8 items-center justify-center rounded-full text-white transition xl:h-10 xl:w-10"
                 aria-label="Shporta"
               >
-                <CartIcon className="h-5 w-5" />
+                <CartIcon className="h-4 w-4 xl:h-5 xl:w-5" />
 
                 {cartCount > 0 && (
+<<<<<<< HEAD
                   <span className="absolute right-0 top-0 inline-flex h-5 min-w-5 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-bold text-white">
                     {cartCount > 99
                       ? "99+"
                       : cartCount}
+=======
+                  <span className="navbar-count absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full px-1 text-[8px] font-bold text-white xl:h-5 xl:min-w-5 xl:text-[10px]">
+                    {cartCount > 99 ? "99+" : cartCount}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                   </span>
                 )}
               </NavLink>
 
               <NavLink
                 to="/login"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-200 ease-out hover:bg-white/20"
+                className="navbar-action inline-flex h-8 w-8 items-center justify-center rounded-full text-white transition xl:h-10 xl:w-10"
                 aria-label="Kyçu"
               >
-                <UserIcon className="h-5 w-5" />
+                <UserIcon className="h-4 w-4 xl:h-5 xl:w-5" />
               </NavLink>
             </div>
           </div>
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* =====================================================
           PORTRAIT STICKY SEARCH NAVBAR
           ===================================================== */}
+=======
+      {/* MOBILE STICKY NAV */}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
 
       {mobileSearchSticky && (
         <div className="fixed left-0 right-0 top-0 z-[150] bg-[#0b1015] shadow-sm md:hidden">
@@ -869,16 +933,12 @@ export default function Navbar() {
             <div className="flex items-center justify-between border-b border-[#171c21] bg-[#05080b] px-4 py-1.5">
               <p className="text-[11px] text-white/80">
                 Dërgesë falas mbi{" "}
-                <span className="font-semibold text-[#4aa3ff]">
-                  €100
-                </span>
+                <span className="font-semibold text-[#4aa3ff]">€100</span>
               </p>
 
               <p className="text-[11px] text-white/80">
                 Mbështetje:{" "}
-                <span className="font-semibold text-[#4aa3ff]">
-                  24/7
-                </span>
+                <span className="font-semibold text-[#4aa3ff]">24/7</span>
               </p>
             </div>
 
@@ -904,9 +964,7 @@ export default function Navbar() {
 
                   {wishlistCount > 0 && (
                     <span className="absolute right-0 top-0 inline-flex h-4 min-w-4 -translate-y-1/4 translate-x-1/4 items-center justify-center rounded-full bg-[#348ef4] px-1 text-[9px] font-bold text-white">
-                      {wishlistCount > 99
-                        ? "99+"
-                        : wishlistCount}
+                      {wishlistCount > 99 ? "99+" : wishlistCount}
                     </span>
                   )}
                 </NavLink>
@@ -939,12 +997,9 @@ export default function Navbar() {
           </div>
 
           <div className="px-4 py-2">
-            <div
-              data-searchbox="true"
-              className="relative"
-            >
+            <div data-searchbox="true" className="relative">
               <form onSubmit={handleSearchSubmit}>
-                <div className="flex h-9 items-center rounded-full border border-slate-200 bg-white px-4 shadow-sm">
+                <div className="navbar-search flex h-9 items-center rounded-full px-4">
                   <input
                     value={query}
                     onChange={(event) => {
@@ -952,10 +1007,14 @@ export default function Navbar() {
                         event.target.value;
 
                       setQuery(value);
+<<<<<<< HEAD
 
                       setSuggestOpen(
                         value.trim().length > 0
                       );
+=======
+                      setSuggestOpen(value.trim().length > 0);
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                     }}
                     onFocus={() => {
                       if (query.trim()) {
@@ -970,9 +1029,9 @@ export default function Navbar() {
                     type="submit"
                     disabled={!canSearch}
                     className={cx(
-                      "ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200",
+                      "navbar-search-button ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition",
                       canSearch
-                        ? "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                        ? "text-slate-600"
                         : "cursor-not-allowed text-slate-300"
                     )}
                     aria-label="Kërko"
@@ -988,12 +1047,21 @@ export default function Navbar() {
         </div>
       )}
 
+<<<<<<< HEAD
       {/* =====================================================
           DESKTOP CATEGORY NAVIGATION
           ===================================================== */}
 
       <div className="relative z-[40] hidden border-b border-slate-200 bg-white md:block">
         <div className="relative flex h-12 w-full items-center px-4 sm:px-6">
+=======
+      {/* SECONDARY NAV */}
+
+      <div className="navbar-secondary relative z-[40] hidden md:block">
+        <div className="relative flex h-8 w-full items-center px-4 sm:px-6 xl:h-12">
+          {/* MEGA MENU */}
+
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
           <div
             className="relative flex h-full items-center"
             onMouseEnter={() =>
@@ -1005,7 +1073,7 @@ export default function Navbar() {
           >
             <div
               className={cx(
-                "absolute left-0 top-full z-[100] w-[min(920px,calc(100vw-32px))] origin-top border border-slate-200 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.16)] transition-all duration-200 ease-out",
+                "absolute left-0 top-full z-[100] w-[min(920px,calc(100vw-32px))] origin-top border border-slate-200 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.16)] transition-all duration-200",
                 desktopCatsOpen
                   ? "visible translate-y-0 scale-100 opacity-100"
                   : "invisible -translate-y-1 scale-[0.995] opacity-0"
@@ -1027,20 +1095,16 @@ export default function Navbar() {
 
                 <NavLink
                   to="/shop"
-                  onClick={() =>
-                    setDesktopCatsOpen(false)
-                  }
-                  className="group flex items-center gap-2 text-xs font-semibold text-emerald-800 transition-colors duration-200 hover:text-emerald-950"
+                  onClick={() => setDesktopCatsOpen(false)}
+                  className="group flex items-center gap-2 text-xs font-semibold text-emerald-800 hover:text-emerald-950"
                 >
                   Shiko të gjitha
-
-                  <span className="transition-transform duration-200 ease-out group-hover:translate-x-1">
-                    →
-                  </span>
+                  <span>→</span>
                 </NavLink>
               </div>
 
               <div className="grid grid-cols-2 xl:grid-cols-4">
+<<<<<<< HEAD
                 {megaMenuCategories.map(
                   (
                     section,
@@ -1060,23 +1124,37 @@ export default function Navbar() {
                           ? "xl:border-l xl:border-slate-100"
                           : ""
                       )}
+=======
+                {megaMenuCategories.map((section, sectionIndex) => (
+                  <div
+                    key={section.title}
+                    className={cx(
+                      "px-5 py-5 hover:bg-slate-50/70",
+                      sectionIndex % 2 !== 0
+                        ? "border-l border-slate-100"
+                        : "",
+                      sectionIndex >= 2
+                        ? "border-t border-slate-100 xl:border-t-0"
+                        : "",
+                      sectionIndex > 0
+                        ? "xl:border-l xl:border-slate-100"
+                        : ""
+                    )}
+                  >
+                    <NavLink
+                      to={section.to}
+                      onClick={() => setDesktopCatsOpen(false)}
+                      className="mb-3 flex items-center justify-between border-b border-slate-100 pb-3"
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                     >
-                      <NavLink
-                        to={section.to}
-                        onClick={() =>
-                          setDesktopCatsOpen(false)
-                        }
-                        className="group/title mb-3 flex items-center justify-between border-b border-slate-100 pb-3"
-                      >
-                        <span className="text-sm font-bold text-slate-900 transition-colors duration-200 group-hover/title:text-emerald-800">
-                          {section.title}
-                        </span>
+                      <span className="text-sm font-bold text-slate-900">
+                        {section.title}
+                      </span>
 
-                        <span className="text-sm text-slate-300 transition-all duration-200 ease-out group-hover/title:translate-x-1 group-hover/title:text-emerald-700">
-                          →
-                        </span>
-                      </NavLink>
+                      <span className="text-sm text-slate-300">→</span>
+                    </NavLink>
 
+<<<<<<< HEAD
                       <div className="space-y-0.5">
                         {section.items.map(
                           (item) => (
@@ -1105,30 +1183,38 @@ export default function Navbar() {
                           )
                         )}
                       </div>
+=======
+                    <div className="space-y-0.5">
+                      {section.items.map((item) => (
+                        <NavLink
+                          key={`${section.title}-${item.label}`}
+                          to={shopSearchPath(item.query)}
+                          onClick={() => setDesktopCatsOpen(false)}
+                          className="flex min-h-9 items-center px-2 text-[13px] font-medium text-slate-600 transition hover:translate-x-1 hover:bg-emerald-50/70 hover:text-emerald-900"
+                          style={{ borderRadius: "2px" }}
+                        >
+                          {item.label}
+                        </NavLink>
+                      ))}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                     </div>
-                  )
-                )}
+                  </div>
+                ))}
               </div>
 
               <div className="grid grid-cols-3 border-t border-slate-200 bg-slate-50/70">
                 <div className="flex items-center justify-center gap-2 border-r border-slate-200 px-4 py-3 text-xs text-slate-600">
-                  <span className="font-bold text-emerald-800">
-                    ✓
-                  </span>
+                  <span className="font-bold text-emerald-800">✓</span>
                   Dërgesë falas mbi €100
                 </div>
 
                 <div className="flex items-center justify-center gap-2 border-r border-slate-200 px-4 py-3 text-xs text-slate-600">
-                  <span className="font-bold text-emerald-800">
-                    ✓
-                  </span>
+                  <span className="font-bold text-emerald-800">✓</span>
                   Mbështetje 24/7
                 </div>
 
                 <div className="flex items-center justify-center gap-2 px-4 py-3 text-xs text-slate-600">
-                  <span className="font-bold text-emerald-800">
-                    ✓
-                  </span>
+                  <span className="font-bold text-emerald-800">✓</span>
                   Garanci e përfshirë
                 </div>
               </div>
@@ -1137,15 +1223,19 @@ export default function Navbar() {
 
           {/* CENTER LINKS */}
 
+<<<<<<< HEAD
           <div className="absolute left-1/2 top-0 flex h-full -translate-x-1/2 items-center gap-7 lg:gap-9">
+=======
+          <div className="absolute left-1/2 top-0 flex h-full -translate-x-1/2 items-center gap-3 lg:gap-4 xl:gap-9">
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
             <NavLink
               to="/outlet"
               className={({ isActive }) =>
                 cx(
-                  "flex h-full items-center border-b-2 text-sm font-medium transition-all duration-200 ease-out",
+                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-emerald-700 font-semibold text-emerald-800"
-                    : "border-transparent text-slate-700 hover:border-emerald-700 hover:text-emerald-700"
+                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
+                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
                 )
               }
             >
@@ -1156,10 +1246,10 @@ export default function Navbar() {
               to="/new"
               className={({ isActive }) =>
                 cx(
-                  "flex h-full items-center border-b-2 text-sm font-medium transition-all duration-200 ease-out",
+                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-emerald-700 font-semibold text-emerald-800"
-                    : "border-transparent text-slate-700 hover:border-emerald-700 hover:text-emerald-700"
+                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
+                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
                 )
               }
             >
@@ -1170,10 +1260,10 @@ export default function Navbar() {
               to="/giftcard"
               className={({ isActive }) =>
                 cx(
-                  "flex h-full items-center border-b-2 text-sm font-medium transition-all duration-200 ease-out",
+                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-emerald-700 font-semibold text-emerald-800"
-                    : "border-transparent text-slate-700 hover:border-emerald-700 hover:text-emerald-700"
+                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
+                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
                 )
               }
             >
@@ -1183,15 +1273,19 @@ export default function Navbar() {
 
           {/* RIGHT LINKS */}
 
+<<<<<<< HEAD
           <div className="absolute right-4 top-0 flex h-full items-center gap-7 sm:right-6 lg:gap-9">
+=======
+          <div className="absolute right-4 top-0 flex h-full items-center gap-3 sm:right-6 lg:gap-4 xl:gap-9">
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
             <NavLink
               to="/support"
               className={({ isActive }) =>
                 cx(
-                  "flex h-full items-center border-b-2 text-sm font-medium transition-all duration-200 ease-out",
+                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-emerald-700 font-semibold text-emerald-800"
-                    : "border-transparent text-slate-700 hover:border-emerald-700 hover:text-emerald-700"
+                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
+                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
                 )
               }
             >
@@ -1202,10 +1296,10 @@ export default function Navbar() {
               to="/contact"
               className={({ isActive }) =>
                 cx(
-                  "flex h-full items-center border-b-2 text-sm font-medium transition-all duration-200 ease-out",
+                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
                   isActive
-                    ? "border-emerald-700 font-semibold text-emerald-800"
-                    : "border-transparent text-slate-700 hover:border-emerald-700 hover:text-emerald-700"
+                    ? "border-[#4aa3ff] font-semibold text-[#4aa3ff]"
+                    : "border-transparent text-slate-100 hover:border-[#4aa3ff] hover:text-[#4aa3ff]"
                 )
               }
             >
@@ -1215,21 +1309,25 @@ export default function Navbar() {
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* =====================================================
           PORTRAIT BOTTOM NAVIGATION
           ===================================================== */}
 
       <div className="portrait-category-navigation">
+=======
+      {/* MOBILE BOTTOM NAV */}
+
+      <div className="mobile-bottom-navigation md:hidden">
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
         <nav className="fixed bottom-0 left-0 right-0 z-[90] border-t border-slate-200 bg-white">
           <div className="mx-auto grid max-w-7xl grid-cols-5 px-2 py-2">
             <NavLink
               to="/"
               className={({ isActive }) =>
                 cx(
-                  "flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium transition-colors duration-200",
-                  isActive
-                    ? "text-emerald-900"
-                    : "text-slate-500"
+                  "flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium",
+                  isActive ? "text-emerald-900" : "text-slate-500"
                 )
               }
             >
@@ -1244,10 +1342,8 @@ export default function Navbar() {
                 setSuggestOpen(false);
               }}
               className={cx(
-                "flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium transition-colors duration-200",
-                mobileCatsOpen
-                  ? "text-emerald-900"
-                  : "text-slate-500"
+                "flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium",
+                mobileCatsOpen ? "text-emerald-900" : "text-slate-500"
               )}
               aria-expanded={mobileCatsOpen}
             >
@@ -1259,22 +1355,24 @@ export default function Navbar() {
               to="/cart"
               className={({ isActive }) =>
                 cx(
-                  "relative flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium transition-colors duration-200",
-                  isActive
-                    ? "text-emerald-900"
-                    : "text-slate-500"
+                  "relative flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium",
+                  isActive ? "text-emerald-900" : "text-slate-500"
                 )
               }
             >
               <CartIcon className="h-6 w-6" />
-
               <span>Shporta</span>
 
               {cartCount > 0 && (
+<<<<<<< HEAD
                 <span className="absolute right-3 top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#2d8fd5] px-1 text-[11px] font-bold text-white shadow-sm">
                   {cartCount > 99
                     ? "99+"
                     : cartCount}
+=======
+                <span className="absolute right-3 top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#2d8fd5] px-1 text-[11px] font-bold text-white">
+                  {cartCount > 99 ? "99+" : cartCount}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
                 </span>
               )}
             </NavLink>
@@ -1283,10 +1381,8 @@ export default function Navbar() {
               to="/wishlist"
               className={({ isActive }) =>
                 cx(
-                  "flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium transition-colors duration-200",
-                  isActive
-                    ? "text-emerald-900"
-                    : "text-slate-500"
+                  "flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium",
+                  isActive ? "text-emerald-900" : "text-slate-500"
                 )
               }
             >
@@ -1298,10 +1394,8 @@ export default function Navbar() {
               to="/login"
               className={({ isActive }) =>
                 cx(
-                  "flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium transition-colors duration-200",
-                  isActive
-                    ? "text-emerald-900"
-                    : "text-slate-500"
+                  "flex flex-col items-center justify-center gap-1 py-1 text-[11px] font-medium",
+                  isActive ? "text-emerald-900" : "text-slate-500"
                 )
               }
             >
@@ -1320,12 +1414,11 @@ export default function Navbar() {
             <button
               type="button"
               className="absolute inset-0 bg-black/40"
-              onClick={() =>
-                setMobileCatsOpen(false)
-              }
+              onClick={() => setMobileCatsOpen(false)}
               aria-label="Mbyll kategoritë"
             />
 
+<<<<<<< HEAD
             <div
               className="absolute bottom-0 left-0 right-0 bg-white shadow-2xl"
               style={{
@@ -1333,6 +1426,9 @@ export default function Navbar() {
                   "2px 2px 0 0",
               }}
             >
+=======
+            <div className="absolute bottom-0 left-0 right-0 max-h-[85dvh] overflow-y-auto bg-white shadow-2xl">
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
               <div className="mx-auto max-w-7xl px-4 py-4">
                 <div className="flex items-center justify-between">
                   <p className="text-base font-bold text-slate-900">
@@ -1341,13 +1437,8 @@ export default function Navbar() {
 
                   <button
                     type="button"
-                    onClick={() =>
-                      setMobileCatsOpen(false)
-                    }
-                    className="inline-flex h-9 w-9 items-center justify-center bg-slate-100 text-slate-900 transition-colors duration-200 hover:bg-slate-200"
-                    style={{
-                      borderRadius: "2px",
-                    }}
+                    onClick={() => setMobileCatsOpen(false)}
+                    className="inline-flex h-9 w-9 items-center justify-center bg-slate-100 text-slate-900"
                     aria-label="Mbyll"
                   >
                     <CloseIcon className="h-5 w-5" />
@@ -1357,17 +1448,13 @@ export default function Navbar() {
                 <div className="mt-4 grid grid-cols-2 gap-2 pb-6">
                   <NavLink
                     to="/shop"
-                    onClick={() =>
-                      setMobileCatsOpen(false)
-                    }
-                    className="border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-900 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-900"
-                    style={{
-                      borderRadius: "2px",
-                    }}
+                    onClick={() => setMobileCatsOpen(false)}
+                    className="border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-900"
                   >
                     Dyqani
                   </NavLink>
 
+<<<<<<< HEAD
                   {categories.map(
                     (category) => (
                       <NavLink
@@ -1388,42 +1475,39 @@ export default function Navbar() {
                       </NavLink>
                     )
                   )}
+=======
+                  {categories.map((category) => (
+                    <NavLink
+                      key={category.to}
+                      to={category.to}
+                      onClick={() => setMobileCatsOpen(false)}
+                      className="border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900"
+                    >
+                      {category.label}
+                    </NavLink>
+                  ))}
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
 
                   <NavLink
                     to="/outlet"
-                    onClick={() =>
-                      setMobileCatsOpen(false)
-                    }
-                    className="border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-900"
-                    style={{
-                      borderRadius: "2px",
-                    }}
+                    onClick={() => setMobileCatsOpen(false)}
+                    className="border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900"
                   >
                     Outlet
                   </NavLink>
 
                   <NavLink
                     to="/new"
-                    onClick={() =>
-                      setMobileCatsOpen(false)
-                    }
-                    className="border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-900"
-                    style={{
-                      borderRadius: "2px",
-                    }}
+                    onClick={() => setMobileCatsOpen(false)}
+                    className="border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900"
                   >
                     Çfarë ka të re?
                   </NavLink>
 
                   <NavLink
                     to="/giftcard"
-                    onClick={() =>
-                      setMobileCatsOpen(false)
-                    }
-                    className="border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-900"
-                    style={{
-                      borderRadius: "2px",
-                    }}
+                    onClick={() => setMobileCatsOpen(false)}
+                    className="border border-slate-200 px-3 py-3 text-sm font-medium text-slate-900"
                   >
                     Gift card
                   </NavLink>
@@ -1440,27 +1524,12 @@ export default function Navbar() {
 
       <style>
         {`
-          .portrait-category-navigation {
-            display: block;
-          }
-
-          @media (orientation: landscape) {
-            .portrait-category-navigation {
-              display: none !important;
-            }
-          }
-
-          @media (orientation: portrait) {
-            .portrait-category-navigation {
-              display: block !important;
-            }
-          }
-
-          .verse-navbar > div:nth-of-type(1) {
-            background: #05080b !important;
+          .navbar-topbar {
+            background: #05080b;
             border-bottom: 1px solid #171c21;
           }
 
+<<<<<<< HEAD
           .verse-navbar > div:nth-of-type(1) p {
             color: rgba(255, 255, 255, 0.88) !important;
           }
@@ -1494,30 +1563,47 @@ export default function Navbar() {
 
             box-shadow:
               0 1px 2px rgba(0, 0, 0, 0.08) !important;
+=======
+          .navbar-main {
+            background: linear-gradient(
+              90deg,
+              #0b1015 0%,
+              #10151a 52%,
+              #0b1015 100%
+            );
+            border-bottom: 1px solid #252b31;
           }
 
-          .verse-navbar
-          > div:nth-of-type(2)
-          [data-searchbox="true"]
-          input {
-            color: #0f0f0f !important;
+          .navbar-secondary {
+            background: linear-gradient(
+              90deg,
+              #0b1015 0%,
+              #0d1217 55%,
+              #0b1015 100%
+            );
           }
 
-          .verse-navbar
-          > div:nth-of-type(2)
-          [data-searchbox="true"]
-          input::placeholder {
-            color: #b5b8bc !important;
+          .navbar-search {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
+          }
+
+          .navbar-search input {
+            color: #0f0f0f;
+          }
+
+          .navbar-search input::placeholder {
+            color: #b5b8bc;
             opacity: 1;
           }
 
-          .verse-navbar
-          > div:nth-of-type(2)
-          [data-searchbox="true"]
-          form button {
-            color: #a8adb2 !important;
+          .navbar-search-button:not(:disabled) {
+            color: #64748b;
           }
 
+<<<<<<< HEAD
           .verse-navbar
           > div:nth-of-type(2)
           [data-searchbox="true"]
@@ -1630,6 +1716,32 @@ export default function Navbar() {
 
             border-bottom-color:
               #4aa3ff !important;
+=======
+          .navbar-search-button:hover:not(:disabled) {
+            background: #f1f5f9;
+            color: #0f172a;
+          }
+
+          .navbar-action {
+            background: #1a2026;
+            border: 1px solid #252c33;
+            color: #f7f8f9;
+          }
+
+          .navbar-action:hover {
+            background: #242b32;
+            border-color: #303840;
+          }
+
+          .navbar-count {
+            background: #348ef4;
+          }
+
+          @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .mobile-bottom-navigation nav {
+              padding-bottom: env(safe-area-inset-bottom);
+            }
+>>>>>>> 222fe74b8c7fe2bbe7585a81486da94cab8fd794
           }
         `}
       </style>
