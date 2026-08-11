@@ -1,29 +1,40 @@
 import { NavLink } from "react-router-dom";
+import whiteLogo from "../../assets/WhiteLogo.png";
+
+const brands = [
+  {
+    name: "Apple Authorized Reseller",
+    image: "/brands/apple-authorized-reseller.png",
+  },
+  {
+    name: "Samsung",
+    image: "/brands/samsung.png",
+  },
+  {
+    name: "MSI",
+    image: "/brands/msi.png",
+  },
+  {
+    name: "SteelSeries",
+    image: "/brands/steelseries.png",
+  },
+  {
+    name: "Lenovo",
+    image: "/brands/lenovo.png",
+  },
+  {
+    name: "Zowie",
+    image: "/brands/zowie.png",
+  },
+];
 
 function MainLink({ to, children }) {
   return (
     <NavLink
       to={to}
-      className="block text-[13px] leading-[1.35] text-white transition hover:underline"
+      className="block text-[15px] leading-7 text-slate-200 transition hover:text-white hover:underline"
     >
       {children}
-    </NavLink>
-  );
-}
-
-function SmallLink({ to, title, children }) {
-  return (
-    <NavLink
-      to={to}
-      className="group block leading-tight"
-    >
-      <span className="block text-[11px] font-medium text-white group-hover:underline">
-        {title}
-      </span>
-
-      <span className="mt-[1px] block text-[10px] leading-[1.15] text-slate-400">
-        {children}
-      </span>
     </NavLink>
   );
 }
@@ -31,12 +42,31 @@ function SmallLink({ to, title, children }) {
 function FooterColumn({ title, children }) {
   return (
     <div>
-      <h3 className="mb-3 text-sm font-bold text-white">
-        {title}
-      </h3>
+      <h3 className="mb-4 text-lg font-bold text-white">{title}</h3>
+      <div className="space-y-1.5">{children}</div>
+    </div>
+  );
+}
 
-      <div className="space-y-2">
-        {children}
+function BrandStrip() {
+  return (
+    <div className="w-full bg-white">
+      <div className="mx-auto max-w-[1460px] px-4 py-7 sm:px-6">
+        <div className="brand-strip flex gap-4 overflow-x-auto lg:grid lg:grid-cols-6 lg:overflow-visible">
+          {brands.map((brand) => (
+            <div
+              key={brand.name}
+              className="flex h-[64px] min-w-[210px] items-center justify-center rounded-md border border-slate-200 bg-white px-5 transition duration-200 hover:border-slate-300 lg:min-w-0"
+            >
+              <img
+                src={brand.image}
+                alt={brand.name}
+                loading="lazy"
+                className="max-h-[40px] max-w-[150px] object-contain"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -52,6 +82,8 @@ export default function Footer() {
 
   return (
     <footer className="w-full">
+      <BrandStrip />
+
       <div className="w-full bg-[#0b1015] text-white">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
           <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.1fr]">
@@ -71,10 +103,7 @@ export default function Footer() {
               </p>
             </div>
 
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="w-full"
-            >
+            <form onSubmit={(e) => e.preventDefault()} className="w-full">
               <div className="flex flex-col gap-3 sm:flex-row">
                 <input
                   type="email"
@@ -108,410 +137,152 @@ export default function Footer() {
       </button>
 
       <div className="bg-[#232f3e] text-white">
-        <div className="mx-auto max-w-[1000px] px-6 py-10 sm:py-12">
-          <div className="grid grid-cols-2 gap-x-10 gap-y-10 md:grid-cols-4 md:gap-x-16">
+        <div className="mx-auto max-w-[1100px] px-6 py-12">
+          <div className="grid grid-cols-2 gap-x-10 gap-y-12 md:grid-cols-4 md:gap-x-16">
             <FooterColumn title="Njihuni me Ne">
-              <MainLink to="/about">
-                Rreth TechVerse
-              </MainLink>
-
-              <MainLink to="/careers">
-                Karriera
-              </MainLink>
-
-              <MainLink to="/blog">
-                Blogu TechVerse
-              </MainLink>
-
-              <MainLink to="/stores">
-                Dyqanet tona
-              </MainLink>
-
-              <MainLink to="/partners">
-                Partnerët
-              </MainLink>
-
-              <MainLink to="/about">
-                Kush jemi
-              </MainLink>
+              <MainLink to="/about">Rreth TechVerse</MainLink>
+              <MainLink to="/careers">Karriera</MainLink>
+              <MainLink to="/blog">Blogu TechVerse</MainLink>
+              <MainLink to="/stores">Dyqanet tona</MainLink>
+              <MainLink to="/partners">Partnerët</MainLink>
+              <MainLink to="/about">Kush jemi</MainLink>
             </FooterColumn>
 
             <FooterColumn title="Bli me TechVerse">
-              <MainLink to="/shop">
-                Të gjitha produktet
-              </MainLink>
-
-              <MainLink to="/shop?category=Gaming">
-                Gaming
-              </MainLink>
-
-              <MainLink to="/shop?category=Laptops">
-                Laptopë
-              </MainLink>
-
-              <MainLink to="/shop?category=Phones">
-                Telefona
-              </MainLink>
-
+              <MainLink to="/shop">Të gjitha produktet</MainLink>
+              <MainLink to="/shop?category=Gaming">Gaming</MainLink>
+              <MainLink to="/shop?category=Laptops">Laptopë</MainLink>
+              <MainLink to="/shop?category=Phones">Telefona</MainLink>
               <MainLink to="/shop?category=PC%20Components">
                 Komponentë PC
               </MainLink>
-
-              <MainLink to="/shop?category=Accessories">
-                Aksesorë
-              </MainLink>
-
-              <MainLink to="/shop?sort=discount">
-                Oferta & Zbritje
-              </MainLink>
+              <MainLink to="/shop?category=Accessories">Aksesorë</MainLink>
+              <MainLink to="/shop?sort=discount">Oferta & Zbritje</MainLink>
             </FooterColumn>
 
             <FooterColumn title="Pagesa & Porositë">
-              <MainLink to="/help/payment">
-                Mënyrat e pagesës
-              </MainLink>
-
-              <MainLink to="/orders">
-                Porositë e mia
-              </MainLink>
-
-              <MainLink to="/help/orders">
-                Gjurmo porosinë
-              </MainLink>
-
-              <MainLink to="/cart">
-                Shporta
-              </MainLink>
-
-              <MainLink to="/wishlist">
-                Lista e dëshirave
-              </MainLink>
-
-              <MainLink to="/help/warranty">
-                Garancia
-              </MainLink>
+              <MainLink to="/help/payment">Mënyrat e pagesës</MainLink>
+              <MainLink to="/orders">Porositë e mia</MainLink>
+              <MainLink to="/help/orders">Gjurmo porosinë</MainLink>
+              <MainLink to="/cart">Shporta</MainLink>
+              <MainLink to="/wishlist">Lista e dëshirave</MainLink>
+              <MainLink to="/help/warranty">Garancia</MainLink>
             </FooterColumn>
 
             <FooterColumn title="Na Lejoni t'ju Ndihmojmë">
-              <MainLink to="/login">
-                Llogaria juaj
-              </MainLink>
-
-              <MainLink to="/help/shipping">
-                Dërgesa
-              </MainLink>
-
-              <MainLink to="/help/returns">
-                Kthime & Rimbursime
-              </MainLink>
-
-              <MainLink to="/help/faq">
-                Pyetje të shpeshta
-              </MainLink>
-
-              <MainLink to="/help/contact">
-                Kontakto TechVerse
-              </MainLink>
-
-              <MainLink to="/help/contact">
-                Mbështetja
-              </MainLink>
+              <MainLink to="/login">Llogaria juaj</MainLink>
+              <MainLink to="/help/shipping">Dërgesa</MainLink>
+              <MainLink to="/help/returns">Kthime & Rimbursime</MainLink>
+              <MainLink to="/help/faq">Pyetje të shpeshta</MainLink>
+              <MainLink to="/help/contact">Kontakto TechVerse</MainLink>
+              <MainLink to="/help/contact">Mbështetja</MainLink>
             </FooterColumn>
           </div>
         </div>
 
         <div className="border-t border-[#3a4553]">
-          <div className="mx-auto flex max-w-[760px] flex-col items-center justify-center gap-5 px-6 py-6 sm:flex-row">
-            <NavLink
-              to="/"
-              className="flex items-center"
-            >
-              <span className="text-[22px] font-extrabold tracking-tight text-white">
-                VERSE
-                <span className="text-blue-400">
-                  TECH
+          <div className="mx-auto flex max-w-[1100px] flex-col gap-6 px-6 py-6 md:flex-row md:items-end md:justify-between">
+            <div className="flex flex-col gap-4">
+              <NavLink to="/" className="flex items-center">
+                <span className="text-[24px] font-extrabold tracking-tight text-white">
+                  VERSE
+                  <span className="text-blue-400">TECH</span>
                 </span>
-              </span>
-            </NavLink>
+              </NavLink>
 
-            <div className="flex flex-wrap items-center justify-center gap-2">
-              <button
-                type="button"
-                className="flex h-9 min-w-[125px] items-center justify-between gap-3 rounded-[3px] border border-slate-400 px-3 text-[12px] text-slate-200 transition hover:border-white"
-              >
-                <span className="flex items-center gap-2">
-                  <span>◎</span>
-                  Shqip
-                </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  className="flex h-9 min-w-[125px] items-center justify-between gap-3 rounded-[3px] border border-slate-400 px-3 text-[12px] text-slate-200 transition hover:border-white"
+                >
+                  <span className="flex items-center gap-2">
+                    <span>◎</span>
+                    Shqip
+                  </span>
 
-                <span className="text-[9px] text-slate-400">
-                  ▲▼
-                </span>
-              </button>
+                  <span className="text-[9px] text-slate-400">▲▼</span>
+                </button>
 
-              <button
-                type="button"
-                className="flex h-9 min-w-[125px] items-center gap-2 rounded-[3px] border border-slate-400 px-3 text-[12px] text-slate-200 transition hover:border-white"
-              >
-                <span>€</span>
-                EUR - Euro
-              </button>
+                <button
+                  type="button"
+                  className="flex h-9 min-w-[125px] items-center gap-2 rounded-[3px] border border-slate-400 px-3 text-[12px] text-slate-200 transition hover:border-white"
+                >
+                  <span>€</span>
+                  EUR - Euro
+                </button>
 
-              <button
-                type="button"
-                className="flex h-9 min-w-[135px] items-center gap-2 rounded-[3px] border border-slate-400 px-3 text-[12px] text-slate-200 transition hover:border-white"
-              >
-                <span>🇽🇰</span>
-                Kosovë
-              </button>
+                <button
+                  type="button"
+                  className="flex h-9 min-w-[135px] items-center gap-2 rounded-[3px] border border-slate-400 px-3 text-[12px] text-slate-200 transition hover:border-white"
+                >
+                  <span>🇽🇰</span>
+                  Kosovë
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-slate-300">
+                <NavLink to="/legal/terms" className="hover:text-white hover:underline">
+                  Kushtet e Përdorimit
+                </NavLink>
+
+                <NavLink
+                  to="/legal/privacy"
+                  className="hover:text-white hover:underline"
+                >
+                  Politika e Privatësisë
+                </NavLink>
+
+                <NavLink
+                  to="/legal/cookies"
+                  className="hover:text-white hover:underline"
+                >
+                  Politika e Cookies
+                </NavLink>
+
+                <NavLink
+                  to="/legal/refunds"
+                  className="hover:text-white hover:underline"
+                >
+                  Politika e Rimbursimit
+                </NavLink>
+
+                <NavLink
+                  to="/legal/accessibility"
+                  className="hover:text-white hover:underline"
+                >
+                  Qasshmëria
+                </NavLink>
+              </div>
+
+              <p className="text-[11px] text-slate-400">
+                © {new Date().getFullYear()} TechVerse. Të gjitha të drejtat e
+                rezervuara.
+              </p>
+            </div>
+
+            <div className="flex justify-start md:justify-end">
+              <img
+                src={whiteLogo}
+                alt="TechVerse"
+                className="h-14 w-auto object-contain opacity-95 md:h-16"
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-[#131a22] text-white">
-        <div className="mx-auto max-w-[1000px] px-6 pb-8 pt-8">
-          <div className="grid grid-cols-2 gap-x-7 gap-y-7 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7">
-            <SmallLink
-              to="/shop?category=Gaming"
-              title="TechVerse Gaming"
-            >
-              Gaming PC, konzola dhe pajisje
-            </SmallLink>
+      <style>
+        {`
+          .brand-strip {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+          }
 
-            <SmallLink
-              to="/shop?category=Laptops"
-              title="Laptopë"
-            >
-              Laptopë për punë, gaming dhe shkollë
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=Phones"
-              title="Smartphone"
-            >
-              Telefonat më të rinj
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=PC%20Components"
-              title="Komponentë PC"
-            >
-              Ndërto kompjuterin tënd
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=Monitors"
-              title="Monitorë"
-            >
-              Gaming dhe produktivitet
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=Accessories"
-              title="Aksesorë"
-            >
-              Pajisje për çdo setup
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?sort=discount"
-              title="Oferta TechVerse"
-            >
-              Produktet me zbritje
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=Gaming%20PCs"
-              title="Gaming PC"
-            >
-              Sisteme të gatshme gaming
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=Keyboards"
-              title="Tastiera"
-            >
-              Mechanical dhe wireless
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=Mice"
-              title="Mouse"
-            >
-              Gaming dhe produktivitet
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=Headsets"
-              title="Headset"
-            >
-              Audio për gaming
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=Storage"
-              title="SSD & Storage"
-            >
-              Hapësirë dhe shpejtësi
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=GPUs"
-              title="Kartela Grafike"
-            >
-              NVIDIA dhe AMD
-            </SmallLink>
-
-            <SmallLink
-              to="/shop?category=Processors"
-              title="Procesorë"
-            >
-              Intel dhe AMD
-            </SmallLink>
-
-            <SmallLink
-              to="/help/shipping"
-              title="Dërgesa TechVerse"
-            >
-              Dërgesa të shpejta
-            </SmallLink>
-
-            <SmallLink
-              to="/help/warranty"
-              title="Garancia"
-            >
-              Mbrojtje për produktet tuaja
-            </SmallLink>
-
-            <SmallLink
-              to="/help/returns"
-              title="Kthimet"
-            >
-              Proces i thjeshtë kthimi
-            </SmallLink>
-
-            <SmallLink
-              to="/wishlist"
-              title="Lista e Dëshirave"
-            >
-              Ruaj produktet e preferuara
-            </SmallLink>
-
-            <SmallLink
-              to="/orders"
-              title="Porositë"
-            >
-              Menaxho blerjet e tua
-            </SmallLink>
-
-            <SmallLink
-              to="/help/contact"
-              title="TechVerse Support"
-            >
-              Ndihmë kur të nevojitet
-            </SmallLink>
-
-            <SmallLink
-              to="/stores"
-              title="TechVerse Store"
-            >
-              Na vizitoni në dyqan
-            </SmallLink>
-
-            <SmallLink
-              to="/blog"
-              title="TechVerse Blog"
-            >
-              Lajme, guida dhe teknologji
-            </SmallLink>
-
-            <SmallLink
-              to="/partners"
-              title="Partnerët"
-            >
-              Marka dhe partnerë zyrtarë
-            </SmallLink>
-
-            <SmallLink
-              to="/about"
-              title="Rreth Nesh"
-            >
-              Mëso më shumë për TechVerse
-            </SmallLink>
-
-            <SmallLink
-              to="/register"
-              title="Krijo Llogari"
-            >
-              Bli më shpejt dhe më lehtë
-            </SmallLink>
-
-            <SmallLink
-              to="/help/faq"
-              title="FAQ"
-            >
-              Përgjigje për pyetjet tuaja
-            </SmallLink>
-
-            <SmallLink
-              to="/legal/privacy"
-              title="Privatësia"
-            >
-              Si i mbrojmë të dhënat
-            </SmallLink>
-
-            <SmallLink
-              to="/legal/terms"
-              title="Kushtet"
-            >
-              Kushtet e përdorimit
-            </SmallLink>
-          </div>
-
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] text-white">
-            <NavLink
-              to="/legal/terms"
-              className="hover:underline"
-            >
-              Kushtet e Përdorimit
-            </NavLink>
-
-            <NavLink
-              to="/legal/privacy"
-              className="hover:underline"
-            >
-              Politika e Privatësisë
-            </NavLink>
-
-            <NavLink
-              to="/legal/cookies"
-              className="hover:underline"
-            >
-              Politika e Cookies
-            </NavLink>
-
-            <NavLink
-              to="/legal/refunds"
-              className="hover:underline"
-            >
-              Politika e Rimbursimit
-            </NavLink>
-
-            <NavLink
-              to="/legal/accessibility"
-              className="hover:underline"
-            >
-              Qasshmëria
-            </NavLink>
-          </div>
-
-          <p className="mt-2 text-center text-[10px] text-white">
-            © {new Date().getFullYear()} TechVerse. Të gjitha të drejtat e
-            rezervuara.
-          </p>
-        </div>
-      </div>
+          .brand-strip::-webkit-scrollbar {
+            display: none;
+          }
+        `}
+      </style>
     </footer>
   );
 }
