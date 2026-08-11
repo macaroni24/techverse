@@ -217,15 +217,22 @@ function SafeShopping() {
       parseFloat(styles.gap) ||
       0;
 
-    return firstCard.getBoundingClientRect().width + gap;
+    return (
+      firstCard.getBoundingClientRect().width +
+      gap
+    );
   }
 
-  function goToBenefit(targetIndex, behavior = "smooth") {
+  function goToBenefit(
+    targetIndex,
+    behavior = "smooth"
+  ) {
     const slider = sliderRef.current;
     const total = shoppingBenefits.length;
 
     const safeIndex =
-      ((targetIndex % total) + total) % total;
+      ((targetIndex % total) + total) %
+      total;
 
     activeIndexRef.current = safeIndex;
     setActiveIndex(safeIndex);
@@ -256,7 +263,9 @@ function SafeShopping() {
         return;
       }
 
-      goToBenefit(activeIndexRef.current + 1);
+      goToBenefit(
+        activeIndexRef.current + 1
+      );
     }, 3500);
 
     return () => clearInterval(timer);
@@ -264,37 +273,43 @@ function SafeShopping() {
 
   function handleBenefitScroll() {
     if (scrollEndTimerRef.current) {
-      clearTimeout(scrollEndTimerRef.current);
+      clearTimeout(
+        scrollEndTimerRef.current
+      );
     }
 
-    scrollEndTimerRef.current = setTimeout(() => {
-      const slider = sliderRef.current;
+    scrollEndTimerRef.current =
+      setTimeout(() => {
+        const slider = sliderRef.current;
 
-      if (!slider) {
-        return;
-      }
+        if (!slider) {
+          return;
+        }
 
-      const step = getBenefitStep();
+        const step = getBenefitStep();
 
-      if (!step) {
-        return;
-      }
+        if (!step) {
+          return;
+        }
 
-      const calculatedIndex = Math.round(
-        slider.scrollLeft / step
-      );
+        const calculatedIndex =
+          Math.round(
+            slider.scrollLeft / step
+          );
 
-      const safeIndex = Math.max(
-        0,
-        Math.min(
-          calculatedIndex,
-          shoppingBenefits.length - 1
-        )
-      );
+        const safeIndex = Math.max(
+          0,
+          Math.min(
+            calculatedIndex,
+            shoppingBenefits.length - 1
+          )
+        );
 
-      activeIndexRef.current = safeIndex;
-      setActiveIndex(safeIndex);
-    }, 120);
+        activeIndexRef.current =
+          safeIndex;
+
+        setActiveIndex(safeIndex);
+      }, 120);
   }
 
   function handleBenefitTouchStart() {
@@ -310,13 +325,16 @@ function SafeShopping() {
   useEffect(() => {
     return () => {
       if (scrollEndTimerRef.current) {
-        clearTimeout(scrollEndTimerRef.current);
+        clearTimeout(
+          scrollEndTimerRef.current
+        );
       }
     };
   }, []);
 
   return (
     <section className="w-full bg-white">
+      {/* MOBILE / TABLET */}
       <div className="w-full pb-3 pt-4 lg:hidden">
         <h2 className="mb-2 text-[14px] font-medium text-slate-700">
           Blerje të sigurta
@@ -325,19 +343,33 @@ function SafeShopping() {
         <div className="overflow-hidden rounded-[7px] border border-slate-100 bg-slate-50/60">
           <div
             ref={sliderRef}
-            onScroll={handleBenefitScroll}
-            onTouchStart={handleBenefitTouchStart}
-            onTouchEnd={handleBenefitTouchEnd}
-            onTouchCancel={handleBenefitTouchEnd}
+            onScroll={
+              handleBenefitScroll
+            }
+            onTouchStart={
+              handleBenefitTouchStart
+            }
+            onTouchEnd={
+              handleBenefitTouchEnd
+            }
+            onTouchCancel={
+              handleBenefitTouchEnd
+            }
             className="safe-shopping-carousel flex w-full snap-x snap-mandatory overflow-x-auto scroll-smooth"
           >
             {shoppingBenefits.map(
-              ({ id, title, description, Icon }) => (
+              ({
+                id,
+                title,
+                description,
+                Icon,
+              }) => (
                 <div
                   key={id}
                   className="flex min-h-[60px] w-[68%] shrink-0 snap-start items-center gap-2.5 border-r border-slate-200/70 px-3 py-2.5 sm:w-[48%] md:w-[36%]"
                   style={{
-                    scrollSnapStop: "always",
+                    scrollSnapStop:
+                      "always",
                   }}
                 >
                   <div className="flex h-7 w-7 shrink-0 items-center justify-center text-blue-800">
@@ -360,22 +392,27 @@ function SafeShopping() {
         </div>
 
         <div className="mt-1.5 flex items-center justify-center gap-1">
-          {shoppingBenefits.map((benefit, index) => (
-            <button
-              key={benefit.id}
-              type="button"
-              onClick={() => goToBenefit(index)}
-              aria-label={`Shfaq ${benefit.title}`}
-              className={`h-[4px] rounded-full transition-all duration-300 ${
-                activeIndex === index
-                  ? "w-3.5 bg-blue-800"
-                  : "w-[4px] bg-slate-200"
-              }`}
-            />
-          ))}
+          {shoppingBenefits.map(
+            (benefit, index) => (
+              <button
+                key={benefit.id}
+                type="button"
+                onClick={() =>
+                  goToBenefit(index)
+                }
+                aria-label={`Shfaq ${benefit.title}`}
+                className={`h-[4px] rounded-full transition-all duration-300 ${
+                  activeIndex === index
+                    ? "w-3.5 bg-blue-800"
+                    : "w-[4px] bg-slate-200"
+                }`}
+              />
+            )
+          )}
         </div>
       </div>
 
+      {/* DESKTOP */}
       <div className="hidden w-full py-6 lg:block">
         <h2 className="mb-4 text-[18px] font-semibold text-slate-950">
           Blerje të sigurta
@@ -383,7 +420,12 @@ function SafeShopping() {
 
         <div className="grid grid-cols-4 overflow-hidden rounded-[7px] bg-slate-50 shadow-[0_2px_10px_rgba(15,23,42,0.035)]">
           {shoppingBenefits.map(
-            ({ id, title, description, Icon }) => (
+            ({
+              id,
+              title,
+              description,
+              Icon,
+            }) => (
               <div
                 key={id}
                 className="flex min-h-[82px] items-center gap-3 border-r border-slate-200 px-5 py-4 last:border-r-0 xl:px-7"
@@ -429,8 +471,10 @@ function SafeShopping() {
 }
 
 export default function Home() {
-  const [visibleMoreProducts, setVisibleMoreProducts] =
-    useState(15);
+  const [
+    visibleMoreProducts,
+    setVisibleMoreProducts,
+  ] = useState(15);
 
   const moreProducts = products.slice(
     4,
@@ -438,7 +482,8 @@ export default function Home() {
   );
 
   const hasMoreProducts =
-    4 + visibleMoreProducts < products.length;
+    4 + visibleMoreProducts <
+    products.length;
 
   function handleShowMore() {
     setVisibleMoreProducts(
@@ -450,12 +495,26 @@ export default function Home() {
     <div className="min-h-screen w-full bg-white">
       <Navbar />
 
+      {/* ================================= */}
+      {/* HERO AREA */}
+      {/* ================================= */}
+
       <div className="w-full bg-white">
-        <div className="mx-auto w-full max-w-[1460px] px-4 pt-3 sm:px-6">
+        <div
+          className="
+            mx-auto
+            w-full
+            max-w-[1460px]
+            px-4
+            pt-3
+            sm:px-6
+          "
+        >
           <div className="mb-2 mt-2 flex items-center justify-between rounded-[6px] border border-slate-100 bg-slate-100/70 px-3 py-[7px] md:hidden">
             <div className="min-w-0">
               <p className="text-[10px] font-medium leading-[14px] text-slate-600">
-                Dërgesa të shpejta • 100% të sigurta
+                Dërgesa të shpejta •
+                100% të sigurta
               </p>
 
               <NavLink
@@ -480,61 +539,195 @@ export default function Home() {
         </div>
       </div>
 
-      <main className="mx-auto w-full max-w-[1460px] px-4 py-10 sm:px-6">
-        <section>
-          <h1 className="text-2xl font-bold text-slate-900">
-            Produktet e Veçuara
-          </h1>
+      {/* ================================= */}
+      {/* PRODUCTS */}
+      {/* ================================= */}
 
-          <p className="mt-2 text-sm text-slate-600">
-            Zgjedhjet më të mira të përzgjedhura për ju.
-          </p>
+      <main className="w-full py-8 md:py-9 xl:py-10">
+        {/*
+          IMPORTANT:
+          This wrapper creates the white
+          space on BOTH SIDES of the
+          entire products section.
+        */}
+        <div
+          className="
+            mx-auto
+            w-full
+            px-4
+            sm:px-6
 
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-4 lg:gap-6">
-            {products.slice(0, 4).map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
-            ))}
-          </div>
-        </section>
+            md:max-w-[900px]
 
-        <SpecialOffer
-          items={products}
-          intervalMs={3000}
-        />
+            lg:max-w-[1040px]
 
-        <section className="mt-14">
-          <h2 className="text-xl font-bold text-slate-900">
-            Më Shumë Produkte
-          </h2>
+            xl:max-w-[1240px]
 
-          <p className="mt-1 text-sm text-slate-600">
-            Shikoni më shumë oferta dhe artikuj të njohur.
-          </p>
+            2xl:max-w-[1400px]
+          "
+        >
+          {/* FEATURED PRODUCTS */}
+          <section>
+            <h1
+              className="
+                text-xl
+                font-bold
+                text-slate-900
 
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 lg:grid-cols-5 lg:gap-6">
-            {moreProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
-            ))}
-          </div>
+                md:text-[20px]
 
-          {hasMoreProducts && (
-            <div className="mt-8 flex justify-center">
-              <button
-                type="button"
-                onClick={handleShowMore}
-                className="min-w-[210px] rounded-md border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition-all duration-200 hover:border-slate-500 hover:bg-slate-50 active:scale-[0.98]"
-              >
-                SHFAQ MË SHUMË PRODUKTE
-              </button>
+                xl:text-2xl
+              "
+            >
+              Produktet e Veçuara
+            </h1>
+
+            <p
+              className="
+                mt-1.5
+                text-[13px]
+                text-slate-600
+
+                xl:mt-2
+                xl:text-sm
+              "
+            >
+              Zgjedhjet më të mira të
+              përzgjedhura për ju.
+            </p>
+
+            <div
+              className="
+                mt-6
+                grid
+                grid-cols-2
+                gap-3
+
+                sm:gap-4
+
+                md:grid-cols-4
+                md:gap-3.5
+
+                lg:gap-4
+
+                xl:mt-8
+                xl:gap-5
+
+                2xl:gap-6
+              "
+            >
+              {products
+                .slice(0, 4)
+                .map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                  />
+                ))}
             </div>
-          )}
-        </section>
+          </section>
+
+          {/* SPECIAL OFFER */}
+          <SpecialOffer
+            items={products}
+            intervalMs={3000}
+          />
+
+          {/* MORE PRODUCTS */}
+          <section className="mt-10 xl:mt-14">
+            <h2
+              className="
+                text-lg
+                font-bold
+                text-slate-900
+
+                md:text-[19px]
+
+                xl:text-xl
+              "
+            >
+              Më Shumë Produkte
+            </h2>
+
+            <p
+              className="
+                mt-1
+                text-[13px]
+                text-slate-600
+
+                xl:text-sm
+              "
+            >
+              Shikoni më shumë oferta dhe
+              artikuj të njohur.
+            </p>
+
+            <div
+              className="
+                mt-5
+                grid
+                grid-cols-2
+                gap-3
+
+                sm:grid-cols-3
+                sm:gap-4
+
+                md:grid-cols-4
+                md:gap-3.5
+
+                lg:grid-cols-5
+                lg:gap-4
+
+                xl:mt-6
+                xl:gap-5
+
+                2xl:gap-6
+              "
+            >
+              {moreProducts.map(
+                (product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                  />
+                )
+              )}
+            </div>
+
+            {hasMoreProducts && (
+              <div className="mt-7 flex justify-center xl:mt-8">
+                <button
+                  type="button"
+                  onClick={handleShowMore}
+                  className="
+                    min-w-[190px]
+                    rounded-md
+                    border
+                    border-slate-300
+                    bg-white
+                    px-5
+                    py-2.5
+                    text-[12px]
+                    font-semibold
+                    text-slate-950
+                    transition-all
+                    duration-200
+                    hover:border-slate-500
+                    hover:bg-slate-50
+                    active:scale-[0.98]
+
+                    xl:min-w-[210px]
+                    xl:px-6
+                    xl:py-3
+                    xl:text-sm
+                  "
+                >
+                  SHFAQ MË SHUMË PRODUKTE
+                </button>
+              </div>
+            )}
+          </section>
+        </div>
       </main>
 
       <Footer />
