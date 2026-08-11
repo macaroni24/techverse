@@ -107,6 +107,7 @@ export default function HeroSlider() {
     if (!firstCard) return 0;
 
     const styles = window.getComputedStyle(slider);
+
     const gap =
       parseFloat(styles.columnGap) ||
       parseFloat(styles.gap) ||
@@ -117,7 +118,9 @@ export default function HeroSlider() {
 
   const goToHero = (targetIndex, behavior = "smooth") => {
     const total = slides.length;
-    const safeIndex = ((targetIndex % total) + total) % total;
+
+    const safeIndex =
+      ((targetIndex % total) + total) % total;
 
     heroIndexRef.current = safeIndex;
     setIndex(safeIndex);
@@ -184,7 +187,9 @@ export default function HeroSlider() {
   const handleHeroTouchStart = (event) => {
     isHeroTouchingRef.current = true;
     heroWasDraggedRef.current = false;
-    heroTouchStartXRef.current = event.touches[0].clientX;
+
+    heroTouchStartXRef.current =
+      event.touches[0].clientX;
   };
 
   const handleHeroTouchMove = (event) => {
@@ -253,7 +258,10 @@ export default function HeroSlider() {
     window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
     };
   }, []);
 
@@ -269,7 +277,8 @@ export default function HeroSlider() {
 
       if (!firstCard) return;
 
-      const styles = window.getComputedStyle(slider);
+      const styles =
+        window.getComputedStyle(slider);
 
       const gap =
         parseFloat(styles.columnGap) ||
@@ -277,12 +286,16 @@ export default function HeroSlider() {
         10;
 
       const step =
-        firstCard.getBoundingClientRect().width + gap;
+        firstCard.getBoundingClientRect().width +
+        gap;
 
       const maxScroll =
         slider.scrollWidth - slider.clientWidth;
 
-      if (slider.scrollLeft + step >= maxScroll - 8) {
+      if (
+        slider.scrollLeft + step >=
+        maxScroll - 8
+      ) {
         slider.scrollTo({
           left: 0,
           behavior: "smooth",
@@ -310,7 +323,8 @@ export default function HeroSlider() {
 
     if (!firstCard) return;
 
-    const styles = window.getComputedStyle(slider);
+    const styles =
+      window.getComputedStyle(slider);
 
     const gap =
       parseFloat(styles.columnGap) ||
@@ -318,7 +332,8 @@ export default function HeroSlider() {
       10;
 
     const step =
-      firstCard.getBoundingClientRect().width + gap;
+      firstCard.getBoundingClientRect().width +
+      gap;
 
     setPromoIndex(
       Math.round(slider.scrollLeft / step)
@@ -358,13 +373,19 @@ export default function HeroSlider() {
   useEffect(() => {
     return () => {
       if (heroScrollEndTimerRef.current) {
-        clearTimeout(heroScrollEndTimerRef.current);
+        clearTimeout(
+          heroScrollEndTimerRef.current
+        );
       }
     };
   }, []);
 
   return (
     <section className="relative w-full min-w-0 bg-[#f5f6f8] md:left-1/2 md:w-[min(1460px,calc(100vw-40px))] md:-translate-x-1/2">
+      {/* ========================= */}
+      {/* MOBILE HERO */}
+      {/* ========================= */}
+
       <div className="w-full md:hidden">
         <div className="w-full overflow-hidden">
           <div
@@ -374,7 +395,9 @@ export default function HeroSlider() {
             onTouchMove={handleHeroTouchMove}
             onTouchEnd={handleHeroTouchEnd}
             onTouchCancel={handleHeroTouchEnd}
-            onClickCapture={handleHeroClickCapture}
+            onClickCapture={
+              handleHeroClickCapture
+            }
             className="mobile-hero-carousel flex w-full snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-1"
           >
             {slides.map((slide) => (
@@ -382,24 +405,17 @@ export default function HeroSlider() {
                 key={slide.id}
                 to={slide.to}
                 draggable="false"
-                className="group relative block h-[191px] w-[88%] shrink-0 snap-start select-none overflow-hidden rounded-[8px] bg-slate-950 outline-none min-[390px]:h-[205px]"
+                className="group relative block h-[clamp(191px,52.5vw,205px)] w-[88%] shrink-0 snap-start select-none overflow-hidden rounded-[8px] bg-slate-950 outline-none"
                 style={{
                   scrollSnapStop: "always",
                 }}
               >
-                <picture>
-                  <source
-                    media="(orientation: portrait)"
-                    srcSet={slide.phoneImage}
-                  />
-
-                  <img
-                    src={slide.image}
-                    alt=""
-                    draggable="false"
-                    className="pointer-events-none absolute inset-0 block h-full w-full select-none object-cover object-center"
-                  />
-                </picture>
+                <img
+                  src={slide.phoneImage}
+                  alt=""
+                  draggable="false"
+                  className="pointer-events-none absolute inset-0 block h-full w-full select-none object-cover object-center"
+                />
 
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/[0.07] to-transparent" />
               </NavLink>
@@ -408,50 +424,55 @@ export default function HeroSlider() {
         </div>
 
         <div className="mt-1.5 flex items-center justify-center gap-1">
-          {slides.map((slide, slideIndex) => (
-            <button
-              key={slide.id}
-              type="button"
-              onClick={() => goToHero(slideIndex)}
-              aria-label={`Slajdi ${slideIndex + 1}`}
-              className={`h-[4px] rounded-full transition-all duration-300 ${
-                slideIndex === index
-                  ? "w-4 bg-slate-600"
-                  : "w-[4px] bg-slate-200"
-              }`}
-            />
-          ))}
+          {slides.map(
+            (slide, slideIndex) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() =>
+                  goToHero(slideIndex)
+                }
+                aria-label={`Slajdi ${
+                  slideIndex + 1
+                }`}
+                className={`h-[4px] rounded-full transition-all duration-300 ${
+                  slideIndex === index
+                    ? "w-4 bg-slate-600"
+                    : "w-[4px] bg-slate-200"
+                }`}
+              />
+            )
+          )}
         </div>
       </div>
 
-      <div className="relative hidden w-full min-w-0 overflow-hidden rounded-[7px] bg-slate-950 md:block md:h-[245px] lg:h-[275px] xl:h-[340px]">
-        {slides.map((slide, slideIndex) => (
-          <NavLink
-            key={slide.id}
-            to={slide.to}
-            className={`absolute inset-0 block h-full w-full outline-none transition-all duration-700 ease-out focus:outline-none focus:ring-0 ${
-              slideIndex === index
-                ? "pointer-events-auto translate-x-0 opacity-100"
-                : "pointer-events-none translate-x-3 opacity-0"
-            }`}
-          >
-            <picture>
-              <source
-                media="(orientation: portrait)"
-                srcSet={slide.phoneImage}
-              />
+      {/* ========================= */}
+      {/* TABLET / DESKTOP HERO */}
+      {/* ========================= */}
 
+      <div className="relative hidden w-full min-w-0 overflow-hidden rounded-[7px] bg-slate-950 md:block md:h-[245px] lg:h-[275px] xl:h-[340px]">
+        {slides.map(
+          (slide, slideIndex) => (
+            <NavLink
+              key={slide.id}
+              to={slide.to}
+              className={`absolute inset-0 block h-full w-full outline-none transition-all duration-700 ease-out focus:outline-none focus:ring-0 ${
+                slideIndex === index
+                  ? "pointer-events-auto translate-x-0 opacity-100"
+                  : "pointer-events-none translate-x-3 opacity-0"
+              }`}
+            >
               <img
                 src={slide.image}
                 alt=""
                 draggable="false"
                 className="absolute inset-0 block h-full w-full object-cover object-center"
               />
-            </picture>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/[0.07] to-transparent" />
-          </NavLink>
-        ))}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/[0.07] to-transparent" />
+            </NavLink>
+          )
+        )}
 
         <button
           type="button"
@@ -472,25 +493,34 @@ export default function HeroSlider() {
         </button>
 
         <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1.5">
-          {slides.map((slide, slideIndex) => (
-            <button
-              key={slide.id}
-              type="button"
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                goToHero(slideIndex);
-              }}
-              aria-label={`Slajdi ${slideIndex + 1}`}
-              className={`h-[5px] rounded-full transition-all duration-300 ${
-                slideIndex === index
-                  ? "w-4 bg-white"
-                  : "w-[5px] bg-white/50"
-              }`}
-            />
-          ))}
+          {slides.map(
+            (slide, slideIndex) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+
+                  goToHero(slideIndex);
+                }}
+                aria-label={`Slajdi ${
+                  slideIndex + 1
+                }`}
+                className={`h-[5px] rounded-full transition-all duration-300 ${
+                  slideIndex === index
+                    ? "w-4 bg-white"
+                    : "w-[5px] bg-white/50"
+                }`}
+              />
+            )
+          )}
         </div>
       </div>
+
+      {/* ========================= */}
+      {/* DESKTOP PROMOS */}
+      {/* ========================= */}
 
       <div className="mt-3 hidden w-full overflow-hidden bg-[#f5f6f8] lg:block">
         <div
@@ -498,24 +528,28 @@ export default function HeroSlider() {
           onScroll={handlePromoScroll}
           className="promo-carousel flex w-full snap-x snap-mandatory gap-2.5 overflow-x-auto scroll-smooth"
         >
-          {promos.map((promo, promoItemIndex) => (
-            <NavLink
-              key={promo.id}
-              to={promo.to}
-              className="group relative block w-[30.5%] shrink-0 snap-start overflow-hidden rounded-[0px] bg-slate-100 outline-none focus:outline-none focus:ring-0 xl:w-[28.7%]"
-            >
-              <div className="aspect-[3.2/1] w-full overflow-hidden rounded-[16px]">
-                <img
-                  src={promo.image}
-                  alt={promo.alt}
-                  draggable="false"
-                  loading="lazy"
-                  style={getPromoStyle(promoItemIndex)}
-                  className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.012]"
-                />
-              </div>
-            </NavLink>
-          ))}
+          {promos.map(
+            (promo, promoItemIndex) => (
+              <NavLink
+                key={promo.id}
+                to={promo.to}
+                className="group relative block w-[30.5%] shrink-0 snap-start overflow-hidden rounded-[0px] bg-slate-100 outline-none focus:outline-none focus:ring-0 xl:w-[28.7%]"
+              >
+                <div className="aspect-[3.2/1] w-full overflow-hidden rounded-[16px]">
+                  <img
+                    src={promo.image}
+                    alt={promo.alt}
+                    draggable="false"
+                    loading="lazy"
+                    style={getPromoStyle(
+                      promoItemIndex
+                    )}
+                    className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.012]"
+                  />
+                </div>
+              </NavLink>
+            )
+          )}
         </div>
       </div>
 
@@ -526,7 +560,7 @@ export default function HeroSlider() {
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior-x: contain;
-            touch-action: auto;
+            touch-action: pan-x pan-y;
             scroll-behavior: smooth;
           }
 

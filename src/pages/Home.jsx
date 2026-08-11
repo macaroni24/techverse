@@ -451,7 +451,7 @@ export default function Home() {
       <Navbar />
 
       <div className="w-full bg-white">
-        <div className="mx-auto w-full max-w-[1460px] px-4 pt-3 sm:px-6 min-[1500px]:ml-[230px] min-[1500px]:mr-6 min-[1500px]:w-[calc(100%-254px)] min-[1900px]:mx-auto min-[1900px]:w-full">
+        <div className="mx-auto w-full max-w-[1460px] px-4 pt-3 sm:px-6">
           <div className="mb-2 mt-2 flex items-center justify-between rounded-[6px] border border-slate-100 bg-slate-100/70 px-3 py-[7px] md:hidden">
             <div className="min-w-0">
               <p className="text-[10px] font-medium leading-[14px] text-slate-600">
@@ -480,7 +480,7 @@ export default function Home() {
         </div>
       </div>
 
-      <main className="mx-auto w-full max-w-[1460px] px-4 py-10 sm:px-6 min-[1500px]:ml-[230px] min-[1500px]:mr-6 min-[1500px]:w-[calc(100%-254px)] min-[1900px]:mx-auto min-[1900px]:w-full">
+      <main className="mx-auto w-full max-w-[1460px] px-4 py-10 sm:px-6">
         <section>
           <h1 className="text-2xl font-bold text-slate-900">
             Produktet e Veçuara
