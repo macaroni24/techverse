@@ -34,27 +34,27 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <div className="group flex h-full min-h-[440px] flex-col border border-slate-200 bg-white p-4 transition duration-300 hover:border-slate-300 hover:shadow-md sm:min-h-[480px] sm:p-5">
+    <div className="group flex h-full flex-col border border-slate-200 bg-white p-4 transition duration-300 hover:border-slate-300 hover:shadow-md">
       <NavLink
         to={`/product/${product.id}`}
-        className="flex flex-1 flex-col"
+        className="flex h-full flex-col"
       >
-        <div className="flex h-[250px] items-center justify-center overflow-hidden bg-white sm:h-[290px]">
+        <div className="flex h-[230px] items-center justify-center overflow-hidden bg-white sm:h-[250px]">
           <img
             src={product.image}
             alt={product.title}
             loading="lazy"
-            className="h-full w-full object-contain p-1 transition duration-300 group-hover:scale-[1.035]"
+            className="h-full w-full object-contain p-2 transition duration-300 group-hover:scale-[1.035]"
           />
         </div>
 
-        <h3 className="mt-5 line-clamp-2 min-h-[52px] text-[16px] font-semibold leading-[1.5] text-slate-900">
+        <h3 className="mt-4 line-clamp-2 min-h-[48px] text-[16px] font-semibold leading-[1.5] text-slate-900">
           {product.title}
         </h3>
 
-        <div className="mt-auto pt-7">
+        <div className="mt-auto pt-5">
           <div className="flex items-center justify-between gap-4">
-            <span className="text-[22px] font-bold tracking-tight text-slate-950 sm:text-[24px]">
+            <span className="text-[22px] font-bold tracking-tight text-slate-950">
               {formatPriceEUR(product.price)}
             </span>
 
