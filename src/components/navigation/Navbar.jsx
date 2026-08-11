@@ -590,8 +590,7 @@ export default function Navbar() {
 
             {/* SEARCH */}
 
-            <div className="absolute left-[130px] right-[110px] top-1/2 z-[120] -translate-y-1/2 lg:left-[150px] lg:right-[120px] xl:left-1/2 xl:right-auto xl:w-[min(62vw,980px)] xl:-translate-x-1/2">
-              <div data-searchbox="true" className="relative">
+            <div className="absolute left-[170px] right-[150px] top-1/2 z-[120] -translate-y-1/2 lg:left-[190px] lg:right-[160px] xl:left-1/2 xl:right-auto xl:w-[min(54vw,850px)] xl:-translate-x-1/2"> <div data-searchbox="true" className="relative">
                 <form onSubmit={handleSearchSubmit}>
                   <div className="navbar-search flex h-8 items-center rounded-full px-3 xl:h-10 xl:px-4">
                     <input
@@ -795,8 +794,7 @@ export default function Navbar() {
       {/* SECONDARY NAV */}
 
       <div className="navbar-secondary relative z-[40] hidden md:block">
-        <div className="relative flex h-8 w-full items-center px-4 sm:px-6 xl:h-12">
-          {/* MEGA MENU */}
+       <div className="absolute left-[170px] right-[150px] top-1/2 z-[120] -translate-y-1/2 lg:left-[190px] lg:right-[160px] xl:left-1/2 xl:right-auto xl:w-[min(54vw,850px)] xl:-translate-x-1/2"> {/* MEGA MENU */}
 
           <div
             className="relative flex h-full items-center"

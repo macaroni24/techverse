@@ -381,7 +381,7 @@ export default function HeroSlider() {
   }, []);
 
   return (
-    <section className="relative w-full min-w-0 bg-[#f5f6f8] md:left-1/2 md:w-[min(1460px,calc(100vw-40px))] md:-translate-x-1/2">
+    <section className="relative w-full min-w-0 bg-[#f5f6f8] md:left-1/2 md:mt-2 md:w-[min(1460px,90vw)] md:-translate-x-1/2">
       {/* ========================= */}
       {/* MOBILE HERO */}
       {/* ========================== */}
@@ -630,4 +630,4 @@ export default function HeroSlider() {
       </style>
     </section>
   );
-}  
+}
