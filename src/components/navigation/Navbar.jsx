@@ -476,7 +476,7 @@ export default function Navbar() {
 
       {/* MAIN NAVBAR */}
 
-      <div className="navbar-main relative z-[80] text-white">
+      <div className="navbar-main relative z-[100] text-white">
         <div className="relative w-full px-4 py-2 sm:px-6 md:py-1.5 xl:py-4">
           {/* MOBILE */}
 
@@ -590,7 +590,8 @@ export default function Navbar() {
 
             {/* SEARCH */}
 
-            <div className="absolute left-[170px] right-[150px] top-1/2 z-[120] -translate-y-1/2 lg:left-[190px] lg:right-[160px] xl:left-1/2 xl:right-auto xl:w-[min(54vw,850px)] xl:-translate-x-1/2"> <div data-searchbox="true" className="relative">
+            <div className="absolute left-[170px] right-[150px] top-1/2 z-[120] -translate-y-1/2 lg:left-[190px] lg:right-[160px] xl:left-1/2 xl:right-auto xl:w-[min(54vw,850px)] xl:-translate-x-1/2">
+              <div data-searchbox="true" className="relative">
                 <form onSubmit={handleSearchSubmit}>
                   <div className="navbar-search flex h-8 items-center rounded-full px-3 xl:h-10 xl:px-4">
                     <input
@@ -793,14 +794,11 @@ export default function Navbar() {
 
       {/* SECONDARY NAV */}
 
-      <div className="navbar-secondary relative z-[40] hidden md:block">
-       <div className="absolute left-[170px] right-[150px] top-1/2 z-[120] -translate-y-1/2 lg:left-[190px] lg:right-[160px] xl:left-1/2 xl:right-auto xl:w-[min(54vw,850px)] xl:-translate-x-1/2"> {/* MEGA MENU */}
+      <div className="navbar-secondary relative z-[90] hidden h-8 md:block xl:h-10">
+        {/* MEGA MENU AREA */}
 
-          <div
-            className="relative flex h-full items-center"
-            onMouseEnter={() => setDesktopCatsOpen(true)}
-            onMouseLeave={() => setDesktopCatsOpen(false)}
-          >
+        <div className="absolute left-[170px] right-[150px] top-0 z-[120] h-full lg:left-[190px] lg:right-[160px] xl:left-1/2 xl:right-auto xl:w-[min(54vw,850px)] xl:-translate-x-1/2">
+          <div className="relative flex h-full items-center">
             <div
               className={cx(
                 "absolute left-0 top-full z-[100] w-[min(920px,calc(100vw-32px))] origin-top border border-slate-200 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.16)] transition-all duration-200",
@@ -895,84 +893,84 @@ export default function Navbar() {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* CENTER LINKS */}
+        {/* CENTER LINKS */}
 
-          <div className="absolute left-1/2 top-0 flex h-full -translate-x-1/2 items-center gap-3 lg:gap-4 xl:gap-9">
-            <NavLink
-              to="/outlet"
-              className={({ isActive }) =>
-                cx(
-                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
-                  isActive
-                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
-                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
-                )
-              }
-            >
-              Outlet
-            </NavLink>
+        <div className="absolute left-1/2 top-0 flex h-full -translate-x-1/2 items-center gap-3 lg:gap-4 xl:gap-9">
+          <NavLink
+            to="/outlet"
+            className={({ isActive }) =>
+              cx(
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                isActive
+                  ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                  : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
+              )
+            }
+          >
+            Outlet
+          </NavLink>
 
-            <NavLink
-              to="/new"
-              className={({ isActive }) =>
-                cx(
-                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
-                  isActive
-                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
-                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
-                )
-              }
-            >
-              Çfarë ka të re?
-            </NavLink>
+          <NavLink
+            to="/new"
+            className={({ isActive }) =>
+              cx(
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                isActive
+                  ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                  : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
+              )
+            }
+          >
+            Çfarë ka të re?
+          </NavLink>
 
-            <NavLink
-              to="/giftcard"
-              className={({ isActive }) =>
-                cx(
-                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
-                  isActive
-                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
-                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
-                )
-              }
-            >
-              Gift card
-            </NavLink>
-          </div>
+          <NavLink
+            to="/giftcard"
+            className={({ isActive }) =>
+              cx(
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                isActive
+                  ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                  : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
+              )
+            }
+          >
+            Gift card
+          </NavLink>
+        </div>
 
-          {/* RIGHT LINKS */}
+        {/* RIGHT LINKS */}
 
-          <div className="absolute right-4 top-0 flex h-full items-center gap-3 sm:right-6 lg:gap-4 xl:gap-9">
-            <NavLink
-              to="/support"
-              className={({ isActive }) =>
-                cx(
-                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
-                  isActive
-                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
-                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
-                )
-              }
-            >
-              Support
-            </NavLink>
+        <div className="absolute right-4 top-0 flex h-full items-center gap-3 sm:right-6 lg:gap-4 xl:gap-9">
+          <NavLink
+            to="/support"
+            className={({ isActive }) =>
+              cx(
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                isActive
+                  ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                  : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
+              )
+            }
+          >
+            Support
+          </NavLink>
 
-            <NavLink
-              to="/contact"
-              className={({ isActive }) =>
-                cx(
-                  "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
-                  isActive
-                    ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
-                    : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
-                )
-              }
-            >
-              Chat
-            </NavLink>
-          </div>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              cx(
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                isActive
+                  ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
+                  : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
+              )
+            }
+          >
+            Chat
+          </NavLink>
         </div>
       </div>
 
