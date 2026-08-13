@@ -477,7 +477,7 @@ export default function Navbar() {
       {/* MAIN NAVBAR */}
 
       <div className="navbar-main relative z-[100] text-white">
-        <div className="relative w-full px-4 py-2 sm:px-6 md:py-1.5 xl:py-4">
+        <div className="relative w-full px-4 py-2 sm:px-6 md:py-2 lg:px-8 xl:px-10 xl:py-3">
           {/* MOBILE */}
 
           <div className="md:hidden">
@@ -576,7 +576,7 @@ export default function Navbar() {
 
           {/* LAPTOP / DESKTOP */}
 
-          <div className="relative hidden h-8 md:block xl:h-10">
+          <div className="relative hidden h-9 md:block xl:h-12">
             <NavLink
               to="/"
               className="absolute left-0 top-1/2 z-10 flex -translate-y-1/2 items-center"
@@ -584,16 +584,60 @@ export default function Navbar() {
               <img
                 src={logo}
                 alt="TechVerse"
-                className="h-7 w-auto max-w-[115px] object-contain object-left lg:h-8 lg:max-w-[130px] xl:h-[50px] xl:max-w-[195px]"
+                className="h-7 w-auto max-w-[115px] object-contain object-left lg:h-8 lg:max-w-[135px] xl:h-10 xl:max-w-[180px]"
               />
             </NavLink>
 
+            <div className="absolute left-[295px] top-1/2 hidden -translate-y-1/2 items-center gap-7 xl:flex">
+              <NavLink
+                to="/outlet"
+                className={({ isActive }) =>
+                  cx(
+                    "whitespace-nowrap text-[13px] font-medium transition-colors",
+                    isActive
+                      ? "text-white"
+                      : "text-white/72 hover:text-white"
+                  )
+                }
+              >
+                Outlet
+              </NavLink>
+
+              <NavLink
+                to="/new"
+                className={({ isActive }) =>
+                  cx(
+                    "whitespace-nowrap text-[13px] font-medium transition-colors",
+                    isActive
+                      ? "text-white"
+                      : "text-white/72 hover:text-white"
+                  )
+                }
+              >
+                Çfarë ka të re?
+              </NavLink>
+
+              <NavLink
+                to="/giftcard"
+                className={({ isActive }) =>
+                  cx(
+                    "whitespace-nowrap text-[13px] font-medium transition-colors",
+                    isActive
+                      ? "text-white"
+                      : "text-white/72 hover:text-white"
+                  )
+                }
+              >
+                Gift card
+              </NavLink>
+            </div>
+
             {/* SEARCH */}
 
-            <div className="absolute left-[170px] right-[150px] top-1/2 z-[120] -translate-y-1/2 lg:left-[190px] lg:right-[160px] xl:left-1/2 xl:right-auto xl:w-[min(54vw,850px)] xl:-translate-x-1/2">
+            <div className="absolute right-[118px] top-1/2 z-[120] w-[min(42vw,430px)] -translate-y-1/2 lg:right-[132px] lg:w-[min(39vw,500px)] xl:right-[150px] xl:w-[min(31vw,560px)]">
               <div data-searchbox="true" className="relative">
                 <form onSubmit={handleSearchSubmit}>
-                  <div className="navbar-search flex h-8 items-center rounded-full px-3 xl:h-10 xl:px-4">
+                  <div className="navbar-search flex h-8 items-center rounded-[4px] px-3.5 xl:h-10 xl:rounded-[5px] xl:px-4">
                     <input
                       value={query}
                       onChange={(event) => {
@@ -615,7 +659,7 @@ export default function Navbar() {
                       type="submit"
                       disabled={!canSearch}
                       className={cx(
-                        "navbar-search-button ml-1 inline-flex h-6 w-6 items-center justify-center rounded-full transition xl:h-8 xl:w-8",
+                        "navbar-search-button ml-1.5 inline-flex h-6 w-6 items-center justify-center rounded-[6px] transition xl:h-8 xl:w-8 xl:rounded-[8px]",
                         canSearch
                           ? "text-slate-600"
                           : "cursor-not-allowed text-slate-300"
@@ -633,10 +677,10 @@ export default function Navbar() {
 
             {/* ACTIONS */}
 
-            <div className="absolute right-0 top-1/2 z-[130] flex -translate-y-1/2 items-center gap-1">
+            <div className="absolute right-0 top-1/2 z-[130] flex -translate-y-1/2 items-center gap-1.5 xl:gap-2">
               <NavLink
                 to="/wishlist"
-                className="navbar-action relative inline-flex h-8 w-8 items-center justify-center rounded-full text-white transition xl:h-10 xl:w-10"
+                className="relative inline-flex h-8 w-8 items-center justify-center text-white xl:h-10 xl:w-10"
                 aria-label="Lista e dëshirave"
               >
                 <HeartIcon className="h-4 w-4 xl:h-5 xl:w-5" />
@@ -650,7 +694,7 @@ export default function Navbar() {
 
               <NavLink
                 to="/cart"
-                className="navbar-action relative inline-flex h-8 w-8 items-center justify-center rounded-full text-white transition xl:h-10 xl:w-10"
+                className="relative inline-flex h-8 w-8 items-center justify-center text-white xl:h-10 xl:w-10"
                 aria-label="Shporta"
               >
                 <CartIcon className="h-4 w-4 xl:h-5 xl:w-5" />
@@ -664,7 +708,7 @@ export default function Navbar() {
 
               <NavLink
                 to="/login"
-                className="navbar-action inline-flex h-8 w-8 items-center justify-center rounded-full text-white transition xl:h-10 xl:w-10"
+                className="inline-flex h-8 w-8 items-center justify-center text-white xl:h-10 xl:w-10"
                 aria-label="Kyçu"
               >
                 <UserIcon className="h-4 w-4 xl:h-5 xl:w-5" />
@@ -794,7 +838,7 @@ export default function Navbar() {
 
       {/* SECONDARY NAV */}
 
-      <div className="navbar-secondary relative z-[90] hidden h-8 md:block xl:h-10">
+      <div className="navbar-secondary relative z-[90] hidden h-8 md:block xl:h-9">
         {/* MEGA MENU AREA */}
 
         <div className="absolute left-[170px] right-[150px] top-0 z-[120] h-full lg:left-[190px] lg:right-[160px] xl:left-1/2 xl:right-auto xl:w-[min(54vw,850px)] xl:-translate-x-1/2">
@@ -897,12 +941,12 @@ export default function Navbar() {
 
         {/* CENTER LINKS */}
 
-        <div className="absolute left-1/2 top-0 flex h-full -translate-x-1/2 items-center gap-3 lg:gap-4 xl:gap-9">
+        <div className="absolute left-1/2 top-0 flex h-full -translate-x-1/2 items-center gap-3 lg:gap-5 xl:hidden">
           <NavLink
             to="/outlet"
             className={({ isActive }) =>
               cx(
-                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px]",
                 isActive
                   ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
                   : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
@@ -916,7 +960,7 @@ export default function Navbar() {
             to="/new"
             className={({ isActive }) =>
               cx(
-                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px]",
                 isActive
                   ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
                   : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
@@ -930,7 +974,7 @@ export default function Navbar() {
             to="/giftcard"
             className={({ isActive }) =>
               cx(
-                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px]",
                 isActive
                   ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
                   : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
@@ -948,7 +992,7 @@ export default function Navbar() {
             to="/support"
             className={({ isActive }) =>
               cx(
-                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px]",
                 isActive
                   ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
                   : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
@@ -962,7 +1006,7 @@ export default function Navbar() {
             to="/contact"
             className={({ isActive }) =>
               cx(
-                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px] xl:border-b-2 xl:text-sm",
+                "flex h-full items-center whitespace-nowrap border-b text-[10px] font-medium transition lg:text-[11px]",
                 isActive
                   ? "border-[#348ef4] font-semibold text-[#1d4ed8]"
                   : "border-transparent text-[#0f172a] hover:border-[#348ef4] hover:text-[#1d4ed8]"
@@ -1141,23 +1185,23 @@ export default function Navbar() {
           .navbar-main {
             background: linear-gradient(
               90deg,
-              #0b1015 0%,
-              #10151a 52%,
-              #0b1015 100%
+              #07111c 0%,
+              #0a1521 48%,
+              #08111b 100%
             );
-            border-bottom: 1px solid #252b31;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.14);
           }
 
           .navbar-secondary {
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            background: #fbfcfe;
+            border-bottom: 1px solid #e7ebf0;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.025);
           }
 
           .navbar-search {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+            border: 1px solid #d7dee7;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
           }
 
           .navbar-search input {
@@ -1174,19 +1218,19 @@ export default function Navbar() {
           }
 
           .navbar-search-button:hover:not(:disabled) {
-            background: #f1f5f9;
+            background: #f3f6f9;
             color: #0f172a;
           }
 
           .navbar-action {
-            background: #1a2026;
-            border: 1px solid #252c33;
-            color: #f7f8f9;
+            background: rgba(255, 255, 255, 0.055);
+            border: 1px solid rgba(148, 163, 184, 0.17);
+            color: #f8fafc;
           }
 
           .navbar-action:hover {
-            background: #242b32;
-            border-color: #303840;
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(148, 163, 184, 0.28);
           }
 
           .navbar-count {
