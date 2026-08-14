@@ -496,7 +496,7 @@ export default function Navbar() {
               <div className="flex items-center gap-1">
                 <NavLink
                   to="/wishlist"
-                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-[8px] bg-white/10 text-white transition hover:bg-white/20"
                   aria-label="Lista e dëshirave"
                 >
                   <HeartIcon className="h-5 w-5" />
@@ -510,7 +510,7 @@ export default function Navbar() {
 
                 <NavLink
                   to="/cart"
-                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-[8px] bg-white/10 text-white transition hover:bg-white/20"
                   aria-label="Shporta"
                 >
                   <CartIcon className="h-5 w-5" />
@@ -524,7 +524,7 @@ export default function Navbar() {
 
                 <NavLink
                   to="/login"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-[8px] bg-white/10 text-white transition hover:bg-white/20"
                   aria-label="Kyçu"
                 >
                   <UserIcon className="h-5 w-5" />
@@ -535,7 +535,7 @@ export default function Navbar() {
             <div className="mt-2.5">
               <div data-searchbox="true" className="relative">
                 <form onSubmit={handleSearchSubmit}>
-                  <div className="navbar-search flex h-9 items-center rounded-full px-4">
+                  <div className="navbar-search flex h-9 items-center rounded-[8px] px-4">
                     <input
                       value={query}
                       onChange={(event) => {
@@ -557,7 +557,7 @@ export default function Navbar() {
                       type="submit"
                       disabled={!canSearch}
                       className={cx(
-                        "navbar-search-button ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition",
+                        "navbar-search-button ml-2 inline-flex h-8 w-8 items-center justify-center rounded-[6px] transition",
                         canSearch
                           ? "text-slate-600"
                           : "cursor-not-allowed text-slate-300"
@@ -756,7 +756,7 @@ export default function Navbar() {
               <div className="flex items-center gap-1">
                 <NavLink
                   to="/wishlist"
-                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#252c33] bg-[#1a2026] text-white transition hover:bg-[#242b32]"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-[8px] border border-[#252c33] bg-[#1a2026] text-white transition hover:bg-[#242b32]"
                   aria-label="Lista e dëshirave"
                 >
                   <HeartIcon className="h-5 w-5" />
@@ -770,7 +770,7 @@ export default function Navbar() {
 
                 <NavLink
                   to="/cart"
-                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#252c33] bg-[#1a2026] text-white transition hover:bg-[#242b32]"
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-[8px] border border-[#252c33] bg-[#1a2026] text-white transition hover:bg-[#242b32]"
                   aria-label="Shporta"
                 >
                   <CartIcon className="h-5 w-5" />
@@ -784,7 +784,7 @@ export default function Navbar() {
 
                 <NavLink
                   to="/login"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#252c33] bg-[#1a2026] text-white transition hover:bg-[#242b32]"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-[8px] border border-[#252c33] bg-[#1a2026] text-white transition hover:bg-[#242b32]"
                   aria-label="Kyçu"
                 >
                   <UserIcon className="h-5 w-5" />
@@ -796,7 +796,7 @@ export default function Navbar() {
           <div className="px-4 py-2">
             <div data-searchbox="true" className="relative">
               <form onSubmit={handleSearchSubmit}>
-                <div className="navbar-search flex h-9 items-center rounded-full px-4">
+                <div className="navbar-search flex h-9 items-center rounded-[8px] px-4">
                   <input
                     value={query}
                     onChange={(event) => {
@@ -818,7 +818,7 @@ export default function Navbar() {
                     type="submit"
                     disabled={!canSearch}
                     className={cx(
-                      "navbar-search-button ml-2 inline-flex h-8 w-8 items-center justify-center rounded-full transition",
+                      "navbar-search-button ml-2 inline-flex h-8 w-8 items-center justify-center rounded-[6px] transition",
                       canSearch
                         ? "text-slate-600"
                         : "cursor-not-allowed text-slate-300"
