@@ -1,10 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 import { useStore } from "../store/StoreProvider";
+
+function getToken() {
+  const directToken =
+    localStorage.getItem("techverse_token") ||
+    sessionStorage.getItem("techverse_token");
+
+  if (directToken) {
+    return directToken;
+  }
+
+  const auth =
+    localStorage.getItem("techverse_auth") ||
+    sessionStorage.getItem("techverse_auth");
+
+  if (auth) {
+    try {
+      return JSON.parse(auth)?.token || "";
+    } catch {
+      return "";
+    }
+  }
+
+  return "";
+}
 
 export default function Wishlist() {
   const navigate = useNavigate();
@@ -19,20 +43,21 @@ export default function Wishlist() {
 
   const [processing, setProcessing] = useState(false);
 
+  const token = getToken();
+
   const wishlistItems = Array.isArray(wishlist)
     ? wishlist
     : [];
 
-  function hasToken() {
-    return Boolean(
-      localStorage.getItem("techverse_token") ||
-        sessionStorage.getItem("techverse_token")
-    );
-  }
+  useEffect(() => {
+    if (!token) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate, token]);
 
   async function handleRemove(product) {
-    if (!hasToken()) {
-      navigate("/login");
+    if (!getToken()) {
+      navigate("/login", { replace: true });
       return;
     }
 
@@ -44,8 +69,8 @@ export default function Wishlist() {
   }
 
   async function handleAddAllToCart() {
-    if (!hasToken()) {
-      navigate("/login");
+    if (!getToken()) {
+      navigate("/login", { replace: true });
       return;
     }
 
@@ -67,8 +92,8 @@ export default function Wishlist() {
   }
 
   async function handleClearWishlist() {
-    if (!hasToken()) {
-      navigate("/login");
+    if (!getToken()) {
+      navigate("/login", { replace: true });
       return;
     }
 
@@ -89,6 +114,10 @@ export default function Wishlist() {
     } finally {
       setProcessing(false);
     }
+  }
+
+  if (!token) {
+    return null;
   }
 
   if (loadingStore) {
@@ -166,9 +195,9 @@ export default function Wishlist() {
 
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
                     handleRemove(product);
                   }}
                   aria-label="Largo nga lista e dëshirave"

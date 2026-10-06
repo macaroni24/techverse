@@ -317,3 +317,4 @@ C:\Users\eronb\Documents\GitHub\techverse\techverse\backend\obj\Debug\net10.0\ba
 C:\Users\eronb\Documents\GitHub\techverse\techverse\backend\obj\Debug\net10.0\backend.genruntimeconfig.cache
 C:\Users\eronb\Documents\GitHub\techverse\techverse\backend\obj\Debug\net10.0\ref\backend.dll
 C:\Users\eronb\Documents\GitHub\techverse\techverse\backend\bin\Debug\net10.0\Data\products.seed.json
+C:\Users\eronb\Documents\GitHub\techverse\techverse\backend\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

@@ -12,13 +12,42 @@ const StoreContext = createContext(null);
 const API_URL = "http://localhost:5000/api";
 
 function getToken() {
-  return (
+  const directToken =
     localStorage.getItem("techverse_token") ||
     sessionStorage.getItem("techverse_token") ||
     localStorage.getItem("token") ||
-    sessionStorage.getItem("token") ||
-    ""
-  );
+    sessionStorage.getItem("token");
+
+  if (directToken) {
+    return directToken;
+  }
+
+  const storedAuth =
+    localStorage.getItem("techverse_auth") ||
+    sessionStorage.getItem("techverse_auth");
+
+  if (storedAuth) {
+    try {
+      const parsed = JSON.parse(storedAuth);
+      return parsed?.token || "";
+    } catch {
+      return "";
+    }
+  }
+
+  return "";
+}
+
+function clearAuthStorage() {
+  localStorage.removeItem("techverse_token");
+  localStorage.removeItem("techverse_user");
+  localStorage.removeItem("techverse_auth");
+  localStorage.removeItem("token");
+
+  sessionStorage.removeItem("techverse_token");
+  sessionStorage.removeItem("techverse_user");
+  sessionStorage.removeItem("techverse_auth");
+  sessionStorage.removeItem("token");
 }
 
 async function apiRequest(path, options = {}) {
@@ -45,9 +74,13 @@ async function apiRequest(path, options = {}) {
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(
+    const error = new Error(
       data?.message || `Request failed with status ${response.status}`
     );
+
+    error.status = response.status;
+
+    throw error;
   }
 
   return data;
@@ -59,13 +92,31 @@ export function StoreProvider({ children }) {
   const [loadingStore, setLoadingStore] = useState(false);
   const [storeError, setStoreError] = useState("");
 
+  const resetStore = useCallback(() => {
+    setCart([]);
+    setWishlist([]);
+    setStoreError("");
+    setLoadingStore(false);
+  }, []);
+
+  const logout = useCallback(() => {
+    clearAuthStorage();
+    resetStore();
+  }, [resetStore]);
+
   const loadCart = useCallback(async () => {
-    if (!getToken()) {
+    const requestToken = getToken();
+
+    if (!requestToken) {
       setCart([]);
       return;
     }
 
     const data = await apiRequest("/Cart");
+
+    if (requestToken !== getToken()) {
+      return;
+    }
 
     setCart(
       (data || []).map((item) => ({
@@ -77,12 +128,18 @@ export function StoreProvider({ children }) {
   }, []);
 
   const loadWishlist = useCallback(async () => {
-    if (!getToken()) {
+    const requestToken = getToken();
+
+    if (!requestToken) {
       setWishlist([]);
       return;
     }
 
     const data = await apiRequest("/Wishlist");
+
+    if (requestToken !== getToken()) {
+      return;
+    }
 
     setWishlist(
       (data || []).map((item) => ({
@@ -93,23 +150,31 @@ export function StoreProvider({ children }) {
   }, []);
 
   const refreshStore = useCallback(async () => {
-    if (!getToken()) {
-      setCart([]);
-      setWishlist([]);
+    const token = getToken();
+
+    if (!token) {
+      resetStore();
       return;
     }
 
     setLoadingStore(true);
     setStoreError("");
+    setCart([]);
+    setWishlist([]);
 
     try {
       await Promise.all([loadCart(), loadWishlist()]);
     } catch (error) {
+      if (error.status === 401) {
+        logout();
+        return;
+      }
+
       setStoreError(error.message);
     } finally {
       setLoadingStore(false);
     }
-  }, [loadCart, loadWishlist]);
+  }, [loadCart, loadWishlist, logout, resetStore]);
 
   useEffect(() => {
     refreshStore();
@@ -134,41 +199,56 @@ export function StoreProvider({ children }) {
 
         await loadCart();
       } catch (error) {
+        if (error.status === 401) {
+          logout();
+        }
+
         setStoreError(error.message);
         throw error;
       }
     },
-    [loadCart]
+    [loadCart, logout]
   );
 
-  const removeFromCart = useCallback(async (id) => {
-    if (!getToken()) {
-      return;
-    }
+  const removeFromCart = useCallback(
+    async (id) => {
+      if (!getToken()) {
+        setCart([]);
+        return;
+      }
 
-    const item = cart.find((product) => product.id === id);
+      const item = cart.find((product) => product.id === id);
 
-    if (!item?.cartItemId) {
-      return;
-    }
+      if (!item?.cartItemId) {
+        return;
+      }
 
-    setStoreError("");
+      setStoreError("");
 
-    try {
-      await apiRequest(`/Cart/${item.cartItemId}`, {
-        method: "DELETE",
-      });
+      try {
+        await apiRequest(`/Cart/${item.cartItemId}`, {
+          method: "DELETE",
+        });
 
-      setCart((current) => current.filter((product) => product.id !== id));
-    } catch (error) {
-      setStoreError(error.message);
-      throw error;
-    }
-  }, [cart]);
+        setCart((current) =>
+          current.filter((product) => product.id !== id)
+        );
+      } catch (error) {
+        if (error.status === 401) {
+          logout();
+        }
+
+        setStoreError(error.message);
+        throw error;
+      }
+    },
+    [cart, logout]
+  );
 
   const setCartQty = useCallback(
     async (id, qty) => {
       if (!getToken()) {
+        setCart([]);
         return;
       }
 
@@ -192,15 +272,21 @@ export function StoreProvider({ children }) {
 
         setCart((current) =>
           current.map((product) =>
-            product.id === id ? { ...product, qty: quantity } : product
+            product.id === id
+              ? { ...product, qty: quantity }
+              : product
           )
         );
       } catch (error) {
+        if (error.status === 401) {
+          logout();
+        }
+
         setStoreError(error.message);
         throw error;
       }
     },
-    [cart]
+    [cart, logout]
   );
 
   const clearCart = useCallback(async () => {
@@ -218,18 +304,25 @@ export function StoreProvider({ children }) {
 
       setCart([]);
     } catch (error) {
+      if (error.status === 401) {
+        logout();
+      }
+
       setStoreError(error.message);
       throw error;
     }
-  }, []);
+  }, [logout]);
 
   const toggleWishlist = useCallback(
     async (product) => {
       if (!getToken()) {
+        setWishlist([]);
         throw new Error("Duhet të kyçeni për të përdorur wishlist.");
       }
 
-      const exists = wishlist.some((item) => item.id === product.id);
+      const exists = wishlist.some(
+        (item) => item.id === product.id
+      );
 
       setStoreError("");
 
@@ -240,7 +333,9 @@ export function StoreProvider({ children }) {
           });
 
           setWishlist((current) =>
-            current.filter((item) => item.id !== product.id)
+            current.filter(
+              (item) => item.id !== product.id
+            )
           );
         } else {
           await apiRequest(`/Wishlist/${product.id}`, {
@@ -250,45 +345,75 @@ export function StoreProvider({ children }) {
           await loadWishlist();
         }
       } catch (error) {
+        if (error.status === 401) {
+          logout();
+        }
+
         setStoreError(error.message);
         throw error;
       }
     },
-    [wishlist, loadWishlist]
+    [wishlist, loadWishlist, logout]
   );
 
-  const removeFromWishlist = useCallback(async (id) => {
-    if (!getToken()) {
-      return;
-    }
+  const removeFromWishlist = useCallback(
+    async (id) => {
+      if (!getToken()) {
+        setWishlist([]);
+        return;
+      }
 
-    setStoreError("");
+      setStoreError("");
 
-    try {
-      await apiRequest(`/Wishlist/${id}`, {
-        method: "DELETE",
-      });
+      try {
+        await apiRequest(`/Wishlist/${id}`, {
+          method: "DELETE",
+        });
 
-      setWishlist((current) =>
-        current.filter((product) => product.id !== id)
-      );
-    } catch (error) {
-      setStoreError(error.message);
-      throw error;
-    }
-  }, []);
+        setWishlist((current) =>
+          current.filter(
+            (product) => product.id !== id
+          )
+        );
+      } catch (error) {
+        if (error.status === 401) {
+          logout();
+        }
+
+        setStoreError(error.message);
+        throw error;
+      }
+    },
+    [logout]
+  );
 
   const isWishlisted = useCallback(
-    (id) => wishlist.some((product) => product.id === id),
+    (id) => {
+      if (!getToken()) {
+        return false;
+      }
+
+      return wishlist.some(
+        (product) => product.id === id
+      );
+    },
     [wishlist]
   );
 
-  const cartCount = useMemo(
-    () => cart.reduce((sum, item) => sum + (item.qty || 0), 0),
-    [cart]
-  );
+  const cartCount = useMemo(() => {
+    if (!getToken()) {
+      return 0;
+    }
 
-  const wishlistCount = wishlist.length;
+    return cart.reduce(
+      (sum, item) => sum + (item.qty || 0),
+      0
+    );
+  }, [cart]);
+
+  const wishlistCount = getToken()
+    ? wishlist.length
+    : 0;
 
   const value = useMemo(
     () => ({
@@ -306,6 +431,8 @@ export function StoreProvider({ children }) {
       removeFromWishlist,
       isWishlisted,
       refreshStore,
+      resetStore,
+      logout,
     }),
     [
       cart,
@@ -322,6 +449,8 @@ export function StoreProvider({ children }) {
       removeFromWishlist,
       isWishlisted,
       refreshStore,
+      resetStore,
+      logout,
     ]
   );
 
@@ -336,7 +465,9 @@ export function useStore() {
   const ctx = useContext(StoreContext);
 
   if (!ctx) {
-    throw new Error("useStore duhet te perdoret brenda StoreProvider");
+    throw new Error(
+      "useStore duhet te perdoret brenda StoreProvider"
+    );
   }
 
   return ctx;

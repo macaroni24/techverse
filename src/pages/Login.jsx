@@ -193,7 +193,7 @@ export default function Login() {
 
       await refreshStore();
 
-      navigate("/dashboard");
+      navigate("/");
     } catch {
       setErr("Nuk u arrit lidhja me serverin.");
     } finally {
