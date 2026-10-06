@@ -3,109 +3,25 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import { useStore } from "../store/StoreProvider";
-import { products } from "../data/products";
 
 function formatPriceEUR(value) {
   return `${Number(value || 0).toFixed(2)} €`;
 }
 
-function findProductById(id) {
-  return products.find(
-    (product) => String(product.id) === String(id)
-  );
-}
-
-function normalizeCartFromStore(store) {
-  const raw =
-    store.cartItems ||
-    store.cart ||
-    store.cartList ||
-    store.itemsInCart ||
-    null;
-
-  if (Array.isArray(raw)) {
-    return raw.map((item) => ({
-      ...item,
-      qty: Number(item.qty || item.quantity || 1),
-    }));
-  }
-
-  const ids =
-    store.cartIds ||
-    store.cartIDs ||
-    null;
-
-  if (Array.isArray(ids)) {
-    return ids
-      .map((id) => {
-        const product = findProductById(id);
-
-        if (!product) {
-          return null;
-        }
-
-        return {
-          ...product,
-          qty: 1,
-        };
-      })
-      .filter(Boolean);
-  }
-
-  const map =
-    store.cartMap ||
-    store.cartObject ||
-    store.cartById ||
-    raw;
-
-  if (map && typeof map === "object") {
-    const entries = Object.entries(map);
-
-    if (
-      entries.length &&
-      typeof entries[0][1] !== "object"
-    ) {
-      return entries
-        .map(([id, qty]) => {
-          const product = findProductById(id);
-
-          if (!product) {
-            return null;
-          }
-
-          return {
-            ...product,
-            qty: Number(qty || 1),
-          };
-        })
-        .filter(Boolean);
-    }
-  }
-
-  return [];
-}
-
 export default function Cart() {
-  const store = useStore();
   const navigate = useNavigate();
 
-  const cartItems = normalizeCartFromStore(store);
+  const {
+    cart,
+    toggleWishlist,
+    isWishlisted,
+    removeFromCart,
+    setCartQty,
+    loadingStore,
+    storeError,
+  } = useStore();
 
-  const toggleWishlist = store.toggleWishlist;
-  const isWishlisted = store.isWishlisted;
-
-  const removeFromCart =
-    store.removeFromCart ||
-    store.removeCartItem ||
-    store.deleteFromCart ||
-    null;
-
-  const updateCartQty =
-    store.updateCartQty ||
-    store.setCartQty ||
-    store.changeCartQty ||
-    store.updateQty ||
-    null;
+  const cartItems = Array.isArray(cart) ? cart : [];
 
   const subtotal = cartItems.reduce(
     (total, item) =>
@@ -124,7 +40,31 @@ export default function Cart() {
 
   const total = subtotal + shipping;
 
-  const handleCheckout = () => {
+  async function handleRemove(id) {
+    try {
+      await removeFromCart(id);
+    } catch {
+      navigate("/login");
+    }
+  }
+
+  async function handleQty(id, qty) {
+    try {
+      await setCartQty(id, qty);
+    } catch {
+      navigate("/login");
+    }
+  }
+
+  async function handleWishlist(item) {
+    try {
+      await toggleWishlist(item);
+    } catch {
+      navigate("/login");
+    }
+  }
+
+  function handleCheckout() {
     const firstProduct = cartItems[0];
 
     if (!firstProduct) {
@@ -137,7 +77,21 @@ export default function Cart() {
         qty: Number(firstProduct.qty || 1),
       },
     });
-  };
+  }
+
+  if (loadingStore) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Navbar />
+
+        <main className="mx-auto flex min-h-[500px] w-full max-w-[1460px] items-center justify-center px-4 py-10 sm:px-6">
+          <div className="h-9 w-9 animate-spin rounded-full border-2 border-slate-200 border-t-blue-800" />
+        </main>
+
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -181,10 +135,18 @@ export default function Cart() {
                   <circle cx="17" cy="18" r="1.5" />
                 </svg>
 
-                <span>Dërgesa falas u aplikua</span>
+                <span>
+                  Dërgesa falas u aplikua
+                </span>
               </div>
             )}
         </div>
+
+        {storeError && (
+          <div className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {storeError}
+          </div>
+        )}
 
         {cartItems.length === 0 ? (
           <div className="mx-auto mt-20 flex max-w-lg flex-col items-center text-center">
@@ -226,17 +188,23 @@ export default function Cart() {
           <div className="mt-6 grid gap-8 lg:mt-7 lg:grid-cols-[minmax(0,1fr)_380px]">
             <div className="space-y-3 lg:hidden">
               {cartItems.map((item) => {
-                const qty = Number(item.qty || 1);
+                const qty = Number(
+                  item.qty || 1
+                );
+
                 const lineTotal =
-                  Number(item.price || 0) * qty;
+                  Number(item.price || 0) *
+                  qty;
 
                 const hasDiscount =
-                  typeof item.oldPrice === "number" &&
-                  item.oldPrice > item.price;
+                  Number(item.oldPrice) >
+                  Number(item.price);
 
-                const savedPerItem = hasDiscount
-                  ? item.oldPrice - item.price
-                  : 0;
+                const savedPerItem =
+                  hasDiscount
+                    ? Number(item.oldPrice) -
+                      Number(item.price)
+                    : 0;
 
                 const totalSaved =
                   savedPerItem * qty;
@@ -271,43 +239,42 @@ export default function Cart() {
                         </div>
                       </div>
 
-                      {typeof removeFromCart ===
-                        "function" && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            removeFromCart(item.id)
-                          }
-                          aria-label="Largo nga shporta"
-                          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-600 transition hover:bg-red-50 hover:text-red-600 active:scale-95"
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRemove(
+                            item.id
+                          )
+                        }
+                        aria-label="Largo nga shporta"
+                        className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-md bg-slate-50 text-slate-600 transition hover:bg-red-50 hover:text-red-600 active:scale-95"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="h-[18px] w-[18px]"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          aria-hidden="true"
                         >
-                          <svg
-                            viewBox="0 0 24 24"
-                            className="h-[18px] w-[18px]"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M4 7h16"
-                              strokeLinecap="round"
-                            />
-                            <path
-                              d="M9 3h6l1 4H8l1-4Z"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M6.5 7 7.5 21h9l1-14"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M10 11v6M14 11v6"
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                        </button>
-                      )}
+                          <path
+                            d="M4 7h16"
+                            strokeLinecap="round"
+                          />
+                          <path
+                            d="M9 3h6l1 4H8l1-4Z"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M6.5 7 7.5 21h9l1-14"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M10 11v6M14 11v6"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </button>
 
                       <div className="mt-4 flex items-end justify-between gap-3">
                         <div>
@@ -329,46 +296,53 @@ export default function Cart() {
                           )}
                         </div>
 
-                        {typeof updateCartQty ===
-                        "function" ? (
-                          <div className="inline-flex h-[34px] items-center overflow-hidden rounded-md border border-slate-200">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateCartQty(
-                                  item.id,
-                                  Math.max(1, qty - 1)
+                        <div className="inline-flex h-[34px] items-center overflow-hidden rounded-md border border-slate-200">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleQty(
+                                item.id,
+                                Math.max(
+                                  1,
+                                  qty - 1
                                 )
-                              }
-                              className="flex h-full w-9 items-center justify-center text-base text-slate-600 transition hover:bg-slate-50"
-                              aria-label="Zvogëlo sasinë"
-                            >
-                              −
-                            </button>
+                              )
+                            }
+                            disabled={qty <= 1}
+                            className="flex h-full w-9 items-center justify-center text-base text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-30"
+                            aria-label="Zvogëlo sasinë"
+                          >
+                            −
+                          </button>
 
-                            <span className="flex h-full min-w-10 items-center justify-center border-x border-slate-200 px-2 text-sm font-medium text-slate-900">
-                              {qty}
-                            </span>
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateCartQty(
-                                  item.id,
-                                  qty + 1
-                                )
-                              }
-                              className="flex h-full w-9 items-center justify-center text-base text-slate-600 transition hover:bg-slate-50"
-                              aria-label="Rrit sasinë"
-                            >
-                              +
-                            </button>
-                          </div>
-                        ) : (
-                          <span className="text-sm font-medium text-slate-700">
-                            Sasia: {qty}
+                          <span className="flex h-full min-w-10 items-center justify-center border-x border-slate-200 px-2 text-sm font-medium text-slate-900">
+                            {qty}
                           </span>
-                        )}
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleQty(
+                                item.id,
+                                qty + 1
+                              )
+                            }
+                            disabled={
+                              Number(
+                                item.stock ||
+                                  0
+                              ) > 0 &&
+                              qty >=
+                                Number(
+                                  item.stock
+                                )
+                            }
+                            className="flex h-full w-9 items-center justify-center text-base text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-30"
+                            aria-label="Rrit sasinë"
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
 
@@ -378,7 +352,9 @@ export default function Cart() {
                       </span>
 
                       <span className="text-[16px] font-semibold text-slate-900">
-                        {formatPriceEUR(lineTotal)}
+                        {formatPriceEUR(
+                          lineTotal
+                        )}
                       </span>
                     </div>
                   </div>
@@ -388,15 +364,16 @@ export default function Cart() {
 
             <div className="hidden divide-y divide-slate-200 border-y border-slate-200 lg:block">
               {cartItems.map((item) => {
-                const qty = Number(item.qty || 1);
+                const qty = Number(
+                  item.qty || 1
+                );
 
                 const lineTotal =
-                  Number(item.price || 0) * qty;
+                  Number(item.price || 0) *
+                  qty;
 
                 const wishlisted =
-                  typeof isWishlisted === "function"
-                    ? isWishlisted(item.id)
-                    : false;
+                  isWishlisted(item.id);
 
                 return (
                   <div
@@ -425,113 +402,118 @@ export default function Cart() {
                       </NavLink>
 
                       <div className="mt-4 flex flex-wrap items-center gap-4">
-                        {typeof updateCartQty ===
-                        "function" ? (
-                          <div className="inline-flex h-10 items-center overflow-hidden rounded-md border border-slate-200">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateCartQty(
-                                  item.id,
-                                  Math.max(1, qty - 1)
+                        <div className="inline-flex h-10 items-center overflow-hidden rounded-md border border-slate-200">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleQty(
+                                item.id,
+                                Math.max(
+                                  1,
+                                  qty - 1
                                 )
-                              }
-                              className="flex h-full w-10 items-center justify-center text-lg font-medium text-slate-600 transition hover:bg-slate-50"
-                            >
-                              −
-                            </button>
+                              )
+                            }
+                            disabled={qty <= 1}
+                            className="flex h-full w-10 items-center justify-center text-lg font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-30"
+                          >
+                            −
+                          </button>
 
-                            <span className="flex h-full min-w-10 items-center justify-center border-x border-slate-200 px-3 text-sm font-semibold text-slate-900">
-                              {qty}
-                            </span>
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateCartQty(
-                                  item.id,
-                                  qty + 1
-                                )
-                              }
-                              className="flex h-full w-10 items-center justify-center text-lg font-medium text-slate-600 transition hover:bg-slate-50"
-                            >
-                              +
-                            </button>
-                          </div>
-                        ) : (
-                          <span className="inline-flex h-10 items-center rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-700">
-                            Sasia: {qty}
+                          <span className="flex h-full min-w-10 items-center justify-center border-x border-slate-200 px-3 text-sm font-semibold text-slate-900">
+                            {qty}
                           </span>
-                        )}
 
-                        {typeof toggleWishlist ===
-                          "function" &&
-                          typeof isWishlisted ===
-                            "function" && (
-                            <button
-                              type="button"
-                              onClick={() =>
-                                toggleWishlist(item)
-                              }
-                              className="inline-flex h-10 items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-blue-800"
-                            >
-                              <svg
-                                viewBox="0 0 24 24"
-                                className="h-5 w-5"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
-                                  fill={
-                                    wishlisted
-                                      ? "#1e3a8a"
-                                      : "none"
-                                  }
-                                  stroke="#1e3a8a"
-                                  strokeWidth="1.7"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleQty(
+                                item.id,
+                                qty + 1
+                              )
+                            }
+                            disabled={
+                              Number(
+                                item.stock ||
+                                  0
+                              ) > 0 &&
+                              qty >=
+                                Number(
+                                  item.stock
+                                )
+                            }
+                            className="flex h-full w-10 items-center justify-center text-lg font-medium text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-30"
+                          >
+                            +
+                          </button>
+                        </div>
 
-                              {wishlisted
-                                ? "E ruajtur"
-                                : "Ruaj"}
-                            </button>
-                          )}
-                      </div>
-                    </div>
-
-                    <div className="flex min-w-[130px] shrink-0 flex-col items-end self-stretch">
-                      {typeof removeFromCart ===
-                        "function" && (
                         <button
                           type="button"
                           onClick={() =>
-                            removeFromCart(item.id)
+                            handleWishlist(
+                              item
+                            )
                           }
-                          aria-label="Largo nga shporta"
-                          className="inline-flex h-8 w-8 items-center justify-center text-slate-400 transition hover:scale-110 hover:text-red-600"
+                          className="inline-flex h-10 items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-blue-800"
                         >
                           <svg
                             viewBox="0 0 24 24"
                             className="h-5 w-5"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
                             aria-hidden="true"
                           >
                             <path
-                              d="M6 6l12 12M18 6 6 18"
+                              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
+                              fill={
+                                wishlisted
+                                  ? "#1e3a8a"
+                                  : "none"
+                              }
+                              stroke="#1e3a8a"
+                              strokeWidth="1.7"
                               strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
+
+                          {wishlisted
+                            ? "E ruajtur"
+                            : "Ruaj"}
                         </button>
-                      )}
+                      </div>
+                    </div>
+
+                    <div className="flex min-w-[130px] shrink-0 flex-col items-end self-stretch">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRemove(
+                            item.id
+                          )
+                        }
+                        aria-label="Largo nga shporta"
+                        className="inline-flex h-8 w-8 items-center justify-center text-slate-400 transition hover:scale-110 hover:text-red-600"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="h-5 w-5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M6 6l12 12M18 6 6 18"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </button>
 
                       <div className="mt-auto text-right">
                         <p className="text-lg font-bold tracking-tight text-slate-950">
-                          {formatPriceEUR(lineTotal)}
+                          {formatPriceEUR(
+                            lineTotal
+                          )}
                         </p>
 
                         {qty > 1 && (
@@ -561,7 +543,9 @@ export default function Cart() {
                   </span>
 
                   <span className="font-semibold text-slate-900">
-                    {formatPriceEUR(subtotal)}
+                    {formatPriceEUR(
+                      subtotal
+                    )}
                   </span>
                 </div>
 
@@ -579,7 +563,9 @@ export default function Cart() {
                   >
                     {shipping === 0
                       ? "Falas"
-                      : formatPriceEUR(shipping)}
+                      : formatPriceEUR(
+                          shipping
+                        )}
                   </span>
                 </div>
 
@@ -589,7 +575,9 @@ export default function Cart() {
                   </span>
 
                   <span className="text-xl font-bold tracking-tight text-slate-950">
-                    {formatPriceEUR(total)}
+                    {formatPriceEUR(
+                      total
+                    )}
                   </span>
                 </div>
               </div>

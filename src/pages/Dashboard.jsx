@@ -1,253 +1,235 @@
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
-import SpecialOffer from "../components/home/SpecialOffer";
-import HeroSlider from "../components/home/HeroSlider";
-import CategoriesMenu from "../components/shop/CategoriesMenu";
-import { products } from "../data/products";
+import { useStore } from "../store/StoreProvider";
 
-export default function Dashboard() {
-  const featuredProducts = products.slice(0, 4);
-  const latestProducts = products.slice(4, 12);
-  const topDeals = products.slice(0, 3);
+export default function Wishlist() {
+  const navigate = useNavigate();
+
+  const {
+    wishlist,
+    addToCart,
+    removeFromWishlist,
+    loadingStore,
+    storeError,
+  } = useStore();
+
+  const [processing, setProcessing] = useState(false);
+
+  const wishlistItems = Array.isArray(wishlist)
+    ? wishlist
+    : [];
+
+  function hasToken() {
+    return Boolean(
+      localStorage.getItem("techverse_token") ||
+        sessionStorage.getItem("techverse_token")
+    );
+  }
+
+  async function handleRemove(product) {
+    if (!hasToken()) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      await removeFromWishlist(product.id);
+    } catch {
+      return;
+    }
+  }
+
+  async function handleAddAllToCart() {
+    if (!hasToken()) {
+      navigate("/login");
+      return;
+    }
+
+    if (wishlistItems.length === 0) {
+      return;
+    }
+
+    setProcessing(true);
+
+    try {
+      for (const product of wishlistItems) {
+        await addToCart(product);
+      }
+    } catch {
+      return;
+    } finally {
+      setProcessing(false);
+    }
+  }
+
+  async function handleClearWishlist() {
+    if (!hasToken()) {
+      navigate("/login");
+      return;
+    }
+
+    if (wishlistItems.length === 0) {
+      return;
+    }
+
+    setProcessing(true);
+
+    try {
+      const items = [...wishlistItems];
+
+      for (const product of items) {
+        await removeFromWishlist(product.id);
+      }
+    } catch {
+      return;
+    } finally {
+      setProcessing(false);
+    }
+  }
+
+  if (loadingStore) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Navbar />
+
+        <main className="mx-auto flex min-h-[500px] w-full max-w-[1460px] items-center justify-center px-4 py-10 sm:px-6">
+          <div className="h-9 w-9 animate-spin rounded-full border-2 border-slate-200 border-t-blue-800" />
+        </main>
+
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      <CategoriesMenu
-        variant="topbar"
-        disableDropdown
-      />
+      <main className="mx-auto w-full max-w-[1460px] px-4 py-8 sm:px-6 sm:py-10">
+        <div className="flex flex-col gap-5 border-b border-slate-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+              Lista e dëshirave
+            </h1>
 
-      {/* =====================================================
-          DASHBOARD INFO
-      ====================================================== */}
-
-      <section className="w-full border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-          <div className="grid gap-3 md:grid-cols-3">
-
-            {/* WELCOME */}
-
-            <div className="rounded-2xl bg-[#0b1015] p-5 text-white shadow-sm">
-              <p className="text-sm text-slate-300">
-                Mirë se erdhe
-              </p>
-
-              <h1 className="mt-2 text-2xl font-bold">
-                Dashboard
-              </h1>
-
-              <p className="mt-2 text-sm text-slate-300">
-                Menaxho produktet, ofertat dhe shiko artikujt
-                më të kërkuar për dyqanin tënd të teknologjisë.
-              </p>
-            </div>
-
-            {/* ACTIVE PRODUCTS */}
-
-            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
-              <p className="text-sm text-slate-500">
-                Produkte aktive
-              </p>
-
-              <h2 className="mt-2 text-3xl font-bold text-slate-900">
-                {products.length}
-              </h2>
-
-              <p className="mt-2 text-sm text-slate-600">
-                PC, laptopë, telefona dhe aksesorë në katalog.
-              </p>
-            </div>
-
-            {/* CATEGORY */}
-
-            <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
-              <p className="text-sm text-slate-500">
-                Kategori kryesore
-              </p>
-
-              <h2 className="mt-2 text-3xl font-bold text-slate-900">
-                Tech
-              </h2>
-
-              <p className="mt-2 text-sm text-slate-600">
-                Fokus në pajisje moderne dhe oferta speciale.
-              </p>
-            </div>
-
+            <p className="mt-1.5 text-sm text-slate-500">
+              {wishlistItems.length}{" "}
+              {wishlistItems.length === 1
+                ? "produkt i ruajtur"
+                : "produkte të ruajtura"}
+            </p>
           </div>
+
+          {wishlistItems.length > 0 && (
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={handleAddAllToCart}
+                disabled={processing}
+                className="inline-flex h-10 items-center justify-center rounded-md bg-blue-800 px-4 text-sm font-semibold text-white transition hover:bg-blue-900 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {processing
+                  ? "Ju lutem prisni..."
+                  : "Shto të gjitha në shportë"}
+              </button>
+
+              <button
+                type="button"
+                onClick={handleClearWishlist}
+                disabled={processing}
+                className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Pastro listën
+              </button>
+            </div>
+          )}
         </div>
-      </section>
 
-      {/* =====================================================
-          HERO + SIDEBAR
-      ====================================================== */}
-
-      <div className="w-full bg-white">
-        <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
-
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[260px_minmax(0,1fr)]">
-
-            <CategoriesMenu variant="sidebar" />
-
-            <HeroSlider />
-
+        {storeError && (
+          <div className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {storeError}
           </div>
+        )}
 
-        </div>
-      </div>
+        {wishlistItems.length > 0 ? (
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-5">
+            {wishlistItems.map((product) => (
+              <div
+                key={product.id}
+                className="relative"
+              >
+                <ProductCard product={product} />
 
-      {/* =====================================================
-          MAIN CONTENT
-      ====================================================== */}
-
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-
-        {/* =================================================
-            FEATURED PRODUCTS
-        ================================================== */}
-
-        <section>
-
-          <div className="flex items-center justify-between">
-
-            <div>
-
-              <h2 className="text-2xl font-bold text-slate-900">
-                Produktet e Veçuara
-              </h2>
-
-              <p className="mt-2 text-sm text-slate-600">
-                Artikujt më të mirë për klientët e dyqanit.
-              </p>
-
-            </div>
-
-          </div>
-
-          <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-4">
-
-            {featuredProducts.map(
-              (product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
-              )
-            )}
-
-          </div>
-
-        </section>
-
-        {/* =================================================
-            TOP DEALS
-        ================================================== */}
-
-        <section className="mt-12">
-
-          <div className="grid gap-4 md:grid-cols-3">
-
-            {topDeals.map(
-              (product) => (
-
-                <div
-                  key={product.id}
-                  className="
-                    rounded-2xl
-                    bg-white
-                    p-5
-                    shadow-sm
-                    ring-1
-                    ring-slate-200
-                  "
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleRemove(product);
+                  }}
+                  aria-label="Largo nga lista e dëshirave"
+                  title="Largo nga lista e dëshirave"
+                  className="absolute right-3 top-3 z-30 inline-flex h-8 w-8 items-center justify-center text-slate-400 transition hover:scale-110 hover:text-red-600 active:scale-95"
                 >
-
-                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-800">
-                    Oferta
-                  </p>
-
-                  <h3 className="mt-2 text-lg font-bold text-slate-900">
-                    {product.name}
-                  </h3>
-
-                  <p className="mt-2 text-sm text-slate-600">
-                    Shiko këtë produkt të rekomanduar për
-                    performancë dhe vlerë.
-                  </p>
-
-                  <div className="mt-4 text-sm font-semibold text-slate-900">
-                    {product.price}
-                  </div>
-
-                </div>
-
-              )
-            )}
-
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M6 6l12 12M18 6 6 18"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            ))}
           </div>
-
-        </section>
-
-        {/* =================================================
-            SPECIAL OFFER
-        ================================================== */}
-
-        <SpecialOffer
-          items={products}
-          intervalMs={3000}
-        />
-
-        {/* =================================================
-            LATEST PRODUCTS
-        ================================================== */}
-
-        <section className="mt-14">
-
-          <h2 className="text-xl font-bold text-slate-900">
-            Produktet më të fundit
-          </h2>
-
-          <p className="mt-1 text-sm text-slate-600">
-            Laptopë, telefona, PC dhe aksesorë të rinj në shitje.
-          </p>
-
-          <div
-            className="
-              mt-6
-
-              grid
-              grid-cols-2
-
-              gap-6
-
-              sm:grid-cols-3
-
-              md:grid-cols-4
-
-              lg:grid-cols-4
-            "
-          >
-
-            {latestProducts.map(
-              (product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
+        ) : (
+          <div className="mx-auto mt-20 flex max-w-lg flex-col items-center text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-50">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-7 w-7 text-slate-400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                aria-hidden="true"
+              >
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
-              )
-            )}
+              </svg>
+            </div>
 
+            <h2 className="mt-5 text-xl font-bold text-slate-950">
+              Asnjë produkt i ruajtur
+            </h2>
+
+            <p className="mt-2 max-w-sm text-sm leading-6 text-slate-500">
+              Shtoni produktet që ju pëlqejnë në listën e dëshirave dhe do t&apos;i gjeni këtu.
+            </p>
+
+            <NavLink
+              to="/shop"
+              className="mt-6 inline-flex h-11 items-center justify-center rounded-md bg-blue-800 px-6 text-sm font-semibold text-white transition hover:bg-blue-900 active:scale-[0.98]"
+            >
+              Shfleto produktet
+            </NavLink>
           </div>
-
-        </section>
-
+        )}
       </main>
 
       <Footer />
-
     </div>
   );
 }

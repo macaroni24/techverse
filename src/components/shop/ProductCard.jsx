@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { useStore } from "../../store/StoreProvider";
 
@@ -7,14 +7,19 @@ function formatPriceEUR(value) {
 }
 
 export default function ProductCard({ product }) {
-  const { toggleWishlist, isWishlisted } = useStore();
+  const navigate = useNavigate();
+
+  const {
+    toggleWishlist,
+    isWishlisted,
+  } = useStore();
 
   const wish = isWishlisted(product.id);
 
   const hasDiscount = useMemo(() => {
     return (
-      typeof product.oldPrice === "number" &&
-      product.oldPrice > product.price
+      Number(product.oldPrice) > 0 &&
+      Number(product.oldPrice) > Number(product.price)
     );
   }, [product.oldPrice, product.price]);
 
@@ -24,18 +29,22 @@ export default function ProductCard({ product }) {
     }
 
     return Math.round(
-      ((product.oldPrice - product.price) /
-        product.oldPrice) *
+      ((Number(product.oldPrice) - Number(product.price)) /
+        Number(product.oldPrice)) *
         100
     );
   }, [hasDiscount, product.oldPrice, product.price]);
 
-  const handleWishlist = (e) => {
+  async function handleWishlist(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    toggleWishlist(product);
-  };
+    try {
+      await toggleWishlist(product);
+    } catch {
+      navigate("/login");
+    }
+  }
 
   return (
     <div
@@ -63,7 +72,6 @@ export default function ProductCard({ product }) {
         to={`/product/${product.id}`}
         className="flex h-full min-w-0 flex-col"
       >
-        {/* PRODUCT IMAGE */}
         <div
           className="
             flex
@@ -104,7 +112,6 @@ export default function ProductCard({ product }) {
           />
         </div>
 
-        {/* PRODUCT TITLE */}
         <h3
           className="
             mt-3
@@ -133,7 +140,6 @@ export default function ProductCard({ product }) {
           {product.title}
         </h3>
 
-        {/* PRICE / WISHLIST */}
         <div
           className="
             mt-auto
@@ -220,7 +226,6 @@ export default function ProductCard({ product }) {
             </button>
           </div>
 
-          {/* DISCOUNT INFO */}
           <div
             className="
               mt-1

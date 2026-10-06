@@ -1,26 +1,73 @@
+import { useEffect, useMemo, useState } from "react";
+
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 import CategoriesMenu from "../components/shop/CategoriesMenu";
-import { products } from "../data/products";
+
+const API_BASE = "http://localhost:5000";
 
 export default function Monitors() {
-  const monitorProducts = products.filter((product) => {
-    const title = (product.title || "").toLowerCase();
-    const category = (product.category || "").toLowerCase();
-    const section = (product.section || "").toLowerCase();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    if (section === "monitors") {
-      return true;
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadProducts() {
+      setLoading(true);
+      setError("");
+
+      try {
+        const response = await fetch(`${API_BASE}/api/Products`, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error("Produktet nuk mund të ngarkohen.");
+        }
+
+        const data = await response.json();
+
+        setProducts(Array.isArray(data) ? data : []);
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          setProducts([]);
+          setError("Nuk u arrit lidhja me serverin.");
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
     }
 
-    return (
-      category === "monitor" ||
-      category === "monitors" ||
-      category === "monitora" ||
-      title.includes("monitor")
-    );
-  });
+    loadProducts();
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  const monitorProducts = useMemo(() => {
+    return products.filter((product) => {
+      const title = (product.title || "").toLowerCase();
+      const category = (product.category || "").toLowerCase();
+      const section = (product.section || "").toLowerCase();
+
+      if (section === "monitors") {
+        return true;
+      }
+
+      return (
+        category === "monitor" ||
+        category === "monitors" ||
+        category === "monitora" ||
+        title.includes("monitor")
+      );
+    });
+  }, [products]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -38,7 +85,27 @@ export default function Monitors() {
           </p>
         </div>
 
-        {monitorProducts.length > 0 ? (
+        {error ? (
+          <div className="mx-auto mt-20 flex max-w-lg flex-col items-center text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
+              <span className="text-2xl font-bold text-red-500">
+                !
+              </span>
+            </div>
+
+            <h2 className="mt-5 text-xl font-bold text-slate-950">
+              Produktet nuk u ngarkuan
+            </h2>
+
+            <p className="mt-2 max-w-sm text-sm leading-6 text-slate-500">
+              {error}
+            </p>
+          </div>
+        ) : loading ? (
+          <div className="mt-16 flex justify-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-blue-800" />
+          </div>
+        ) : monitorProducts.length > 0 ? (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-5">
             {monitorProducts.map((product) => (
               <ProductCard

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
+import { useStore } from "../store/StoreProvider";
 
 const API_BASE = "http://localhost:5000";
 
@@ -29,7 +30,12 @@ function EyeIcon({ className = "" }) {
 function EyeOffIcon({ className = "" }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-      <path d="M3 3l18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path
+        d="M3 3l18 18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
       <path
         d="M10.6 10.6A3 3 0 0 0 12 15a3 3 0 0 0 2.4-1.2"
         stroke="currentColor"
@@ -52,6 +58,7 @@ function EyeOffIcon({ className = "" }) {
 
 export default function Login() {
   const navigate = useNavigate();
+  const { refreshStore } = useStore();
 
   const [mode, setMode] = useState("login");
   const [showPw, setShowPw] = useState(false);
@@ -68,6 +75,7 @@ export default function Login() {
 
   function onChange(e) {
     const { name, value, type, checked } = e.target;
+
     setForm((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -92,12 +100,33 @@ export default function Login() {
     return "";
   }
 
-  function saveAuth(payload) {
+  function clearAuthStorage() {
     localStorage.removeItem("techverse_auth");
-    sessionStorage.removeItem("techverse_auth");
+    localStorage.removeItem("techverse_token");
+    localStorage.removeItem("techverse_user");
+    localStorage.removeItem("token");
 
-    const storage = payload?.remember ? localStorage : sessionStorage;
-    storage.setItem("techverse_auth", JSON.stringify(payload));
+    sessionStorage.removeItem("techverse_auth");
+    sessionStorage.removeItem("techverse_token");
+    sessionStorage.removeItem("techverse_user");
+    sessionStorage.removeItem("token");
+  }
+
+  function saveAuth(data) {
+    clearAuthStorage();
+
+    const storage = form.remember ? localStorage : sessionStorage;
+
+    const auth = {
+      token: data.token,
+      user: data.user,
+      remember: form.remember,
+      ts: Date.now(),
+    };
+
+    storage.setItem("techverse_token", data.token);
+    storage.setItem("techverse_user", JSON.stringify(data.user));
+    storage.setItem("techverse_auth", JSON.stringify(auth));
   }
 
   async function onSubmit(e) {
@@ -105,6 +134,7 @@ export default function Login() {
     setErr("");
 
     const validationError = validate();
+
     if (validationError) {
       setErr(validationError);
       return;
@@ -148,19 +178,20 @@ export default function Login() {
       }
 
       if (!response.ok) {
-        setErr(data?.message || "Ndodhi një gabim. Ju lutem provoni përsëri.");
+        setErr(
+          data?.message || "Ndodhi një gabim. Ju lutem provoni përsëri."
+        );
         return;
       }
 
-      saveAuth({
-        token: data?.token || "",
-        user: data?.user || {
-          name: mode === "signup" ? form.name.trim() : "",
-          email: form.email.trim().toLowerCase(),
-        },
-        remember: form.remember,
-        ts: Date.now(),
-      });
+      if (!data?.token || !data?.user) {
+        setErr("Serveri nuk ktheu të dhënat e autentikimit.");
+        return;
+      }
+
+      saveAuth(data);
+
+      await refreshStore();
 
       navigate("/dashboard");
     } catch {
@@ -185,6 +216,7 @@ export default function Login() {
             <h1 className="text-3xl font-bold tracking-tight text-slate-900">
               {mode === "login" ? "Kyçu" : "Krijo llogari"}
             </h1>
+
             <p className="mt-2 text-sm leading-6 text-slate-600">
               {mode === "login"
                 ? "Përdorni adresën tuaj të emailit dhe fjalëkalimin për të hyrë në llogarinë tuaj."
@@ -204,6 +236,7 @@ export default function Login() {
               )}
             >
               Kyçu
+
               {mode === "login" && (
                 <span className="absolute inset-x-0 -bottom-[13px] h-0.5 rounded-full bg-blue-800" />
               )}
@@ -220,6 +253,7 @@ export default function Login() {
               )}
             >
               Regjistrohu
+
               {mode === "signup" && (
                 <span className="absolute inset-x-0 -bottom-[13px] h-0.5 rounded-full bg-blue-800" />
               )}
@@ -236,7 +270,10 @@ export default function Login() {
           <form onSubmit={onSubmit} className="mt-6 space-y-5">
             {mode === "signup" && (
               <div>
-                <label className="text-sm font-semibold text-slate-900">Emri i plotë</label>
+                <label className="text-sm font-semibold text-slate-900">
+                  Emri i plotë
+                </label>
+
                 <input
                   name="name"
                   value={form.name}
@@ -248,7 +285,10 @@ export default function Login() {
             )}
 
             <div>
-              <label className="text-sm font-semibold text-slate-900">Adresa e emailit</label>
+              <label className="text-sm font-semibold text-slate-900">
+                Adresa e emailit
+              </label>
+
               <input
                 name="email"
                 value={form.email}
@@ -261,22 +301,30 @@ export default function Login() {
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-slate-900">Fjalëkalimi</label>
+              <label className="text-sm font-semibold text-slate-900">
+                Fjalëkalimi
+              </label>
+
               <div className="mt-2 flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 focus-within:ring-2 focus-within:ring-blue-200">
                 <input
                   name="password"
                   value={form.password}
                   onChange={onChange}
                   type={showPw ? "text" : "password"}
-                  autoComplete={mode === "login" ? "current-password" : "new-password"}
+                  autoComplete={
+                    mode === "login" ? "current-password" : "new-password"
+                  }
                   placeholder="••••••••"
                   className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
                 />
+
                 <button
                   type="button"
                   onClick={() => setShowPw((prev) => !prev)}
                   className="inline-flex h-10 w-10 items-center justify-center rounded-xl transition hover:bg-slate-50"
-                  aria-label={showPw ? "Fsheh fjalëkalimin" : "Shfaq fjalëkalimin"}
+                  aria-label={
+                    showPw ? "Fsheh fjalëkalimin" : "Shfaq fjalëkalimin"
+                  }
                 >
                   {showPw ? (
                     <EyeOffIcon className="h-5 w-5 text-slate-700" />
@@ -285,7 +333,10 @@ export default function Login() {
                   )}
                 </button>
               </div>
-              <p className="mt-2 text-xs text-slate-500">Përdorni të paktën 6 karaktere.</p>
+
+              <p className="mt-2 text-xs text-slate-500">
+                Përdorni të paktën 6 karaktere.
+              </p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -318,7 +369,11 @@ export default function Login() {
                   : "bg-blue-800 hover:bg-blue-900"
               )}
             >
-              {loading ? "Ju lutem prisni..." : mode === "login" ? "Kyçu" : "Krijo llogari"}
+              {loading
+                ? "Ju lutem prisni..."
+                : mode === "login"
+                ? "Kyçu"
+                : "Krijo llogari"}
             </button>
 
             <p className="text-center text-sm text-slate-600">

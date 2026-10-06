@@ -1,12 +1,13 @@
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { useMemo, useState } from "react";
-import { products } from "../data/products";
+import { useEffect, useMemo, useState } from "react";
+
 import { useStore } from "../store/StoreProvider";
 
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 
+const API_BASE = "http://localhost:5000";
 const VAT_RATE = 0.18;
 const INITIAL_SIMILAR_PRODUCTS = 10;
 const SIMILAR_PRODUCTS_STEP = 10;
@@ -36,11 +37,10 @@ export default function ProductDetails() {
     isWishlisted,
   } = useStore();
 
-  const product = useMemo(() => {
-    return products.find(
-      (item) => String(item.id) === String(id)
-    );
-  }, [id]);
+  const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [loadingProduct, setLoadingProduct] = useState(true);
+  const [productError, setProductError] = useState("");
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [qty, setQty] = useState(1);
@@ -49,10 +49,74 @@ export default function ProductDetails() {
     INITIAL_SIMILAR_PRODUCTS
   );
 
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadProductData() {
+      setLoadingProduct(true);
+      setProductError("");
+      setProduct(null);
+      setProducts([]);
+      setActiveIndex(0);
+      setQty(1);
+      setAdded(false);
+      setVisibleSimilarCount(INITIAL_SIMILAR_PRODUCTS);
+
+      try {
+        const [productResponse, productsResponse] = await Promise.all([
+          fetch(`${API_BASE}/api/Products/${encodeURIComponent(id)}`, {
+            signal: controller.signal,
+          }),
+          fetch(`${API_BASE}/api/Products`, {
+            signal: controller.signal,
+          }),
+        ]);
+
+        if (productResponse.status === 404) {
+          setProduct(null);
+          return;
+        }
+
+        if (!productResponse.ok) {
+          throw new Error("Produkti nuk mund të ngarkohet.");
+        }
+
+        const productData = await productResponse.json();
+
+        setProduct(productData);
+
+        if (productsResponse.ok) {
+          const productsData = await productsResponse.json();
+
+          setProducts(
+            Array.isArray(productsData)
+              ? productsData
+              : []
+          );
+        }
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setProductError("Nuk u arrit lidhja me serverin.");
+          setProduct(null);
+          setProducts([]);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoadingProduct(false);
+        }
+      }
+    }
+
+    loadProductData();
+
+    return () => {
+      controller.abort();
+    };
+  }, [id]);
+
   const hasDiscount =
     product &&
-    typeof product.oldPrice === "number" &&
-    product.oldPrice > product.price;
+    Number(product.oldPrice) > Number(product.price);
 
   const discountPct = useMemo(() => {
     if (!product || !hasDiscount) {
@@ -60,8 +124,8 @@ export default function ProductDetails() {
     }
 
     return Math.round(
-      ((product.oldPrice - product.price) /
-        product.oldPrice) *
+      ((Number(product.oldPrice) - Number(product.price)) /
+        Number(product.oldPrice)) *
         100
     );
   }, [product, hasDiscount]);
@@ -132,7 +196,7 @@ export default function ProductDetails() {
       ...sameCategory,
       ...otherCategories,
     ];
-  }, [product]);
+  }, [product, products]);
 
   const visibleSimilarProducts =
     similarProducts.slice(
@@ -141,8 +205,7 @@ export default function ProductDetails() {
     );
 
   const hasMoreSimilarProducts =
-    visibleSimilarCount <
-    similarProducts.length;
+    visibleSimilarCount < similarProducts.length;
 
   const activeImage =
     gallery[activeIndex] ||
@@ -166,30 +229,40 @@ export default function ProductDetails() {
     );
   }
 
-  function handleAddToCart() {
-    if (
-      !product ||
-      product.stock === 0
-    ) {
+  async function handleAddToCart() {
+    if (!product || product.stock === 0) {
       return;
     }
 
-    for (let i = 0; i < qty; i += 1) {
-      addToCart(product);
+    try {
+      for (let i = 0; i < qty; i += 1) {
+        await addToCart(product);
+      }
+
+      setAdded(true);
+
+      window.setTimeout(() => {
+        setAdded(false);
+      }, 1200);
+    } catch {
+      navigate("/login");
+    }
+  }
+
+  async function handleWishlist() {
+    if (!product) {
+      return;
     }
 
-    setAdded(true);
-
-    window.setTimeout(() => {
-      setAdded(false);
-    }, 1200);
+    try {
+      await toggleWishlist(product);
+    } catch {
+      navigate("/login");
+    }
   }
 
   function handleBuyNow() {
-    if (
-      !product ||
-      product.stock === 0
-    ) {
+    if (!product || product.stock === 0) {
       return;
     }
 
@@ -208,6 +281,20 @@ export default function ProductDetails() {
     );
   }
 
+  if (loadingProduct) {
+    return (
+      <>
+        <Navbar />
+
+        <main className="mx-auto flex min-h-[500px] w-full max-w-[1460px] items-center justify-center px-4 py-10 sm:px-6">
+          <div className="h-9 w-9 animate-spin rounded-full border-2 border-slate-200 border-t-blue-800" />
+        </main>
+
+        <Footer />
+      </>
+    );
+  }
+
   if (!product) {
     return (
       <>
@@ -220,7 +307,8 @@ export default function ProductDetails() {
             </h1>
 
             <p className="mt-2 text-sm text-slate-600">
-              Produkti që po kërkoni nuk ekziston ose është larguar.
+              {productError ||
+                "Produkti që po kërkoni nuk ekziston ose është larguar."}
             </p>
 
             <NavLink
@@ -239,8 +327,7 @@ export default function ProductDetails() {
 
   const wish = isWishlisted(product.id);
   const rating = product.rating ?? 4.6;
-  const reviews =
-    product.reviewsCount ?? 128;
+  const reviews = product.reviewsCount ?? 128;
 
   const priceWithoutVAT =
     Number(product.price || 0) /
@@ -263,29 +350,27 @@ export default function ProductDetails() {
 
               <div className="flex h-full">
                 <div className="mr-4 flex w-16 shrink-0 flex-col justify-center gap-3">
-                  {gallery.map(
-                    (src, index) => (
-                      <button
-                        key={`${src}-${index}`}
-                        type="button"
-                        onClick={() =>
-                          setActiveIndex(index)
-                        }
-                        className={`h-14 w-14 overflow-hidden rounded-lg border bg-white p-1.5 transition ${
-                          index === activeIndex
-                            ? "border-slate-400"
-                            : "border-slate-200 hover:border-slate-400"
-                        }`}
-                        aria-label={`Zgjidh imazhin ${index + 1}`}
-                      >
-                        <img
-                          src={src}
-                          alt={`${product.title} ${index + 1}`}
-                          className="h-full w-full object-contain"
-                        />
-                      </button>
-                    )
-                  )}
+                  {gallery.map((src, index) => (
+                    <button
+                      key={`${src}-${index}`}
+                      type="button"
+                      onClick={() =>
+                        setActiveIndex(index)
+                      }
+                      className={`h-14 w-14 overflow-hidden rounded-lg border bg-white p-1.5 transition ${
+                        index === activeIndex
+                          ? "border-slate-400"
+                          : "border-slate-200 hover:border-slate-400"
+                      }`}
+                      aria-label={`Zgjidh imazhin ${index + 1}`}
+                    >
+                      <img
+                        src={src}
+                        alt={`${product.title} ${index + 1}`}
+                        className="h-full w-full object-contain"
+                      />
+                    </button>
+                  ))}
                 </div>
 
                 <div className="flex min-w-0 flex-1 items-center justify-center">
@@ -337,9 +422,7 @@ export default function ProductDetails() {
 
               <div className="mt-4">
                 <div className="text-2xl font-bold tracking-tight text-slate-950 sm:text-[28px]">
-                  {formatPriceEUR(
-                    product.price
-                  )}
+                  {formatPriceEUR(product.price)}
                 </div>
 
                 <div className="mt-1.5 flex min-h-[20px] items-center gap-2">
@@ -382,8 +465,8 @@ export default function ProductDetails() {
                     Ju kurseni{" "}
                     <span className="font-bold">
                       {formatPriceEUR(
-                        product.oldPrice -
-                          product.price
+                        Number(product.oldPrice) -
+                          Number(product.price)
                       )}
                     </span>
                   </div>
@@ -587,9 +670,7 @@ export default function ProductDetails() {
                 <button
                   type="button"
                   onClick={handleBuyNow}
-                  disabled={
-                    product.stock === 0
-                  }
+                  disabled={product.stock === 0}
                   className={`h-11 flex-1 rounded-full px-4 text-xs font-bold transition ${
                     product.stock === 0
                       ? "cursor-not-allowed bg-slate-200 text-slate-400"
@@ -601,12 +682,8 @@ export default function ProductDetails() {
 
                 <button
                   type="button"
-                  onClick={
-                    handleAddToCart
-                  }
-                  disabled={
-                    product.stock === 0
-                  }
+                  onClick={handleAddToCart}
+                  disabled={product.stock === 0}
                   className={`h-11 flex-1 rounded-full border px-4 text-xs font-semibold transition ${
                     product.stock === 0
                       ? "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400"
@@ -624,9 +701,7 @@ export default function ProductDetails() {
 
                 <button
                   type="button"
-                  onClick={() =>
-                    toggleWishlist(product)
-                  }
+                  onClick={handleWishlist}
                   className="flex h-11 w-11 shrink-0 items-center justify-center transition hover:scale-110 active:scale-95"
                   aria-label={
                     wish
@@ -671,14 +746,12 @@ export default function ProductDetails() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-5">
-              {visibleSimilarProducts.map(
-                (item) => (
-                  <ProductCard
-                    key={item.id}
-                    product={item}
-                  />
-                )
-              )}
+              {visibleSimilarProducts.map((item) => (
+                <ProductCard
+                  key={item.id}
+                  product={item}
+                />
+              ))}
             </div>
 
             {hasMoreSimilarProducts && (

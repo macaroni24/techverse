@@ -4,7 +4,8 @@ import { NavLink, useLocation } from "react-router-dom";
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
-import { products } from "../data/products";
+
+const API_BASE = "http://localhost:5000";
 
 function useQuery() {
   const { search } = useLocation();
@@ -27,11 +28,52 @@ export default function Shop() {
   const searchParam = query.get("q") || "";
   const sortParam = query.get("sort") || "relevance";
 
+  const [products, setProducts] = useState([]);
   const [sort, setSort] = useState(sortParam);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setSort(sortParam);
   }, [sortParam]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadProducts() {
+      setLoading(true);
+      setError("");
+
+      try {
+        const response = await fetch(`${API_BASE}/api/Products`, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error("Produktet nuk mund të ngarkohen.");
+        }
+
+        const data = await response.json();
+
+        setProducts(Array.isArray(data) ? data : []);
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          setError("Nuk u arrit lidhja me serverin.");
+          setProducts([]);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadProducts();
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   const filteredProducts = useMemo(() => {
     let list = [...products];
@@ -39,9 +81,15 @@ export default function Shop() {
     if (categoryParam !== "All") {
       if (categoryParam === "laptops-phones") {
         list = list.filter(
-          (product) =>
-            product.category === "Laptops" ||
-            product.category === "Phones"
+          (product) => product.section === "laptops-phones"
+        );
+      } else if (
+        categoryParam === "gaming" ||
+        categoryParam === "accessories" ||
+        categoryParam === "monitors"
+      ) {
+        list = list.filter(
+          (product) => product.section === categoryParam
         );
       } else {
         list = list.filter(
@@ -55,7 +103,7 @@ export default function Shop() {
     if (searchValue) {
       list = list.filter((product) => {
         const searchableText = normalize(
-          `${product.title} ${product.brand} ${product.category}`
+          `${product.title} ${product.brand} ${product.category} ${product.section}`
         );
 
         return searchableText.includes(searchValue);
@@ -93,7 +141,7 @@ export default function Shop() {
     }
 
     return list;
-  }, [categoryParam, searchParam, sort]);
+  }, [products, categoryParam, searchParam, sort]);
 
   const pageTitle =
     categoryParam !== "All"
@@ -117,9 +165,11 @@ export default function Shop() {
             </h1>
 
             <p className="mt-1.5 text-sm text-slate-500">
-              {filteredProducts.length} {productCountLabel}
+              {loading
+                ? "Duke ngarkuar produktet..."
+                : `${filteredProducts.length} ${productCountLabel}`}
 
-              {searchParam && (
+              {!loading && searchParam && (
                 <span>
                   {" "}
                   për{" "}
@@ -139,7 +189,8 @@ export default function Shop() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="h-10 min-w-[180px] rounded-md border border-slate-200 bg-white px-3 text-sm font-medium text-slate-800 outline-none transition hover:border-slate-300 focus:border-blue-700 focus:ring-2 focus:ring-blue-100"
+              disabled={loading}
+              className="h-10 min-w-[180px] rounded-md border border-slate-200 bg-white px-3 text-sm font-medium text-slate-800 outline-none transition hover:border-slate-300 focus:border-blue-700 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <option value="relevance">
                 Relevanca
@@ -167,7 +218,27 @@ export default function Shop() {
           </div>
         </div>
 
-        {filteredProducts.length > 0 ? (
+        {error ? (
+          <div className="mx-auto mt-20 flex max-w-lg flex-col items-center text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
+              <span className="text-2xl font-bold text-red-500">
+                !
+              </span>
+            </div>
+
+            <h2 className="mt-5 text-xl font-bold text-slate-950">
+              Produktet nuk u ngarkuan
+            </h2>
+
+            <p className="mt-2 max-w-sm text-sm leading-6 text-slate-500">
+              {error}
+            </p>
+          </div>
+        ) : loading ? (
+          <div className="mt-16 flex justify-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-blue-800" />
+          </div>
+        ) : filteredProducts.length > 0 ? (
           <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-5">
             {filteredProducts.map((product) => (
               <ProductCard
