@@ -8,8 +8,10 @@ import {
 } from "react";
 
 const StoreContext = createContext(null);
-
-const API_URL = "http://localhost:5000/api";
+const API_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000/api"
+    : "https://techverse.runasp.net/api";
 
 function getToken() {
   const directToken =

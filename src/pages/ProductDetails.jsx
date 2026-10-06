@@ -6,8 +6,10 @@ import { useStore } from "../store/StoreProvider";
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
-
-const API_BASE = "http://localhost:5000";
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://techverse.runasp.net";
 const VAT_RATE = 0.18;
 const INITIAL_SIMILAR_PRODUCTS = 10;
 const SIMILAR_PRODUCTS_STEP = 10;

@@ -5,7 +5,10 @@ import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 import CategoriesMenu from "../components/shop/CategoriesMenu";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://techverse.runasp.net";
 
 function isMonitorLike(title, category) {
   return (
@@ -135,9 +138,7 @@ export default function Accessories() {
         {error ? (
           <div className="mx-auto mt-20 flex max-w-lg flex-col items-center text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
-              <span className="text-2xl font-bold text-red-500">
-                !
-              </span>
+              <span className="text-2xl font-bold text-red-500">!</span>
             </div>
 
             <h2 className="mt-5 text-xl font-bold text-slate-950">
@@ -155,10 +156,7 @@ export default function Accessories() {
         ) : accessoriesProducts.length > 0 ? (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 lg:gap-5">
             {accessoriesProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-              />
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         ) : (
@@ -173,10 +171,7 @@ export default function Accessories() {
                 aria-hidden="true"
               >
                 <circle cx="11" cy="11" r="7" />
-                <path
-                  d="m20 20-4-4"
-                  strokeLinecap="round"
-                />
+                <path d="m20 20-4-4" strokeLinecap="round" />
               </svg>
             </div>
 

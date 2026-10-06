@@ -4,8 +4,10 @@ import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
 import { useStore } from "../store/StoreProvider";
 
-const API_BASE = "http://localhost:5000";
-
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://techverse.runasp.net";
 function cx(...classes) {
   return classes.filter(Boolean).join(" ");
 }

@@ -4,7 +4,7 @@ import { useStore } from "../../store/StoreProvider";
 import logo from "../../assets/WhiteLogo.PNG";
 import CategoriesMenu from "../shop/CategoriesMenu";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://techverse.runasp.net";
 
 const categories = [
   { label: "Gaming", to: "/gaming" },

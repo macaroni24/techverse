@@ -5,8 +5,10 @@ import Footer from "../components/navigation/Footer";
 import ProductCard from "../components/shop/ProductCard";
 import CategoriesMenu from "../components/shop/CategoriesMenu";
 
-const API_BASE = "http://localhost:5000";
-
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://techverse.runasp.net";
 export default function Monitors() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
